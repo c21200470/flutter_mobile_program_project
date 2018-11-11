@@ -1,150 +1,65 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fab_dialer/flutter_fab_dialer.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
-class Detail extends StatefulWidget {
-  final Function() onPressed;
-  final String tooltip;
-  final IconData icon;
 
-  Detail({this.onPressed, this.tooltip, this.icon});
+final List<String> imgList = [
+  'assets/product4'
+];
 
-  @override
-  _Detail createState() => _Detail();
-}
-
-class _Detail extends State<Detail>
-    with SingleTickerProviderStateMixin {
-  bool isOpened = false;
-  AnimationController _animationController;
-  Animation<Color> _buttonColor;
-  Animation<double> _animateIcon;
-  Animation<double> _translateButton;
-  Curve _curve = Curves.easeOut;
-  double _fabHeight = 56.0;
-
-  @override
-  initState() {
-    _animationController =
-    AnimationController(vsync: this, duration: Duration(milliseconds: 500))
-      ..addListener(() {
-        setState(() {});
-      });
-    _animateIcon =
-        Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
-    _buttonColor = ColorTween(
-      begin: Colors.blue,
-      end: Colors.grey,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Interval(
-        0.00,
-        1.00,
-        curve: Curves.linear,
-      ),
-    ));
-    _translateButton = Tween<double>(
-      begin: _fabHeight,
-      end: -14.0,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Interval(
-        0.0,
-        0.75,
-        curve: _curve,
-      ),
-    ));
-    super.initState();
-  }
-
-  @override
-  dispose() {
-    _animationController.dispose();
-    super.dispose();
-  }
-
-  animate() {
-    if (!isOpened) {
-      _animationController.forward();
-    } else {
-      _animationController.reverse();
-    }
-    isOpened = !isOpened;
-  }
-
-  Widget add() {
-    return Container(
-      child: FloatingActionButton(
-        onPressed: null,
-        tooltip: 'Add',
-        child: Icon(Icons.mail),
-      ),
-    );
-  }
-
-  Widget image() {
-    return Container(
-      child: FloatingActionButton(
-        onPressed: null,
-        tooltip: 'Image',
-        child: Icon(Icons.favorite),
-      ),
-    );
-  }
-
-  Widget inbox() {
-    return Container(
-      child: FloatingActionButton(
-        onPressed: null,
-        tooltip: 'Inbox',
-        child: Icon(Icons.share),
-      ),
-    );
-  }
-
-  Widget toggle() {
-    return Container(
-      child: FloatingActionButton(
-        backgroundColor: _buttonColor.value,
-        onPressed: animate,
-        tooltip: 'Toggle',
-        child: AnimatedIcon(
-          icon: AnimatedIcons.menu_close,
-          progress: _animateIcon,
-        ),
-      ),
-    );
-  }
+class Detail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: <Widget>[
-        Transform(
-          transform: Matrix4.translationValues(
-            0.0,
-            _translateButton.value * 3.0,
-            0.0,
-          ),
-          child: add(),
+    return new MaterialApp(
+      title: '상품 상세보기',
+      home: new DetailPage(title: '상품 상세보기'),
+    );
+  }
+}
+
+class DetailPage extends StatefulWidget {
+  DetailPage({Key key, this.title}) : super(key: key);
+  final String title;
+
+  @override
+  _DetailPageState createState() => new _DetailPageState();
+}
+
+class _DetailPageState extends State<DetailPage> {
+
+
+  @override
+  Widget build(BuildContext context) {
+    var _fabMiniMenuItemList = [
+
+      new FabMiniMenuItem.noText(new Icon(Icons.mail), Colors.yellow, 5.0,
+          "Button menu", null, false),
+      new FabMiniMenuItem.noText(new Icon(Icons.favorite), Colors.red, 4.0,
+          "Button menu", null, false),
+      new FabMiniMenuItem.noText(new Icon(Icons.share), Colors.lightBlue, 4.0,
+          "Button menu", null, false),
+    ];
+
+    return new Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: null,
         ),
-        Transform(
-          transform: Matrix4.translationValues(
-            0.0,
-            _translateButton.value * 2.0,
-            0.0,
-          ),
-          child: image(),
-        ),
-        Transform(
-          transform: Matrix4.translationValues(
-            0.0,
-            _translateButton.value,
-            0.0,
-          ),
-          child: inbox(),
-        ),
-        toggle(),
-      ],
+        title: Text('상품 상세보기'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: null,
+          )
+        ],
+      ),
+      body: new Stack(
+        children: <Widget>[
+          new FabDialer(_fabMiniMenuItemList, Colors.blue, new Icon(Icons.add)),
+        ],
+      ),
     );
   }
 }
