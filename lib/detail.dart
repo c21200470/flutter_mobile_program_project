@@ -4,6 +4,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 
 
 final List<String> imgList = [
+  'assets/product4',
+  'assets/product4',
   'assets/product4'
 ];
 
@@ -33,7 +35,7 @@ class _DetailPageState extends State<DetailPage> {
   Widget build(BuildContext context) {
     var _fabMiniMenuItemList = [
 
-      new FabMiniMenuItem.noText(new Icon(Icons.mail), Colors.yellow, 5.0,
+      new FabMiniMenuItem.noText(new Icon(Icons.mail), Colors.yellow, 4.0,
           "Button menu", null, false),
       new FabMiniMenuItem.noText(new Icon(Icons.favorite), Colors.red, 4.0,
           "Button menu", null, false),
@@ -55,9 +57,9 @@ class _DetailPageState extends State<DetailPage> {
           )
         ],
       ),
-      body: new Stack(
+      body: Stack(
         children: <Widget>[
-          new FabDialer(_fabMiniMenuItemList, Colors.blue, new Icon(Icons.add)),
+          FabDialer(_fabMiniMenuItemList, Colors.blue, new Icon(Icons.add)),
         ],
       ),
     );
