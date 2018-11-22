@@ -15,8 +15,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  firebase_auth:
+  google_sign_in:
+  cloud_firestore:
+  firebase_core:
+  firebase_storage:
+  uuid:
+
+
   flutter_fab_dialer: ^0.1.1 # FAB 메뉴
   carousel_slider: ^0.0.6  # 이미지 스와이프 슬라이드
+  image_picker:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
