@@ -1,23 +1,55 @@
+import 'package:flutter/material.dart';
+import 'colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
 import 'dart:io';
-
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'start.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-class LoginPage extends StatefulWidget {
+class App extends StatelessWidget {
+  // This widget is the root of your application.
   @override
-  LoginPageState createState() => LoginPageState();
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Project Main Screen',
+      home: new LoginPage(title: 'Project Main Screen'),
+    );
+  }
 }
 
-class LoginPageState extends State<LoginPage> {
+class LogoutPage{
+  void LogOut(){
+    _auth.signOut();
+    _googleSignIn.signOut();
+    print("Signed Out!");
+  }
+}
 
-  FirebaseUser user;
+class LoginUserData{
 
-  Future<Null> _testSignInAnonymously() async {
+  static FirebaseUser LoginUser;
+  var Lemail = LoginUser.email;
+  var LphotoUrl = LoginUser.photoUrl;
+  var Luid = LoginUser.uid;  // The user's ID, unique to the Firebase project. Do NOT use
+// this value to authenticate with your backend server, if
+// you have one. Use User.getToken() instead.
+}
+
+class LoginPage extends StatefulWidget {
+  LoginPage({Key key, this.title}) : super(key: key);
+  final String title;
+
+  static final String route = "login";
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+
+  Future<FirebaseUser> _SignInAnonymously() async {
     final FirebaseUser user = await _auth.signInAnonymously();
     assert(user != null);
     assert(user.isAnonymous);
@@ -39,10 +71,10 @@ class LoginPageState extends State<LoginPage> {
     final FirebaseUser currentUser = await _auth.currentUser();
     assert(user.uid == currentUser.uid);
 
-    this.user=user;
+    return user;
   }
 
-  Future<Null> _testSignInWithGoogle() async {
+  Future<FirebaseUser> _SignInWithGoogle() async {
     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
     final GoogleSignInAuthentication googleAuth =
     await googleUser.authentication;
@@ -58,54 +90,88 @@ class LoginPageState extends State<LoginPage> {
     final FirebaseUser currentUser = await _auth.currentUser();
     assert(user.uid == currentUser.uid);
 
-    this.user=user;
+    return user;
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      body: SafeArea(
+      backgroundColor: Color(0xFFF9AA33),
+      body: Container(
+        decoration: BoxDecoration(
+          // Box decoration takes a gradient
+          gradient: LinearGradient(
+            // Where the linear gradient begins and ends
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            // Add one stop for each color. Stops should increase from 0 to 1
+            stops: [0.1, 0.5, 0.7, 0.9],
+            colors: [
+              // Colors are easy thanks to Flutter's Colors class.
+              Colors.grey[100],
+              Colors.grey[200],
+              Colors.grey[200],
+              Colors.grey[300],
+            ],
+          ),
+        ),
+        child: SafeArea(
           child: ListView(
             padding: EdgeInsets.symmetric(horizontal: 24.0),
             children: <Widget>[
-              SizedBox(height: 200.0,),
+              SizedBox(height: 170.0),
               Column(
                 children: <Widget>[
                   Image.network('https://firebasestorage.googleapis.com/v0/b/final-project-bda04.appspot.com/o/login%2Fflutter.png?alt=media&token=363b50e0-6915-495d-91d9-2e43e54fe3eb',
-                    width: 100.0, height: 100.0,), // 이미지 바꾸기
+                  width: 100.0, height: 100.0,),
                   SizedBox(height: 16.0),
+                  Text('Final Exam'),
                 ],
               ),
-              SizedBox(height: 200.0),
-
-              MaterialButton(
-                child: Image.network('https://firebasestorage.googleapis.com/v0/b/final-project-bda04.appspot.com/o/login%2Fgoogle.png?alt=media&token=42d8d7c5-5d46-428a-9e36-69b7cd00ceb0'),
-                onPressed: () {
-                  _testSignInWithGoogle();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      //builder: (context) => HomePage(user: user),
-                    ),
-                  );
-                },
+              SizedBox(height: 170.0),
+              ButtonTheme(
+                height: 40.0,
+                child: RaisedButton(
+                  color: Color(0xFFDD4B39),
+                  textColor: Colors.white,
+                  elevation: 3.0,
+                  child: Text('구글로 로그인하기'),
+                  onPressed: () {
+                    _SignInWithGoogle().then((FirebaseUser user){
+                      print(user);
+                      LoginUserData.LoginUser=user;
+                      Navigator
+                          .of(context)
+                          .push(MaterialPageRoute(
+                          builder: (BuildContext context)=>StartPage(
+                            user: user,
+                          )))
+                          .catchError((e)=>print(e));
+                    });
+                }),
               ),
-              SizedBox(height: 12.0),
-
-              MaterialButton(
-                child: Image.network('https://firebasestorage.googleapis.com/v0/b/final-project-bda04.appspot.com/o/login%2Fguest.png?alt=media&token=951db506-41f7-4d5d-9888-ec2a3f226c13'),
-                onPressed: () {
-                  _testSignInAnonymously();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      //builder: (context) => HomePage(user: user),
-                    ),
-                  );
-                },),
+              SizedBox(height: 15.0),
+              FlatButton(
+                  child: Text('둘러보기'),
+                  onPressed: () {
+                    _SignInAnonymously().then((FirebaseUser user){
+                      print(user);
+                      LoginUserData.LoginUser=user;
+                      Navigator
+                          .of(context)
+                          .push(MaterialPageRoute(
+                          builder: (BuildContext context)=>StartPage(
+                            user: user,
+                          )))
+                          .catchError((e)=>print(e));
+                    });
+                  }),
             ],
-          )
+          ),
+        ),
       ),
     );
   }
 }
+
