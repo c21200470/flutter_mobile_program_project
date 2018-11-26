@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_fab_dialer/flutter_fab_dialer.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'fab.dart';
 
 
 final List<String> imgList = [
@@ -90,24 +90,50 @@ class _DetailPageState extends State<DetailPage> {
   Card _buildTitle(){
     return Card(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           ListTile(
+            contentPadding: EdgeInsets.all(20.0),
             title: Text('프로그래밍 언어론 10th 교재'),
             subtitle: Text('25000원'),
           ),
-          ButtonTheme.bar(
-            child: ButtonBar(
-              alignment: MainAxisAlignment.start,
+          Container(
+            margin: EdgeInsets.only(bottom: 10.0),
+            padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 10.0),
+            child: Row(
               children: <Widget>[
-                FlatButton(
-                  child: Text('거의새것'),
+                Container(
+                  margin: const EdgeInsets.all(3.0),
+                  padding: const EdgeInsets.all(3.0),
+                  decoration: new BoxDecoration(
+                      border: new Border.all(color: Colors.blueAccent),
+                      borderRadius: new BorderRadius.circular(5.0)
+                  ),
+                  child: new Text("거의새것"),
                 ),
-                FlatButton(
-                  child: Text('직거래'),
+                Container(
+                  margin: const EdgeInsets.all(3.0),
+                  padding: const EdgeInsets.all(3.0),
+                  decoration: new BoxDecoration(
+                      border: new Border.all(color: Colors.blueAccent),
+                      borderRadius: new BorderRadius.circular(5.0)
+                  ),
+                  child: new Text("직거래"),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(3.0),
+                  padding: const EdgeInsets.all(3.0),
+                  decoration: new BoxDecoration(
+                      border: new Border.all(color: Colors.blueAccent),
+                      borderRadius: new BorderRadius.circular(5.0)
+                  ),
+                  child: new Text("구매자 부담 택배거래"),
                 )
               ],
             ),
-          )
+          ),
         ],
       ),
     );
@@ -119,18 +145,15 @@ class _DetailPageState extends State<DetailPage> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           ListTile(
-            leading: Icon(Icons.person),
-            title: Text('한동보부상'),
+            contentPadding: EdgeInsets.all(20.0),
+            leading: Image.network('https://firebasestorage.googleapis.com/v0/b/mobile-app-project-6d4ab.appspot.com/o/app%2Fdefault-user.png?alt=media&token=af51212f-cd08-4fd3-bc4c-a428debd8972',
+            width: 50.0, height: 50.0,),
+            title: Container(child: Text('한동보부상'), margin: EdgeInsets.only(bottom: 20.0),),
             subtitle: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text('판매자의 다른 물건 더보기'),
-                ButtonBar(
-                  children: <Widget>[
-                    IconButton(icon: Icon(Icons.favorite), onPressed: null),
-                    IconButton(icon: Icon(Icons.mail), onPressed: null,),
-                    IconButton(icon: Icon(Icons.share), onPressed: null,)
-                  ],
-                )
               ],
             )
           )
@@ -141,23 +164,23 @@ class _DetailPageState extends State<DetailPage> {
 
   Card _buildContent(){
     return Card(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          ListTile(
-            title: Text('상품 상세설명'),
+      child: ListTile(
+        contentPadding: EdgeInsets.all(25.0),
+            title: Container(
+              margin: EdgeInsets.only(bottom: 20.0),
+                child: Text('상품 상세설명')),
             subtitle: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text('#이건교수님 #학교직거래'),
+                Container(
+                    child: Text('#이건교수님 #학교직거래 #거의새것'),
+                margin: EdgeInsets.only(bottom: 30.0),),
                 Text('내용내용'),
               ],
             ),
 
-          )
-        ],
-      ),
+          ),
     );
 
   }
@@ -167,10 +190,6 @@ class _DetailPageState extends State<DetailPage> {
 
     return new Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: null,
-        ),
         title: Text('상품 상세보기'),
         actions: <Widget>[
           IconButton(
@@ -180,12 +199,17 @@ class _DetailPageState extends State<DetailPage> {
         ],
       ),
       body: SafeArea(
-        child: ListView(
+        child: Stack(
           children: <Widget>[
-            _imageSlider(),
-            _buildTitle(),
-            _buildUser(),
-            _buildContent(),
+            ListView(
+              children: <Widget>[
+                _imageSlider(),
+                _buildTitle(),
+                _buildUser(),
+                _buildContent(),
+              ],
+            ),
+            FancyFab(),
           ],
         )
       ),
