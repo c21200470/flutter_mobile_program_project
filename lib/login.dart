@@ -126,7 +126,7 @@ class _LoginPageState extends State<LoginPage> {
                   Image.network('https://firebasestorage.googleapis.com/v0/b/final-project-bda04.appspot.com/o/login%2Fflutter.png?alt=media&token=363b50e0-6915-495d-91d9-2e43e54fe3eb',
                   width: 100.0, height: 100.0,),
                   SizedBox(height: 16.0),
-                  Text('Final Exam'),
+                  Text('mobile app'),
                 ],
               ),
               SizedBox(height: 170.0),
