@@ -12,11 +12,15 @@ class StartPage extends StatefulWidget{
   StartPage({Key key, this.user}) : super(key: key);
 
   @override
-  _StartPageState createState() => new _StartPageState();
+  _StartPageState createState() => new _StartPageState(user);
 
 }
 
 class _StartPageState extends State<StartPage>{
+
+  FirebaseUser user;
+  _StartPageState(this.user);
+
   List<DropdownMenuItem<String>> listDrop =[];
   List<String> drop = [
     '한동대학교', '포항공과대학교', '선린대학교'
@@ -69,14 +73,15 @@ class _StartPageState extends State<StartPage>{
                   borderRadius: BorderRadius.circular(20.0)
                 ),
                 child: RaisedButton(
-                  color: Color(0xFFF9AA33),
-                  textColor: Colors.white,
+                  color: MainOrangeColor,
+                  textColor: WhiteText,
                   child: Text('우리학교 설정하고 시작하기'),
                   onPressed: (){
                     Navigator
                       .of(context)
                       .push(MaterialPageRoute(
-                      builder: (BuildContext context)=>Detail(
+                      builder: (BuildContext context)=>Home(
+                        user: user,
                         //selected: selected,
                       )))
                       .catchError((e)=>print(e));
