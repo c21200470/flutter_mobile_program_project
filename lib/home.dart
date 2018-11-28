@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile_program_project/colors.dart';
 import 'addproduct.dart';
+import 'post.dart';
+import 'detail.dart';
 
 class Home extends StatelessWidget {
 
@@ -48,6 +51,86 @@ class _MyMainScreen extends State<MyMainScreen> {
   ];
   //for checking
 
+  Widget _buildBody(BuildContext context Orientation orientation){
+    return StreamBuilder<QuerySnapshot>(
+      stream: Firestore.instance.collection('product').snapshots(),
+      builder: (context, snapshot){
+        if (!snapshot.hasData) return LinearProgressIndicator();
+
+        return GridView.count(
+        crossAxisCount: orientation == Orientation.portrait ? 2 : 3,
+        padding: EdgeInsets.all(16.0),
+        childAspectRatio: 8.0 / 9.0,
+        children: _buildGrid(context, snapshot.data.documents),
+        );
+      }
+    );
+  }
+
+  List<Card> _buildGrid(BuildContext context, List<DocumentSnapshot> snapshot) { //카드리스트
+    return snapshot.map((data) => _buildCards(context, data)).toList();
+  }
+
+  Card _buildCards(BuildContext context, DocumentSnapshot data){
+    final product = Post.fromSnapshot(data);
+    final ThemeData theme = Theme.of(context);
+
+    return Card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          AspectRatio(
+            aspectRatio: 18 / 11,
+            child: Image.network(
+              product.url,
+              fit: BoxFit.fitWidth,
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    product.title,
+                    style: theme.textTheme.title,
+                    maxLines: 1,
+                  ),
+                  SizedBox(height: 7.0),
+                  Text(
+                    '\$ '+product.price.toString(),
+                    style: theme.textTheme.body1,
+                  ),
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(90.0, 2.0, 2.0, 2.0),
+                    width: 100.0,
+                    height: 10.0,
+                    child: FlatButton(
+                      child: Text(
+                        'More',
+                        style: theme.textTheme.body1,
+                        textAlign: TextAlign.right,),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                Detail(product, user: user),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +155,12 @@ class _MyMainScreen extends State<MyMainScreen> {
             ),
 
             Center(
-              child: _widgetOptions.elementAt(_lastSelected),
+              child:
+              OrientationBuilder(
+                builder: (context, orientation){
+                  return _buildBody(context, orientation);
+                },
+              ),
             ),
 
           ],
