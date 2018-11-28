@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_mobile_program_project/post.dart';
 import 'fab.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 
 final List<String> imgList = [
@@ -194,7 +195,9 @@ class _DetailPageState extends State<DetailPage> {
 
     return new Scaffold(
       appBar: AppBar(
-        title: Text('상품 상세보기'),
+        elevation: 0.0,
+        backgroundColor: Colors.white,
+        title: Text('상품 상세보기', style: TextStyle(color: Colors.black87),),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search),
@@ -203,19 +206,51 @@ class _DetailPageState extends State<DetailPage> {
         ],
       ),
       body: SafeArea(
-        child: Stack(
+        child: ListView(
           children: <Widget>[
-            ListView(
-              children: <Widget>[
-                _imageSlider(),
-                _buildTitle(),
-                _buildUser(),
-                _buildContent(),
-              ],
-            ),
-            FancyFab(),
+            _imageSlider(),
+            _buildTitle(),
+            _buildUser(),
+            _buildContent(),
           ],
-        )
+        ),
+        ),
+      floatingActionButton: SpeedDial(
+        animatedIcon: AnimatedIcons.menu_close,
+        animatedIconTheme: IconThemeData(size: 22.0),
+        // this is ignored if animatedIcon is non null
+        // child: Icon(Icons.add),
+        curve: Curves.bounceIn,
+        overlayColor: Colors.black,
+        overlayOpacity: 0.5,
+        onOpen: () => print('OPENING DIAL'),
+        onClose: () => print('DIAL CLOSED'),
+        tooltip: 'Speed Dial',
+        heroTag: 'speed-dial-hero-tag',
+        backgroundColor: Color(0xFFF9AA33),
+        foregroundColor: Colors.black87,
+        elevation: 8.0,
+        shape: CircleBorder(),
+        children: [
+          SpeedDialChild(
+              child: Icon(Icons.favorite),
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.grey,
+              onTap: () => print('FIRST CHILD')
+          ),
+          SpeedDialChild(
+            child: Icon(Icons.mail),
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.grey,
+            onTap: () => print('SECOND CHILD'),
+          ),
+          SpeedDialChild(
+            child: Icon(Icons.share),
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.grey,
+            onTap: () => print('THIRD CHILD'),
+          ),
+        ],
       ),
     );
   }

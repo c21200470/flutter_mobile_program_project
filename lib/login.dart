@@ -1,10 +1,13 @@
-import 'package:flutter/material.dart';
-import 'colors.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
 import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
+import 'colors.dart';
 import 'start.dart';
+import 'intro.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -145,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
                           .of(context)
                           .push(MaterialPageRoute(
                           builder: (BuildContext context)=>StartPage(
-                            user: user,
+                            //user: user,
                           )))
                           .catchError((e)=>print(e));
                     });
@@ -162,7 +165,7 @@ class _LoginPageState extends State<LoginPage> {
                           .of(context)
                           .push(MaterialPageRoute(
                           builder: (BuildContext context)=>StartPage(
-                            user: user,
+                            //user: user,
                           )))
                           .catchError((e)=>print(e));
                     });

@@ -21,6 +21,8 @@ dependencies:
   firebase_core:
   firebase_storage:
   uuid:
+
+
   flutter_fab_dialer: ^0.1.1 # FAB 메뉴
   carousel_slider: ^0.0.6  # 이미지 스와이프 슬라이드
   image_picker:
