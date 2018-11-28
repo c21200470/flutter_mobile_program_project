@@ -22,8 +22,8 @@ dependencies:
   firebase_storage:
   uuid:
 
-
-  flutter_fab_dialer: ^0.1.1 # FAB 메뉴
+  flutter_speed_dial: ^1.0.9
+  intro_slider: ^1.0.4
   carousel_slider: ^0.0.6  # 이미지 스와이프 슬라이드
   image_picker:
 
@@ -34,7 +34,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
