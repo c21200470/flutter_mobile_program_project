@@ -9,22 +9,24 @@ import 'detail.dart';
 class Home extends StatelessWidget {
 
   final FirebaseUser user;
+  final String school;
 
-  Home({Key key, this.user}) : super(key: key);
+  Home({Key key, this.user, this.school}) : super(key: key);
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
       title: 'Project Main Screen',
-      home: new MyMainScreen(title: 'Project Main Screen', user: user),
+      home: new MyMainScreen(title: 'Project Main Screen', user: user, school: school),
     );
   }
 }
 
 class MyMainScreen extends StatefulWidget {
   final FirebaseUser user;
+  final String school;
 
-  MyMainScreen({Key key, this.title, this.user}) : super(key: key);
+  MyMainScreen({Key key, this.title, this.user, this.school}) : super(key: key);
   final String title;
   @override
   _MyMainScreen createState() => new _MyMainScreen(user);
@@ -116,7 +118,7 @@ class _MyMainScreen extends State<MyMainScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                Detail(product, user: user),
+                                Detail(user: user),
                           ),
                         );
                       },

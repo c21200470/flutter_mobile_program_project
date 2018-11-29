@@ -15,7 +15,10 @@ final List<String> imgList = [
 ];
 
 class Detail extends StatelessWidget {
-  Detail(Post post, {FirebaseUser user});
+  final Post post;
+  final FirebaseUser user;
+
+  const Detail({Key key, this.post, this.user}) : super(key: key);
 
 
   @override
