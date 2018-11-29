@@ -78,7 +78,7 @@ class _MyMainScreen extends State<MyMainScreen> {
           AspectRatio(
             aspectRatio: 18 / 11,
             child: Image.network(
-              product.url,
+              product.imgurl,
               fit: BoxFit.fitWidth,
             ),
           ),
