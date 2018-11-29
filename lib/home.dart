@@ -29,7 +29,7 @@ class MyMainScreen extends StatefulWidget {
   MyMainScreen({Key key, this.title, this.user, this.school}) : super(key: key);
   final String title;
   @override
-  _MyMainScreen createState() => new _MyMainScreen(user);
+  _MyMainScreen createState() => new _MyMainScreen(user, school);
 }
 
 class _MyMainScreen extends State<MyMainScreen> {
@@ -37,7 +37,9 @@ class _MyMainScreen extends State<MyMainScreen> {
   int _lastSelected = 0;
 
   final FirebaseUser user;
-  _MyMainScreen(this.user);
+  final String school;
+
+  _MyMainScreen(this.user, this.school);
 
   void _selectedTab(int index) {
     setState(() {
@@ -199,6 +201,7 @@ class _MyMainScreen extends State<MyMainScreen> {
               .push(MaterialPageRoute(
               builder: (BuildContext context)=>AddProductPage(
                 user: user,
+                school: school,
               )))
               .catchError((e)=>print(e));
         },

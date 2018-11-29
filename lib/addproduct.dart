@@ -10,9 +10,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddProductPage extends StatefulWidget{
   final FirebaseUser user;
-  AddProductPage({Key key, this.user}) : super(key: key);
+  final String school;
+
+  AddProductPage({Key key, this.user, this.school}) : super(key: key);
   @override
-  _AddProductState createState() => _AddProductState(user);
+  _AddProductState createState() => _AddProductState(user, school);
 }
 
 class _AddProductState extends State<AddProductPage>{
@@ -26,7 +28,9 @@ class _AddProductState extends State<AddProductPage>{
   File _image;
 
   final FirebaseUser user;
-  _AddProductState(this.user);
+  final String school;
+
+  _AddProductState(this.user, this.school);
 
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -38,7 +42,7 @@ class _AddProductState extends State<AddProductPage>{
   Future<Null> uploadFile() async{
 
     final StorageReference firebaseStorageRef=
-    FirebaseStorage.instance.ref().child(ProductNamecontroller.text+".jpg");
+    FirebaseStorage.instance.ref().child("/app"+ProductNamecontroller.text+".jpg"); //일단 app에 저장하게 끔 //start에서 스쿨마다 번호 주고 start파일 받아오는 방법.
     final StorageUploadTask task = firebaseStorageRef.putFile(_image);
 
     StorageTaskSnapshot taskSnapshot = await task.onComplete;
@@ -94,124 +98,133 @@ class _AddProductState extends State<AddProductPage>{
           ],
         ),
 
-        body: new Column(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
-              child: Column(
-                children: <Widget>[
-                  _image == null
-                      ? FlatButton(
-                    padding: EdgeInsets.all(2.0),
-                    onPressed: getImage,
-                    child: new Image.network("https://firebasestorage.googleapis.com/v0/b/mobile-app-project-6d4ab.appspot.com/o/app%2Fdefault.png?alt=media&token=f6037981-101d-4518-a98d-9f75aa185f0b",
-                      width: 350,
-                      height: 200,
-                      fit: BoxFit.cover,
-                    ),
-                  )
-                      : enableUpload(),
+        body: new Container(
+          height: 20000.0,
+          child: ListView(
+            scrollDirection: Axis.vertical,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
+                child: Column(
+                  children: <Widget>[
+                    _image == null
+                        ? FlatButton(
+                      padding: EdgeInsets.all(2.0),
+                      onPressed: getImage,
+                      child: new Image.network("https://firebasestorage.googleapis.com/v0/b/mobile-app-project-6d4ab.appspot.com/o/app%2Fdefault.png?alt=media&token=f6037981-101d-4518-a98d-9f75aa185f0b",
+                        width: 350.0,
+                        height: 200.0,
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                        : enableUpload(),
 
-                  Text("사진을 선택해주세요",style: TextStyle(fontSize: 7,fontWeight: FontWeight.bold),),
-                ],
-              ),
-            ),
-
-            Padding(
-              padding: EdgeInsets.fromLTRB(10.0, 7.0, 300, 7.0),
-              child:
-              Text("상품 기본정보",
-                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 11,),
-              ),
-            ),
-
-            Padding(
-              padding: EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
-              child:
-              TextField(
-                style: TextStyle(
-                  fontSize: 9,
-                  height: 0.1,
+                    Text("사진을 선택해주세요",style: TextStyle(fontSize: 7,fontWeight: FontWeight.bold),),
+                  ],
                 ),
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: '상품명 입력'),
-                controller: ProductNamecontroller,
               ),
-            ),
 
-            Padding(
-              padding: EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
-              child:
-              TextField(
-                style: TextStyle(
-                  fontSize: 9,
-                  height: 0.1,
+              Padding(
+                padding: EdgeInsets.fromLTRB(10.0, 7.0, 300, 7.0),
+                child:
+                Text("상품 기본정보",
+                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 11,),
                 ),
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: '가격 입력'),
-                controller: ProductPricecontroller,
               ),
-            ),
 
-            Padding(
-              padding: EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
-              child:
-              TextField(
-                style: TextStyle(
-                  fontSize: 9,
-                  height: 0.1,
+              Padding(
+                padding: EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
+                child:
+                TextField(
+                  style: TextStyle(
+                    color: AddIcon,
+                    fontSize: 9,
+                    height: 0.1,
+                  ),
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: '상품명 입력'),
+                  controller: ProductNamecontroller,
                 ),
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: '카테고리/세부 카테고리 선택'),
-                controller: ProductCategorycontroller,
               ),
-            ),
 
-            Padding(
-              padding: EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
-              child:
-              TextField(
-                style: TextStyle(
-                  fontSize: 9,
-                  height: 0.1,
+              Padding(
+                padding: EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
+                child:
+                TextField(
+                  style: TextStyle(
+                    color: AddIcon,
+                    fontSize: 9,
+                    height: 0.1,
+                  ),
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: '가격 입력'),
+                  controller: ProductPricecontroller,
                 ),
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: '#태그 입력'),
-                controller: ProductTagcontroller,
               ),
-            ),
 
-            Padding(
-              padding: EdgeInsets.fromLTRB(10.0, 7.0, 300, 7.0),
-              child:
-              Text("상품 상세정보",
-                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 11,),
-              ),
-            ),
-
-
-
-            Padding(
-              padding: EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
-              child:
-              TextField(
-                style: TextStyle(
-                  fontSize: 9,
-                  height: 3,
+              Padding(
+                padding: EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
+                child:
+                TextField(
+                  style: TextStyle(
+                    color: AddIcon,
+                    fontSize: 9,
+                    height: 0.1,
+                  ),
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: '카테고리/세부 카테고리 선택'),
+                  controller: ProductCategorycontroller,
                 ),
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: '상세 정보 입력'),
-                controller: ProductDescriptioncontroller,
               ),
-            ),
+
+              Padding(
+                padding: EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
+                child:
+                TextField(
+                  style: TextStyle(
+                    color: AddIcon,
+                    fontSize: 9,
+                    height: 0.1,
+                  ),
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: '#태그 입력'),
+                  controller: ProductTagcontroller,
+                ),
+              ),
+
+              Padding(
+                padding: EdgeInsets.fromLTRB(10.0, 7.0, 300, 7.0),
+                child:
+                Text("상품 상세정보",
+                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 11,),
+                ),
+              ),
 
 
-          ],
+
+              Padding(
+                padding: EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
+                child:
+                TextField(
+                  style: TextStyle(
+                    color: AddIcon,
+                    fontSize: 9,
+                    height: 3,
+                  ),
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: '상세 정보 입력'),
+                  controller: ProductDescriptioncontroller,
+                ),
+              ),
+
+
+            ],
+          ),
         ),
       ),
     );
