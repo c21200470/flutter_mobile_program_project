@@ -1,42 +1,41 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Post {
-  final String title;
-  final int price;
-  final String content;
-  final String creator;
-  final String created;
-  final String modified;
-  final String imgurl;
-  final String group;
-  final int postid;
+  final String title, content, imgurl, creator_name, creator_uid, creator_pic, group, category;
+  final Timestamp created, modified;
+  final int price, postid;
 
-  final bool book, clothes, free, furniture, house, other, utility;
-  final String profilepic, uid, username;
 //  final bool ss, s, a, b, c, d, direct, freeship, ship;
 
   final DocumentReference reference;
 
   Post.fromMap(Map<String, dynamic> map, {this.reference})
       : assert(map['title'] != null),
-        assert(map['price'] != null),
         assert(map['content'] != null),
         assert(map['imgurl'] != null),
-        assert(map['creator'] != null),
+        assert(map['creator_name'] != null),
+        assert(map['creator_pic'] != null),
+        assert(map['creator_uid'] != null),
+        assert(map['group'] != null),
+        assert(map['category'] != null),
         assert(map['created'] != null),
         assert(map['modified'] != null),
+        assert(map['price'] != null),
         assert(map['postid'] != null),
-        assert(map['group'] != null),
+
+
         title = map['name'],
-        price = map['price'],
-        content = map['description'],
+        content = map['content'],
         imgurl = map['imgurl'],
-        creator = map['creator'],
+        creator_name = map['creator_name'],
+        creator_pic = map['creator_pic'],
+        creator_uid = map['creator_uid'],
+        group = map['group'],
+        category = map['category'],
         created = map['created'],
         modified = map['modified'],
-        postid = map['postid'],
-        group = map ['group'];
-
+        price = map['price'],
+        postid = map['postid'];
 
   Post.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, reference: snapshot.reference);
