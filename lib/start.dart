@@ -83,7 +83,7 @@ class _StartPageState extends State<StartPage>{
                       .push(MaterialPageRoute(
                       builder: (BuildContext context)=>Home(
                         user: user,
-                        //school: selected,
+                        school: selected,
                       )))
                       .catchError((e)=>print(e));
                   }
