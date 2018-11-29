@@ -100,9 +100,9 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: Color(0xFFF9AA33),
+      backgroundColor: LoginBackground,
       body: Container(
-        decoration: BoxDecoration(
+        /*decoration: BoxDecoration(
           // Box decoration takes a gradient
           gradient: LinearGradient(
             // Where the linear gradient begins and ends
@@ -118,28 +118,28 @@ class _LoginPageState extends State<LoginPage> {
               Colors.grey[300],
             ],
           ),
-        ),
+        ),*/
         child: SafeArea(
           child: ListView(
             padding: EdgeInsets.symmetric(horizontal: 24.0),
             children: <Widget>[
-              SizedBox(height: 170.0),
+              SizedBox(height: 100.0),
               Column(
                 children: <Widget>[
-                  Image.network('https://firebasestorage.googleapis.com/v0/b/final-project-bda04.appspot.com/o/login%2Fflutter.png?alt=media&token=363b50e0-6915-495d-91d9-2e43e54fe3eb',
-                  width: 100.0, height: 100.0,),
+                  Image.network('https://firebasestorage.googleapis.com/v0/b/mobile-app-project-6d4ab.appspot.com/o/app%2FLogo.png?alt=media&token=470b2aa0-6fdd-4476-8cf6-4d360bc43643',
+                  width: 200.0, height: 200.0,),
                   SizedBox(height: 16.0),
-                  Text('mobile app'),
+                  Text('에브리딜',style: TextStyle(color: WhiteText,fontSize: 30.0),),
                 ],
               ),
-              SizedBox(height: 170.0),
+              SizedBox(height: 100.0),
               ButtonTheme(
                 height: 40.0,
                 child: RaisedButton(
-                  color: Color(0xFFDD4B39),
-                  textColor: Colors.white,
+                  color: LoginGoogleBack,
+                  textColor: WhiteText,
                   elevation: 3.0,
-                  child: Text('구글로 로그인하기'),
+                  child: Text('구글로 시작하기'),
                   onPressed: () {
                     _SignInWithGoogle().then((FirebaseUser user){
                       print(user);
@@ -155,21 +155,23 @@ class _LoginPageState extends State<LoginPage> {
                 }),
               ),
               SizedBox(height: 15.0),
-              FlatButton(
-                  child: Text('둘러보기'),
-                  onPressed: () {
-                    _SignInAnonymously().then((FirebaseUser user){
-                      print(user);
-                      LoginUserData.LoginUser=user;
-                      Navigator
-                          .of(context)
-                          .push(MaterialPageRoute(
-                          builder: (BuildContext context)=>StartPage(
+              OutlineButton(
+
+                textColor: WhiteText,
+                child: Text('둘러보기'),
+                onPressed: () {
+                  _SignInAnonymously().then((FirebaseUser user){
+                    print(user);
+                    LoginUserData.LoginUser=user;
+                    Navigator
+                        .of(context)
+                        .push(MaterialPageRoute(
+                        builder: (BuildContext context)=>StartPage(
                             //user: user,
-                          )))
-                          .catchError((e)=>print(e));
-                    });
-                  }),
+                        )))
+                        .catchError((e)=>print(e));
+                  });
+                }),
             ],
           ),
         ),
