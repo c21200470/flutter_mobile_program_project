@@ -14,25 +14,13 @@ final List<String> imgList = [
   'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
 ];
 
-class Detail extends StatelessWidget {
-  final Post post;
-  final FirebaseUser user;
-
-  const Detail({Key key, this.post, this.user}) : super(key: key);
-
-
-  @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: '상품 상세보기',
-      home: new DetailPage(title: '상품 상세보기'),
-    );
-  }
-}
-
 class DetailPage extends StatefulWidget {
-  DetailPage({Key key, this.title}) : super(key: key);
+
   final String title;
+  final FirebaseUser user;
+  final Post post;
+
+  DetailPage({Key key, this.title, this.user, this.post}) : super(key: key);
 
   @override
   _DetailPageState createState() => new _DetailPageState();

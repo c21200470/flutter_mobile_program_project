@@ -25,9 +25,10 @@ class Home extends StatelessWidget {
 class MyMainScreen extends StatefulWidget {
   final FirebaseUser user;
   final String school;
+  final String title;
 
   MyMainScreen({Key key, this.title, this.user, this.school}) : super(key: key);
-  final String title;
+
   @override
   _MyMainScreen createState() => new _MyMainScreen(user, school);
 }
@@ -49,7 +50,7 @@ class _MyMainScreen extends State<MyMainScreen> {
 
   Widget _buildBody(BuildContext context Orientation orientation){
     return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance.collection('product').snapshots(),
+      stream: Firestore.instance.collection('Post').snapshots(),
       builder: (context, snapshot){
         if (!snapshot.hasData) return LinearProgressIndicator();
 
@@ -68,7 +69,7 @@ class _MyMainScreen extends State<MyMainScreen> {
   }
 
   Card _buildCards(BuildContext context, DocumentSnapshot data){
-    final product = Post.fromSnapshot(data);
+    final post = Post.fromSnapshot(data);
     final ThemeData theme = Theme.of(context);
 
     return Card(
@@ -78,7 +79,7 @@ class _MyMainScreen extends State<MyMainScreen> {
           AspectRatio(
             aspectRatio: 18 / 11,
             child: Image.network(
-              product.imgurl,
+              post.imgurl,
               fit: BoxFit.fitWidth,
             ),
           ),
@@ -89,13 +90,13 @@ class _MyMainScreen extends State<MyMainScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    product.title,
+                    post.title,
                     style: theme.textTheme.title,
                     maxLines: 1,
                   ),
                   SizedBox(height: 7.0),
                   Text(
-                    '\$ '+product.price.toString(),
+                    '\$ '+post.price.toString(),
                     style: theme.textTheme.body1,
                   ),
                   Container(
@@ -112,7 +113,7 @@ class _MyMainScreen extends State<MyMainScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                Detail(user: user),
+                                DetailPage(user: user, post: post),
                           ),
                         );
                       },
