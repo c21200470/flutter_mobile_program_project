@@ -45,14 +45,6 @@ class _MyMainScreen extends State<MyMainScreen> {
     });
   }
 
-  final _widgetOptions = [
-    Text('Index 0: Home'),
-    Text('Index 1: Menu'),
-    Text('Index 2: Alarm'),
-    Text('Index 3: MyPage'),
-  ];
-  //for checking
-
   Widget _buildBody(BuildContext context Orientation orientation){
     return StreamBuilder<QuerySnapshot>(
       stream: Firestore.instance.collection('product').snapshots(),
@@ -160,7 +152,38 @@ class _MyMainScreen extends State<MyMainScreen> {
               child:
               OrientationBuilder(
                 builder: (context, orientation){
-                  return _buildBody(context, orientation);
+                  switch(_lastSelected){
+                    case 1:
+                      Navigator
+                          .of(context)
+                          .push(MaterialPageRoute(
+                          builder: (BuildContext context)=>AddProductPage(
+                            user: user,
+                          )))
+                          .catchError((e)=>print(e));
+                      break;
+                    case 2:
+                      Navigator
+                          .of(context)
+                          .push(MaterialPageRoute(
+                          builder: (BuildContext context)=>AddProductPage(
+                            user: user,
+                          )))
+                          .catchError((e)=>print(e));
+                      break;
+                    case 3:
+                      Navigator
+                          .of(context)
+                          .push(MaterialPageRoute(
+                          builder: (BuildContext context)=>AddProductPage(
+                            user: user,
+                          )))
+                          .catchError((e)=>print(e));
+                      break;
+                    case 0:
+                      return _buildBody(context, orientation);
+                      break;
+                  }
                 },
               ),
             ),
@@ -188,6 +211,7 @@ class _MyMainScreen extends State<MyMainScreen> {
         elevation: 5.0,
       ),
       bottomNavigationBar: FABBottomAppBar(
+        user: user,
         centerItemText: '',
         notchedShape: CircularNotchedRectangle(),
         onTabSelected: _selectedTab,
@@ -212,6 +236,7 @@ class FABBottomAppBarItem {
 
 class FABBottomAppBar extends StatefulWidget {
   FABBottomAppBar({
+    this.user,
     this.items,
     this.centerItemText,
     this.height: 60.0,
@@ -233,13 +258,19 @@ class FABBottomAppBar extends StatefulWidget {
   final Color selectedColor;
   final NotchedShape notchedShape;
   final ValueChanged<int> onTabSelected;
+  FirebaseUser user;
 
   @override
-  State<StatefulWidget> createState() => FABBottomAppBarState();
+  State<StatefulWidget> createState() => FABBottomAppBarState(user);
 }
 
 class FABBottomAppBarState extends State<FABBottomAppBar> {
+
+  FirebaseUser user;
+
   int _selectedIndex = 0;
+
+  FABBottomAppBarState(this.user);
 
   _updateIndex(int index) {
     widget.onTabSelected(index);

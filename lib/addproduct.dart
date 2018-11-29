@@ -105,23 +105,23 @@ class _AddProductState extends State<AddProductPage>{
                     padding: EdgeInsets.all(2.0),
                     onPressed: getImage,
                     child: new Image.network("https://firebasestorage.googleapis.com/v0/b/mobile-app-project-6d4ab.appspot.com/o/app%2Fdefault.png?alt=media&token=f6037981-101d-4518-a98d-9f75aa185f0b",
-                      width: 350.0,
-                      height: 200.0,
+                      width: 350,
+                      height: 200,
                       fit: BoxFit.cover,
                     ),
                   )
                       : enableUpload(),
 
-                  Text("사진을 선택해주세요",style: TextStyle(fontSize: 7.0,fontWeight: FontWeight.bold),),
+                  Text("사진을 선택해주세요",style: TextStyle(fontSize: 7,fontWeight: FontWeight.bold),),
                 ],
               ),
             ),
 
             Padding(
-              padding: EdgeInsets.fromLTRB(10.0, 7.0, 30.0, 7.0),
+              padding: EdgeInsets.fromLTRB(10.0, 7.0, 300, 7.0),
               child:
               Text("상품 기본정보",
-                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 11.0,),
+                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 11,),
               ),
             ),
 
@@ -130,7 +130,7 @@ class _AddProductState extends State<AddProductPage>{
               child:
               TextField(
                 style: TextStyle(
-                  fontSize: 9.0,
+                  fontSize: 9,
                   height: 0.1,
                 ),
                 decoration: InputDecoration(
@@ -145,7 +145,7 @@ class _AddProductState extends State<AddProductPage>{
               child:
               TextField(
                 style: TextStyle(
-                  fontSize: 9.0,
+                  fontSize: 9,
                   height: 0.1,
                 ),
                 decoration: InputDecoration(
@@ -160,7 +160,7 @@ class _AddProductState extends State<AddProductPage>{
               child:
               TextField(
                 style: TextStyle(
-                  fontSize: 9.0,
+                  fontSize: 9,
                   height: 0.1,
                 ),
                 decoration: InputDecoration(
@@ -175,7 +175,7 @@ class _AddProductState extends State<AddProductPage>{
               child:
               TextField(
                 style: TextStyle(
-                  fontSize: 9.0,
+                  fontSize: 9,
                   height: 0.1,
                 ),
                 decoration: InputDecoration(
@@ -186,10 +186,10 @@ class _AddProductState extends State<AddProductPage>{
             ),
 
             Padding(
-              padding: EdgeInsets.fromLTRB(10.0, 7.0, 30.0, 7.0),
+              padding: EdgeInsets.fromLTRB(10.0, 7.0, 300, 7.0),
               child:
               Text("상품 상세정보",
-                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 11.0,),
+                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 11,),
               ),
             ),
 
@@ -200,8 +200,8 @@ class _AddProductState extends State<AddProductPage>{
               child:
               TextField(
                 style: TextStyle(
-                  fontSize: 9.0,
-                  height: 3.0,
+                  fontSize: 9,
+                  height: 3,
                 ),
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
@@ -221,7 +221,7 @@ class _AddProductState extends State<AddProductPage>{
     return Container(
         child: Column(
           children: <Widget>[
-            Image.file(_image, height: 300.0, width: 300.0,),
+            Image.file(_image, height: 300, width: 300,),
           ],
         )
     );
