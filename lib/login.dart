@@ -139,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: new Row(
                   children: <Widget>[
                     new Expanded(
-                      child: new FlatButton(
+                      child: new RaisedButton(
                         shape: new RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(30.0)),
                         color: Colors.white,
