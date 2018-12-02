@@ -100,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: LoginBackground,
+      backgroundColor: MainOrangeColor,
       body: Container(
         /*decoration: BoxDecoration(
           // Box decoration takes a gradient
@@ -123,55 +123,113 @@ class _LoginPageState extends State<LoginPage> {
           child: ListView(
             padding: EdgeInsets.symmetric(horizontal: 24.0),
             children: <Widget>[
-              SizedBox(height: 100.0),
+              SizedBox(height: 150.0),
               Column(
                 children: <Widget>[
-                  Image.network('https://firebasestorage.googleapis.com/v0/b/mobile-app-project-6d4ab.appspot.com/o/app%2FLogo.png?alt=media&token=470b2aa0-6fdd-4476-8cf6-4d360bc43643',
+                  Image.network('https://firebasestorage.googleapis.com/v0/b/mobile-app-project-6d4ab.appspot.com/o/app%2Flogo.png?alt=media&token=f217ff19-7b44-40c3-90a5-bf077ccacc2a',
                   width: 200.0, height: 200.0,),
-                  SizedBox(height: 16.0),
-                  Text('에브리딜',style: TextStyle(color: WhiteText,fontSize: 30.0),),
+                  Text('EveryDeal',
+                    style: TextStyle(color: WhiteText,fontSize: 50.0, fontWeight: FontWeight.w900),),
                 ],
               ),
-              SizedBox(height: 100.0),
-              ButtonTheme(
-                height: 40.0,
-                child: RaisedButton(
-                  color: LoginGoogleBack,
-                  textColor: WhiteText,
-                  elevation: 3.0,
-                  child: Text('구글로 시작하기'),
-                  onPressed: () {
-                    _SignInWithGoogle().then((FirebaseUser user){
-                      print(user);
-                      LoginUserData.LoginUser=user;
-                      Navigator
-                          .of(context)
-                          .push(MaterialPageRoute(
-                          builder: (BuildContext context)=>StartPage(
-                            //user: user,
-                          )))
-                          .catchError((e)=>print(e));
-                    });
-                }),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                margin: const EdgeInsets.only(left: 30.0, right: 30.0, top: 100.0),
+                alignment: Alignment.center,
+                child: new Row(
+                  children: <Widget>[
+                    new Expanded(
+                      child: new FlatButton(
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(30.0)),
+                        color: Colors.white,
+                        onPressed: () {
+                          _SignInWithGoogle().then((FirebaseUser user){
+                            print(user);
+                            LoginUserData.LoginUser=user;
+                            Navigator
+                                .of(context)
+                                .push(MaterialPageRoute(
+                                builder: (BuildContext context)=>StartPage(
+                                  //user: user,
+                                )))
+                                .catchError((e)=>print(e));
+                          });
+                        },
+                        child: new Container(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 20.0,
+                            horizontal: 20.0,
+                          ),
+                          child: new Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              new Expanded(
+                                child: Text(
+                                  "구글로 시작하기",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              SizedBox(height: 15.0),
-              OutlineButton(
-
-                textColor: WhiteText,
-                child: Text('둘러보기'),
-                onPressed: () {
-                  _SignInAnonymously().then((FirebaseUser user){
-                    print(user);
-                    LoginUserData.LoginUser=user;
-                    Navigator
-                        .of(context)
-                        .push(MaterialPageRoute(
-                        builder: (BuildContext context)=>StartPage(
-                            user: user,
-                        )))
-                        .catchError((e)=>print(e));
-                  });
-                }),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                margin: const EdgeInsets.only(left: 30.0, right: 30.0, top: 30.0),
+                alignment: Alignment.center,
+                child: new Row(
+                  children: <Widget>[
+                    new Expanded(
+                      child: new OutlineButton(
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(30.0)),
+                        color: Colors.redAccent,
+                        highlightedBorderColor: Colors.white,
+                        onPressed: () {
+                          _SignInWithGoogle().then((FirebaseUser user){
+                            print(user);
+                            LoginUserData.LoginUser=user;
+                            Navigator
+                                .of(context)
+                                .push(MaterialPageRoute(
+                                builder: (BuildContext context)=>StartPage(
+                                  //user: user,
+                                )))
+                                .catchError((e)=>print(e));
+                          });
+                        },
+                        child: new Container(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 20.0,
+                            horizontal: 20.0,
+                          ),
+                          child: new Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              new Expanded(
+                                child: Text(
+                                  "둘러보기",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),

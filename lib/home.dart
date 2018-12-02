@@ -9,27 +9,27 @@ import 'detail.dart';
 //class Home extends StatelessWidget {
 //
 //  final FirebaseUser user;
-//  final String school;
+//  final String group;
 //
-//  Home({Key key, this.user, this.school}) : super(key: key);
+//  Home({Key key, this.user, this.group}) : super(key: key);
 //  // This widget is the root of your application.
 //  @override
 //  Widget build(BuildContext context) {
 //    return new MaterialApp(
 //      title: 'Project Main Screen',
-//      home: new MyMainScreen(title: 'Project Main Screen', user: user, school: school),
+//      home: new MyMainScreen(title: 'Project Main Screen', user: user, group: group),
 //    );
 //  }
 //}
 
 class MyMainScreen extends StatefulWidget {
   final FirebaseUser user;
-  final String school;
+  final String group;
 
-  MyMainScreen({Key key, this.user, this.school}) : super(key: key);
+  MyMainScreen({Key key, this.user, this.group}) : super(key: key);
 
   @override
-  _MyMainScreen createState() => new _MyMainScreen(user, school);
+  _MyMainScreen createState() => new _MyMainScreen(user, group);
 }
 
 class _MyMainScreen extends State<MyMainScreen> {
@@ -37,9 +37,9 @@ class _MyMainScreen extends State<MyMainScreen> {
   int _lastSelected = 0;
 
   final FirebaseUser user;
-  final String school;
+  final String group;
 
-  _MyMainScreen(this.user, this.school);
+  _MyMainScreen(this.user, this.group);
 
   void _selectedTab(int index) {
     setState(() {
@@ -78,7 +78,7 @@ class _MyMainScreen extends State<MyMainScreen> {
           AspectRatio(
             aspectRatio: 18 / 11,
             child: Image.network(
-              post.imgurl,
+              post.imgurl[0],
               fit: BoxFit.fitWidth,
             ),
           ),
@@ -160,7 +160,7 @@ class _MyMainScreen extends State<MyMainScreen> {
                           .of(context)
                           .push(MaterialPageRoute(
                           builder: (BuildContext context)=>AddProductPage(
-                            user: user, school: school,
+                            user: user, group: group,
                           )))
                           .catchError((e)=>print(e));
                       break;
@@ -169,7 +169,7 @@ class _MyMainScreen extends State<MyMainScreen> {
                           .of(context)
                           .push(MaterialPageRoute(
                           builder: (BuildContext context)=>AddProductPage(
-                            user: user, school: school,
+                            user: user, group: group,
                           )))
                           .catchError((e)=>print(e));
                       break;
@@ -178,7 +178,7 @@ class _MyMainScreen extends State<MyMainScreen> {
                           .of(context)
                           .push(MaterialPageRoute(
                           builder: (BuildContext context)=>AddProductPage(
-                            user: user, school: school,
+                            user: user, group: group,
                           )))
                           .catchError((e)=>print(e));
                       break;
@@ -201,7 +201,7 @@ class _MyMainScreen extends State<MyMainScreen> {
               .push(MaterialPageRoute(
               builder: (BuildContext context)=>AddProductPage(
                 user: user,
-                school: school,
+                group: group,
               )))
               .catchError((e)=>print(e));
         },

@@ -4,17 +4,10 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import 'post.dart';
+import 'colors.dart';
+import 'search.dart';
 
 
-
-final List<String> imgList = [
-  'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
-  'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
-  'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
-  'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
-  'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
-  'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
-];
 
 class DetailPage extends StatefulWidget {
 
@@ -39,6 +32,8 @@ class _DetailPageState extends State<DetailPage> {
 
   FirebaseUser user;
   Post post;
+
+  final List<String> imgList = [];
 
   _DetailPageState(this.user, this.post);
 
@@ -97,44 +92,44 @@ class _DetailPageState extends State<DetailPage> {
         children: <Widget>[
           ListTile(
             contentPadding: EdgeInsets.all(20.0),
-            title: Text('프로그래밍 언어론 10th 교재'),
-            subtitle: Text('25000원'),
+            title: Text(post.title),
+            subtitle: Text(post.price.toString()+' 원'),
           ),
-          Container(
-            margin: EdgeInsets.only(bottom: 10.0),
-            padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 10.0),
-            child: Row(
-              children: <Widget>[
-                Container(
-                  margin: const EdgeInsets.all(3.0),
-                  padding: const EdgeInsets.all(3.0),
-                  decoration: new BoxDecoration(
-                      border: new Border.all(color: Colors.blueAccent),
-                      borderRadius: new BorderRadius.circular(5.0)
-                  ),
-                  child: new Text("거의새것"),
-                ),
-                Container(
-                  margin: const EdgeInsets.all(3.0),
-                  padding: const EdgeInsets.all(3.0),
-                  decoration: new BoxDecoration(
-                      border: new Border.all(color: Colors.blueAccent),
-                      borderRadius: new BorderRadius.circular(5.0)
-                  ),
-                  child: new Text("직거래"),
-                ),
-                Container(
-                  margin: const EdgeInsets.all(3.0),
-                  padding: const EdgeInsets.all(3.0),
-                  decoration: new BoxDecoration(
-                      border: new Border.all(color: Colors.blueAccent),
-                      borderRadius: new BorderRadius.circular(5.0)
-                  ),
-                  child: new Text("구매자 부담 택배거래"),
-                )
-              ],
-            ),
-          ),
+//          Container(
+//            margin: EdgeInsets.only(bottom: 10.0),
+//            padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 10.0),
+//            child: Row(
+//              children: <Widget>[
+//                Container(
+//                  margin: const EdgeInsets.all(3.0),
+//                  padding: const EdgeInsets.all(3.0),
+//                  decoration: new BoxDecoration(
+//                      border: new Border.all(color: Colors.blueAccent),
+//                      borderRadius: new BorderRadius.circular(5.0)
+//                  ),
+//                  child: new Text("거의새것"),
+//                ),
+//                Container(
+//                  margin: const EdgeInsets.all(3.0),
+//                  padding: const EdgeInsets.all(3.0),
+//                  decoration: new BoxDecoration(
+//                      border: new Border.all(color: Colors.blueAccent),
+//                      borderRadius: new BorderRadius.circular(5.0)
+//                  ),
+//                  child: new Text("직거래"),
+//                ),
+//                Container(
+//                  margin: const EdgeInsets.all(3.0),
+//                  padding: const EdgeInsets.all(3.0),
+//                  decoration: new BoxDecoration(
+//                      border: new Border.all(color: Colors.blueAccent),
+//                      borderRadius: new BorderRadius.circular(5.0)
+//                  ),
+//                  child: new Text("구매자 부담 택배거래"),
+//                )
+//              ],
+//            ),
+//          ),
         ],
       ),
     );
@@ -149,7 +144,7 @@ class _DetailPageState extends State<DetailPage> {
             contentPadding: EdgeInsets.all(20.0),
             leading: Image.network('https://firebasestorage.googleapis.com/v0/b/mobile-app-project-6d4ab.appspot.com/o/app%2Fdefault-user.png?alt=media&token=af51212f-cd08-4fd3-bc4c-a428debd8972',
             width: 50.0, height: 50.0,),
-            title: Container(child: Text('한동보부상'), margin: EdgeInsets.only(bottom: 20.0),),
+            title: Container(child: Text(post.creator_name), margin: EdgeInsets.only(bottom: 20.0),),
             subtitle: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -174,10 +169,7 @@ class _DetailPageState extends State<DetailPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Container(
-                    child: Text('#이건교수님 #학교직거래 #거의새것'),
-                margin: EdgeInsets.only(bottom: 30.0),),
-                Text('내용내용'),
+                Text(post.content),
               ],
             ),
 
@@ -191,13 +183,21 @@ class _DetailPageState extends State<DetailPage> {
 
     return new Scaffold(
       appBar: AppBar(
-        elevation: 0.0,
+        iconTheme: IconThemeData(color: MainDarkColor2),
+        elevation: 2.0,
         backgroundColor: Colors.white,
         title: Text('상품 상세보기', style: TextStyle(color: Colors.black87),),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search),
-            onPressed: null,
+            onPressed: (){
+              Navigator
+                  .of(context)
+                  .push(MaterialPageRoute(
+                  builder: (BuildContext context)=>SearchPage(
+                  )))
+                  .catchError((e)=>print(e));
+            },
           )
         ],
       ),

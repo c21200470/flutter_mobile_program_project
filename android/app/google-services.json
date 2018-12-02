@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "926728445485-9m70f5jlr2ueg99va0vnktffutdv1fea.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.a12handong.fluttermobileprogramproject",
+            "certificate_hash": "d689f3b7c17bd5946d0b13330c5e180493aa6ec2"
+          }
+        },
+        {
           "client_id": "926728445485-un60fupl27j85hdplfk7nvm1nmrde63k.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -42,6 +50,13 @@
             {
               "client_id": "926728445485-un60fupl27j85hdplfk7nvm1nmrde63k.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "926728445485-62jcv42h4d9dk5u2fo7pj91ihelraaui.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "edu.a12handong.fluttermobileprogramproject"
+              }
             }
           ]
         },

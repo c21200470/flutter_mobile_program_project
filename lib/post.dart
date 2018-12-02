@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Post {
-  final String title, content, imgurl, creator_name, creator_uid, creator_pic, group, category;
+  final String title, content, creator_name, creator_uid, creator_pic, group, category;
   final String created, modified;
+  final List<dynamic> imgurl;
   final int price, postid;
 
 //  final bool ss, s, a, b, c, d, direct, freeship, ship;
@@ -24,7 +25,7 @@ class Post {
         assert(map['postid'] != null),
 
 
-        title = map['name'],
+        title = map['title'],
         content = map['content'],
         imgurl = map['imgurl'],
         creator_name = map['creator_name'],

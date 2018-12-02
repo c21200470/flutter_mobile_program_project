@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'colors.dart';
 import 'home.dart';
-import 'detail.dart';
+import 'home2.dart';
 
 class StartPage extends StatefulWidget{
   final FirebaseUser user;
@@ -81,9 +81,9 @@ class _StartPageState extends State<StartPage>{
                     Navigator
                       .of(context)
                       .push(MaterialPageRoute(
-                      builder: (BuildContext context)=>MyMainScreen(
+                      builder: (BuildContext context)=>HomePage(
                         user: user,
-                        school: selected,
+                        group: selected,
                       )))
                       .catchError((e)=>print(e));
                   }

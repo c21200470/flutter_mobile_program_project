@@ -10,11 +10,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddProductPage extends StatefulWidget{
   final FirebaseUser user;
-  final String school;
+  final String group;
 
-  AddProductPage({Key key, this.user, this.school}) : super(key: key);
+  AddProductPage({Key key, this.user, this.group}) : super(key: key);
   @override
-  _AddProductState createState() => _AddProductState(user, school);
+  _AddProductState createState() => _AddProductState(user, group);
 }
 
 class _AddProductState extends State<AddProductPage>{
@@ -28,9 +28,9 @@ class _AddProductState extends State<AddProductPage>{
   File _image;
 
   final FirebaseUser user;
-  final String school;
+  final String group;
 
-  _AddProductState(this.user, this.school);
+  _AddProductState(this.user, this.group);
 
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
