@@ -81,7 +81,7 @@ class _StartPageState extends State<StartPage>{
                     Navigator
                       .of(context)
                       .push(MaterialPageRoute(
-                      builder: (BuildContext context)=>Home(
+                      builder: (BuildContext context)=>MyMainScreen(
                         user: user,
                         school: selected,
                       )))

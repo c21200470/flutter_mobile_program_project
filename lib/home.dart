@@ -6,28 +6,27 @@ import 'addproduct.dart';
 import 'post.dart';
 import 'detail.dart';
 
-class Home extends StatelessWidget {
-
-  final FirebaseUser user;
-  final String school;
-
-  Home({Key key, this.user, this.school}) : super(key: key);
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'Project Main Screen',
-      home: new MyMainScreen(title: 'Project Main Screen', user: user, school: school),
-    );
-  }
-}
+//class Home extends StatelessWidget {
+//
+//  final FirebaseUser user;
+//  final String school;
+//
+//  Home({Key key, this.user, this.school}) : super(key: key);
+//  // This widget is the root of your application.
+//  @override
+//  Widget build(BuildContext context) {
+//    return new MaterialApp(
+//      title: 'Project Main Screen',
+//      home: new MyMainScreen(title: 'Project Main Screen', user: user, school: school),
+//    );
+//  }
+//}
 
 class MyMainScreen extends StatefulWidget {
   final FirebaseUser user;
   final String school;
-  final String title;
 
-  MyMainScreen({Key key, this.title, this.user, this.school}) : super(key: key);
+  MyMainScreen({Key key, this.user, this.school}) : super(key: key);
 
   @override
   _MyMainScreen createState() => new _MyMainScreen(user, school);
@@ -161,7 +160,7 @@ class _MyMainScreen extends State<MyMainScreen> {
                           .of(context)
                           .push(MaterialPageRoute(
                           builder: (BuildContext context)=>AddProductPage(
-                            user: user,
+                            user: user, school: school,
                           )))
                           .catchError((e)=>print(e));
                       break;
@@ -170,7 +169,7 @@ class _MyMainScreen extends State<MyMainScreen> {
                           .of(context)
                           .push(MaterialPageRoute(
                           builder: (BuildContext context)=>AddProductPage(
-                            user: user,
+                            user: user, school: school,
                           )))
                           .catchError((e)=>print(e));
                       break;
@@ -179,7 +178,7 @@ class _MyMainScreen extends State<MyMainScreen> {
                           .of(context)
                           .push(MaterialPageRoute(
                           builder: (BuildContext context)=>AddProductPage(
-                            user: user,
+                            user: user, school: school,
                           )))
                           .catchError((e)=>print(e));
                       break;

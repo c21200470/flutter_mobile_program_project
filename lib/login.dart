@@ -17,8 +17,8 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'Project Main Screen',
-      home: new LoginPage(title: 'Project Main Screen'),
+      title: '에브리딜',
+      home: new LoginPage(title: '에브리딜'),
     );
   }
 }
@@ -167,7 +167,7 @@ class _LoginPageState extends State<LoginPage> {
                         .of(context)
                         .push(MaterialPageRoute(
                         builder: (BuildContext context)=>StartPage(
-                            //user: user,
+                            user: user,
                         )))
                         .catchError((e)=>print(e));
                   });

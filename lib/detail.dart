@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter_mobile_program_project/post.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+
+import 'post.dart';
+
 
 
 final List<String> imgList = [
@@ -16,14 +18,13 @@ final List<String> imgList = [
 
 class DetailPage extends StatefulWidget {
 
-  final String title;
   final FirebaseUser user;
   final Post post;
 
-  DetailPage({Key key, this.title, this.user, this.post}) : super(key: key);
+  DetailPage({Key key, this.user, this.post}) : super(key: key);
 
   @override
-  _DetailPageState createState() => new _DetailPageState();
+  _DetailPageState createState() => new _DetailPageState(user, post);
 }
 
 List<T> map<T>(List list, Function handler) {
@@ -35,6 +36,11 @@ List<T> map<T>(List list, Function handler) {
 }
 
 class _DetailPageState extends State<DetailPage> {
+
+  FirebaseUser user;
+  Post post;
+
+  _DetailPageState(this.user, this.post);
 
   CarouselSlider _imageSlider(){
     return CarouselSlider(
