@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_mobile_program_project/category.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 import 'post.dart';
@@ -9,12 +10,6 @@ import 'colors.dart';
 import 'detail.dart';
 import 'addproduct.dart';
 import 'search.dart';
-import 'category/cloths.dart';
-import 'category/furniture.dart';
-import 'category/house.dart';
-import 'category/utility.dart';
-import 'category/book.dart';
-import 'category/other.dart';
 import 'myPage.dart';
 
 class HomePage extends StatefulWidget{
@@ -31,25 +26,26 @@ class HomePage extends StatefulWidget{
 
 class _HomePageState extends State<HomePage>{
 
+  static String ProductCategory;
   final FirebaseUser user;
   final String group;
 
   _HomePageState(this.user, this.group);
 
   Widget _buildBody(BuildContext context Orientation orientation){
-    return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance.collection('Post').snapshots(),
-      builder: (context, snapshot){
-        if (!snapshot.hasData) return LinearProgressIndicator();
+  return StreamBuilder<QuerySnapshot>(
+  stream: Firestore.instance.collection('Post').snapshots(),
+  builder: (context, snapshot){
+  if (!snapshot.hasData) return LinearProgressIndicator();
 
-        return GridView.count(
-          crossAxisCount: orientation == Orientation.portrait ? 3 : 4,
-          padding: EdgeInsets.all(10.0),
-          childAspectRatio: 6.0 / 9.0,
-          children: _buildGrid(context, snapshot.data.documents),
-        );
-      }
-    );
+  return GridView.count(
+  crossAxisCount: orientation == Orientation.portrait ? 3 : 4,
+  padding: EdgeInsets.all(10.0),
+  childAspectRatio: 6.0 / 9.0,
+  children: _buildGrid(context, snapshot.data.documents),
+  );
+  }
+  );
   }
 
   List<Widget> _buildGrid(BuildContext context, List<DocumentSnapshot> snapshot) { //카드리스트
@@ -170,13 +166,25 @@ class _HomePageState extends State<HomePage>{
               ),
             ),
             ListTile(
+              leading: Icon(Icons.home),
+              title: Text('전체'),
+              onTap: (){
+                Navigator
+                    .of(context)
+                    .push(MaterialPageRoute(
+                    builder: (BuildContext context)=>HomePage(user: user, group: group
+                    )))
+                    .catchError((e)=>print(e));
+              },
+            ),
+            ListTile(
               leading: Icon(Icons.import_contacts),
               title: Text('책'),
               onTap: (){
                 Navigator
                     .of(context)
                     .push(MaterialPageRoute(
-                    builder: (BuildContext context)=>BookPage(user: user, group: group,
+                    builder: (BuildContext context)=>CategoryPage(user: user, group: group, ProductCategory : ProductCategory="book",
                     )))
                     .catchError((e)=>print(e));
               },
@@ -188,7 +196,7 @@ class _HomePageState extends State<HomePage>{
                 Navigator
                     .of(context)
                     .push(MaterialPageRoute(
-                    builder: (BuildContext context)=>UtilPage(
+                    builder: (BuildContext context)=>CategoryPage(user: user, group: group, ProductCategory : ProductCategory="utility",
                     )))
                     .catchError((e)=>print(e));
               },
@@ -200,7 +208,7 @@ class _HomePageState extends State<HomePage>{
                 Navigator
                     .of(context)
                     .push(MaterialPageRoute(
-                    builder: (BuildContext context)=>ClothesPage(
+                    builder: (BuildContext context)=>CategoryPage(user: user, group: group, ProductCategory : ProductCategory="clothes",
                     )))
                     .catchError((e)=>print(e));
               },
@@ -212,7 +220,7 @@ class _HomePageState extends State<HomePage>{
                 Navigator
                     .of(context)
                     .push(MaterialPageRoute(
-                    builder: (BuildContext context)=>FurPage(
+                    builder: (BuildContext context)=>CategoryPage(user: user, group: group, ProductCategory : ProductCategory="furniture",
                     )))
                     .catchError((e)=>print(e));
               },
@@ -224,7 +232,7 @@ class _HomePageState extends State<HomePage>{
                 Navigator
                     .of(context)
                     .push(MaterialPageRoute(
-                    builder: (BuildContext context)=>OtherPage(
+                    builder: (BuildContext context)=>CategoryPage(user: user, group: group, ProductCategory : ProductCategory="other",
                     )))
                     .catchError((e)=>print(e));
               },
@@ -236,7 +244,7 @@ class _HomePageState extends State<HomePage>{
                 Navigator
                     .of(context)
                     .push(MaterialPageRoute(
-                    builder: (BuildContext context)=>HousePage(
+                    builder: (BuildContext context)=>CategoryPage(user: user, group: group, ProductCategory : ProductCategory="house",
                     )))
                     .catchError((e)=>print(e));
               },
