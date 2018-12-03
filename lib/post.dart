@@ -27,7 +27,7 @@ class Post {
 
         title = map['title'],
         content = map['content'],
-        imgurl = map['imgurl'],
+        imgurl = List.from(map['imgurl']),
         creator_name = map['creator_name'],
         creator_pic = map['creator_pic'],
         creator_uid = map['creator_uid'],

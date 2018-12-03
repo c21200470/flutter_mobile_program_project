@@ -17,9 +17,9 @@ class User {
         uid = map['uid'],
         profile_pic = map['profile_pic'],
         email = map['email'],
-        favorite = map['favorite'],
+        favorite = List.from(map['favorite']),
         group = map['group'],
-        post = map['post'];
+        post = List.from(map['post']);
 
   User.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, reference: snapshot.reference);

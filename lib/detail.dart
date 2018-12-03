@@ -1,4 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -28,18 +30,21 @@ List<T> map<T>(List list, Function handler) {
   return result;
 }
 
+
 class _DetailPageState extends State<DetailPage> {
 
   FirebaseUser user;
   Post post;
 
-  final List<String> imgList = [];
-
   _DetailPageState(this.user, this.post);
 
-  CarouselSlider _imageSlider(){
-    return CarouselSlider(
-      items: map<Widget>(imgList, (index, i) {
+  Widget _imageSlider(){
+    return post.imgurl.length == 1
+    ? Image.network(post.imgurl[0],
+    fit: BoxFit.fitHeight,
+    height: 200.0,)
+    : CarouselSlider(
+      items: map<Widget>(post.imgurl, (index, i) {
         return new Container(
             margin: new EdgeInsets.all(5.0),
             child: new ClipRRect(
@@ -47,30 +52,8 @@ class _DetailPageState extends State<DetailPage> {
                 child: new Stack(
                   children: <Widget>[
                     new Image.network(i,
-                      fit: BoxFit.cover,
-                      width: 1000.0,
-                    ),
-                    new Positioned(
-                        bottom: 0.0,
-                        left: 0.0,
-                        right: 0.0,
-                        child: new Container(
-                            decoration: new BoxDecoration(
-                                gradient: new LinearGradient(
-                                  colors: [Color.fromARGB(200, 0, 0, 0), Color.fromARGB(0, 0, 0, 0)],
-                                  begin: Alignment.bottomCenter,
-                                  end: Alignment.topCenter,
-                                )
-                            ),
-                            padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                            child: new Text('No. $index image',
-                              style: new TextStyle(
-                                color: Colors.white,
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                        )
+                      fit: BoxFit.fitHeight,
+                      height: 500.0,
                     ),
                   ],
                 )
@@ -142,7 +125,7 @@ class _DetailPageState extends State<DetailPage> {
         children: <Widget>[
           ListTile(
             contentPadding: EdgeInsets.all(20.0),
-            leading: Image.network('https://firebasestorage.googleapis.com/v0/b/mobile-app-project-6d4ab.appspot.com/o/app%2Fdefault-user.png?alt=media&token=af51212f-cd08-4fd3-bc4c-a428debd8972',
+            leading: Image.network(post.creator_pic,
             width: 50.0, height: 50.0,),
             title: Container(child: Text(post.creator_name), margin: EdgeInsets.only(bottom: 20.0),),
             subtitle: Column(

@@ -60,7 +60,7 @@ class _ProfilePageState extends State<ProfilePage>{
                           shape: BoxShape.circle
                       ),
                       child: Image.network(user.photoUrl, width: 40.0, height: 40.0,)),
-                    title: Text(user.uid),
+                    title: Text(user.displayName),
                     subtitle: Text(user.email),
                   )
                 ],
