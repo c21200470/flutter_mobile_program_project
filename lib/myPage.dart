@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'colors.dart';
+import 'login.dart';
 
 class ProfilePage extends StatefulWidget{
 
@@ -13,6 +14,7 @@ class ProfilePage extends StatefulWidget{
 
 class _ProfilePageState extends State<ProfilePage>{
 
+  LogoutPage L = new LogoutPage();
   final FirebaseUser user;
 
   _ProfilePageState(this.user);
@@ -27,9 +29,21 @@ class _ProfilePageState extends State<ProfilePage>{
         title: Text('내 프로필', style: Theme.of(context).textTheme.title,),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: null,
-          )
+            icon: Icon(
+              Icons.exit_to_app,
+              semanticLabel: 'Logout',
+            ),
+            onPressed: () {
+              L.LogOut();
+              Navigator
+                  .of(context)
+                  .push(MaterialPageRoute(
+                  builder: (BuildContext context)=>App(
+                  )))
+                  .catchError((e)=>print(e));
+              print('Logout');
+            },
+          ),
         ],
       ),
       body: Column(
