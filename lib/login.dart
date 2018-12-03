@@ -151,7 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                                 .of(context)
                                 .push(MaterialPageRoute(
                                 builder: (BuildContext context)=>StartPage(
-                                  //user: user,
+                                  user: user,
                                 )))
                                 .catchError((e)=>print(e));
                           });
@@ -200,7 +200,7 @@ class _LoginPageState extends State<LoginPage> {
                                 .of(context)
                                 .push(MaterialPageRoute(
                                 builder: (BuildContext context)=>StartPage(
-                                  //user: user,
+                                  user: user,
                                 )))
                                 .catchError((e)=>print(e));
                           });
