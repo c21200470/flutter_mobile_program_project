@@ -8,6 +8,7 @@ import 'package:flutter_mobile_program_project/colors.dart';
 import 'package:flutter_mobile_program_project/detail.dart';
 import 'package:flutter_mobile_program_project/addproduct.dart';
 import 'package:flutter_mobile_program_project/search.dart';
+import 'package:flutter_mobile_program_project/myPage.dart';
 import 'cloths.dart';
 import 'furniture.dart';
 import 'house.dart';
@@ -17,7 +18,7 @@ import 'other.dart';
 class BookPage extends StatefulWidget{
   final FirebaseUser user;
   final String group;
-  static final String route = "book";
+  static final String route = "home";
 
   const BookPage({Key key, this.user, this.group}) : super(key: key);
 
@@ -34,82 +35,73 @@ class _BookPageState extends State<BookPage>{
   _BookPageState(this.user, this.group);
 
   Widget _buildBody(BuildContext context Orientation orientation){
-    return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance.collection('Post').where('category', isEqualTo: 'book')
-      .snapshots(),
-      builder: (context, snapshot){
-        if (!snapshot.hasData) return LinearProgressIndicator();
+  return StreamBuilder<QuerySnapshot>(
+  stream: Firestore.instance.collection('Post').where('category', isEqualTo: 'book').snapshots(),
+  builder: (context, snapshot){
+  if (!snapshot.hasData) return LinearProgressIndicator();
 
-        return GridView.count(
-          crossAxisCount: orientation == Orientation.portrait ? 2 : 3,
-          padding: EdgeInsets.all(16.0),
-          childAspectRatio: 8.0 / 9.0,
-          children: _buildGrid(context, snapshot.data.documents),
-        );
-      }
-    );
+  return GridView.count(
+  crossAxisCount: orientation == Orientation.portrait ? 3 : 4,
+  padding: EdgeInsets.all(10.0),
+  childAspectRatio: 6.0 / 9.0,
+  children: _buildGrid(context, snapshot.data.documents),
+  );
+  }
+  );
   }
 
-  List<Card> _buildGrid(BuildContext context, List<DocumentSnapshot> snapshot) { //카드리스트
+  List<Widget> _buildGrid(BuildContext context, List<DocumentSnapshot> snapshot) { //카드리스트
     return snapshot.map((data) => _buildCards(context, data)).toList();
   }
 
-  Card _buildCards(BuildContext context, DocumentSnapshot data){
+  Widget _buildCards(BuildContext context, DocumentSnapshot data){
     final post = Post.fromSnapshot(data);
     final ThemeData theme = Theme.of(context);
 
-    return Card(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          AspectRatio(
-            aspectRatio: 18 / 11,
-            child: Image.network(
-              (post.imgurl[0]),
-              fit: BoxFit.fitWidth,
-            ),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                DetailPage(user: user, post: post),
           ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    post.title,
-                    style: theme.textTheme.title,
-                    maxLines: 1,
-                  ),
-                  SizedBox(height: 7.0),
-                  Text(
-                    post.price.toString(),
-                    style: theme.textTheme.body1,
-                  ),
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(90.0, 2.0, 2.0, 2.0),
-                    width: 100.0,
-                    height: 10.0,
-                    child: FlatButton(
-                      child: Text(
-                        'More',
-                        style: theme.textTheme.body1,
-                        textAlign: TextAlign.right,),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                DetailPage(user: user, post: post),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ],
+        );
+      },
+      child: Card(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            AspectRatio(
+              aspectRatio: 11 / 9,
+              child: Image.network(
+                (post.imgurl[0]),
+                fit: BoxFit.cover,
               ),
             ),
-          ),
-        ],
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(height: 10.0),
+                    Text(
+                      post.title,
+                      style: theme.textTheme.title,
+                      maxLines: 1,
+                    ),
+                    SizedBox(height: 10.0),
+                    Text(
+                      post.price.toString() + ' 원',
+                      style: theme.textTheme.body1,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -121,10 +113,14 @@ class _BookPageState extends State<BookPage>{
         iconTheme: IconThemeData(color: MainDarkColor2),
         elevation: 2.0,
         backgroundColor: AddProductBackground,
-        title: Text('책', style: Theme.of(context).textTheme.title,),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.search, color: MainDarkColor2,),
+        title: Container(
+          child: ButtonTheme(
+            height: 30.0,
+            child: OutlineButton(
+              shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(7.0)),
+              highlightColor: MainSearchWhite,
+              highlightedBorderColor: MainSearchWhite,
+              disabledBorderColor: MainDarkColor1,
               onPressed: (){
                 Navigator
                     .of(context)
@@ -133,10 +129,119 @@ class _BookPageState extends State<BookPage>{
                     )))
                     .catchError((e)=>print(e));
               },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Icon(Icons.search),
+                ],
+              ),
+            ),
+          ),
+        ),
+        actions: <Widget>[
+
+          IconButton(
+            icon: Icon(Icons.person, color: MainDarkColor2,),
+            onPressed: (){
+              Navigator
+                  .of(context)
+                  .push(MaterialPageRoute(
+                  builder: (BuildContext context)=>ProfilePage(user: user,
+                  )))
+                  .catchError((e)=>print(e));
+            },
           )
         ],
       ),
-
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            Container(
+              height: 100.0,
+              child: DrawerHeader(
+                child: Center(
+                    child: Text(
+                      '카테고리',
+                      style: Theme.of(context).textTheme.title,
+                      textAlign: TextAlign.center,)),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.import_contacts),
+              title: Text('책'),
+              onTap: (){
+                Navigator
+                    .of(context)
+                    .push(MaterialPageRoute(
+                    builder: (BuildContext context)=>BookPage(user: user, group: group,
+                    )))
+                    .catchError((e)=>print(e));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.format_paint),
+              title: Text('생활용품'),
+              onTap: (){
+                Navigator
+                    .of(context)
+                    .push(MaterialPageRoute(
+                    builder: (BuildContext context)=>UtilPage(
+                    )))
+                    .catchError((e)=>print(e));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.loyalty),
+              title: Text('의류 및 잡화'),
+              onTap: (){
+                Navigator
+                    .of(context)
+                    .push(MaterialPageRoute(
+                    builder: (BuildContext context)=>ClothesPage(
+                    )))
+                    .catchError((e)=>print(e));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.weekend),
+              title: Text('가전 및 가구'),
+              onTap: (){
+                Navigator
+                    .of(context)
+                    .push(MaterialPageRoute(
+                    builder: (BuildContext context)=>FurPage(
+                    )))
+                    .catchError((e)=>print(e));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.shopping_basket),
+              title: Text('기타'),
+              onTap: (){
+                Navigator
+                    .of(context)
+                    .push(MaterialPageRoute(
+                    builder: (BuildContext context)=>OtherPage(
+                    )))
+                    .catchError((e)=>print(e));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.store),
+              title: Text('부동산'),
+              onTap: (){
+                Navigator
+                    .of(context)
+                    .push(MaterialPageRoute(
+                    builder: (BuildContext context)=>HousePage(
+                    )))
+                    .catchError((e)=>print(e));
+              },
+            ),
+          ],
+        ),
+      ),
       body: OrientationBuilder(
         builder: (context, orientation){
           return _buildBody(context, orientation);
