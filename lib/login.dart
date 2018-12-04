@@ -8,6 +8,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'colors.dart';
 import 'start.dart';
 import 'intro.dart';
+import 'home2.dart';
+import 'user.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -51,6 +53,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  User loginUser;
+
+  User _saveUserData(FirebaseUser user){
+
+}
 
   Future<FirebaseUser> _SignInAnonymously() async {
     final FirebaseUser user = await _auth.signInAnonymously();
@@ -150,9 +158,11 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator
                                 .of(context)
                                 .push(MaterialPageRoute(
-                                builder: (BuildContext context)=>StartPage(
-                                  user: user,
-                                )))
+                                builder: (BuildContext context)=>
+//                                    user.group != null
+//                                    ? HomePage(user: user)
+                                    StartPage(user: user)
+                                ))
                                 .catchError((e)=>print(e));
                           });
                         },
@@ -193,13 +203,13 @@ class _LoginPageState extends State<LoginPage> {
                         color: Colors.redAccent,
                         highlightedBorderColor: Colors.white,
                         onPressed: () {
-                          _SignInWithGoogle().then((FirebaseUser user){
+                          _SignInAnonymously().then((FirebaseUser user){
                             print(user);
                             LoginUserData.LoginUser=user;
                             Navigator
                                 .of(context)
                                 .push(MaterialPageRoute(
-                                builder: (BuildContext context)=>StartPage(
+                                builder: (BuildContext context)=>HomePage(
                                   user: user,
                                 )))
                                 .catchError((e)=>print(e));
