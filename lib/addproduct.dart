@@ -49,17 +49,27 @@ class _AddProductState extends State<AddProductPage>{
     String downloadUrl = await taskSnapshot.ref.getDownloadURL();
     StorageMetadata created = await taskSnapshot.ref.getMetadata();
 
-    Firestore.instance.collection('picture').document(ProductNamecontroller.text)
-        .setData({
-      'name': ProductNamecontroller.text,
+    final docRef = await Firestore.instance.collection('Post') //post id 자동 생성
+        .add({
+      'title': ProductNamecontroller.text,
       'price': int.tryParse(ProductPricecontroller.text),
-      'description': ProductDescriptioncontroller.text,
-      'creator': widget.user.uid,
-      'createdtime': DateTime.fromMillisecondsSinceEpoch(created.creationTimeMillis, isUtc: true).toString(),
-      'uploadedtime': DateTime.fromMillisecondsSinceEpoch(created.updatedTimeMillis, isUtc: true).toString(),
-      'url': downloadUrl});
+      'content': ProductDescriptioncontroller.text,
+      'creator_name': widget.user.uid, // name으로 바꾸기
+      'creator_pic': widget.user.photoUrl, // 바꾸기
+      'creator_uid': widget.user.uid, //바꾸기
+      'group': widget.user.uid, // 그룹으로 바꾸기
+      'category': ProductCategorycontroller,
+      'created': DateTime.fromMillisecondsSinceEpoch(created.creationTimeMillis, isUtc: true),
+      'modified': DateTime.fromMillisecondsSinceEpoch(created.updatedTimeMillis, isUtc: true),
+      'imgurl': downloadUrl});
+
+    //자동생성 된 post id 를 저장
+    String postId = docRef.documentID;
+    Firestore.instance.collection('product').document(postId)
+        .setData({
+      'postid': postId});
   }
-  //firebase 정보 넣기!
+
 
   @override
   Widget build(BuildContext context) {

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'colors.dart';
 import 'start.dart';
@@ -54,12 +55,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
-  User loginUser;
-
-  User _saveUserData(FirebaseUser user){
-
-}
-
   Future<FirebaseUser> _SignInAnonymously() async {
     final FirebaseUser user = await _auth.signInAnonymously();
     assert(user != null);
@@ -93,6 +88,22 @@ class _LoginPageState extends State<LoginPage> {
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
+
+    //유저 정보 저장
+    if (user != null) {
+      final QuerySnapshot result =
+          await Firestore.instance.collection('User').where('uid', isEqualTo: user.uid).getDocuments();
+      final List<DocumentSnapshot> documents = result.documents;
+      if(documents.length==0){
+        Firestore.instance.collection('User').document(user.uid).setData({
+          'uid': user.uid,
+          'email': user.email,
+          'profile_pic': user.photoUrl,
+          'name': user.displayName
+        });
+      }
+    }
+
     assert(user.email != null);
     assert(user.displayName != null);
     assert(!user.isAnonymous);

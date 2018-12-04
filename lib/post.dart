@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Post {
-  final String title, content, creator_name, creator_uid, creator_pic, group, category;
-  final String created, modified;
+  final String title, content, creator_name, creator_uid, creator_pic, group, category, postid;
+  final Timestamp created, modified;
   final List<dynamic> imgurl;
-  final int price, postid;
+  final int price;
 
 //  final bool ss, s, a, b, c, d, direct, freeship, ship;
 
@@ -40,5 +40,4 @@ class Post {
 
   Post.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, reference: snapshot.reference);
-
 }
