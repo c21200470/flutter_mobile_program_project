@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Post {
   final String title, content, creator_name, creator_uid, creator_pic, group, category, postid;
-  final Timestamp created, modified;
+  final DateTime created, modified;
   final List<dynamic> imgurl;
   final int price;
 

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'colors.dart';
 import 'home.dart';
@@ -86,6 +87,9 @@ class _StartPageState extends State<StartPage>{
                         group: selected,
                       )))
                       .catchError((e)=>print(e));
+                    Firestore.instance.collection('User').document(user.uid).updateData({
+                      'group': selected,
+                    });
                   }
                 ),
               )
