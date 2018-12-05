@@ -37,21 +37,21 @@ class _CategoryPageState extends State<CategoryPage>{
   //////////////////////////////////////////////
   Widget _buildBody(BuildContext context Orientation orientation){
 
-  groupENG = groupinEng(group);
+    groupENG = groupinEng(group);
 
-  return StreamBuilder<QuerySnapshot>(
-  stream: Firestore.instance.collection('Post/'+groupENG+'/'+groupENG).where('category', isEqualTo: ProductCategory).snapshots(),
-  builder: (context, snapshot){
-  if (!snapshot.hasData) return LinearProgressIndicator();
+    return StreamBuilder<QuerySnapshot>(
+      stream: Firestore.instance.collection('Post/'+groupENG+'/'+groupENG).where('category', isEqualTo: ProductCategory).snapshots(),
+      builder: (context, snapshot){
+        if (!snapshot.hasData) return LinearProgressIndicator();
 
-  return GridView.count(
-  crossAxisCount: orientation == Orientation.portrait ? 3 : 4,
-  padding: EdgeInsets.all(10.0),
-  childAspectRatio: 6.0 / 9.0,
-  children: _buildGrid(context, snapshot.data.documents),
-  );
-  }
-  );
+        return GridView.count(
+          crossAxisCount: orientation == Orientation.portrait ? 3 : 4,
+          padding: EdgeInsets.all(10.0),
+          childAspectRatio: 6.0 / 9.0,
+          children: _buildGrid(context, snapshot.data.documents),
+        );
+      }
+    );
   }
   ///////////////////////////////////////////////
 

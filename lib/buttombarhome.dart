@@ -48,19 +48,19 @@ class _MyMainScreen extends State<MyMainScreen> {
   }
 
   Widget _buildBody(BuildContext context Orientation orientation){
-  return StreamBuilder<QuerySnapshot>(
-  stream: Firestore.instance.collection('Post').snapshots(),
-  builder: (context, snapshot){
-  if (!snapshot.hasData) return LinearProgressIndicator();
+    return StreamBuilder<QuerySnapshot>(
+      stream: Firestore.instance.collection('Post').snapshots(),
+      builder: (context, snapshot){
+        if (!snapshot.hasData) return LinearProgressIndicator();
 
-  return GridView.count(
-  crossAxisCount: orientation == Orientation.portrait ? 2 : 3,
-  padding: EdgeInsets.all(16.0),
-  childAspectRatio: 8.0 / 9.0,
-  children: _buildGrid(context, snapshot.data.documents),
-  );
-  }
-  );
+        return GridView.count(
+        crossAxisCount: orientation == Orientation.portrait ? 2 : 3,
+        padding: EdgeInsets.all(16.0),
+        childAspectRatio: 8.0 / 9.0,
+        children: _buildGrid(context, snapshot.data.documents),
+        );
+      }
+    );
   }
 
   List<Card> _buildGrid(BuildContext context, List<DocumentSnapshot> snapshot) { //카드리스트
@@ -131,67 +131,67 @@ class _MyMainScreen extends State<MyMainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body:
-      new Column(
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.all(30.0),
-            child: OutlineButton(
-              shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
-              highlightColor: MainSearchWhite,
-              highlightedBorderColor: MainSearchWhite,
-              disabledBorderColor: MainDarkColor1,
-              onPressed: (){
-              },
-              child: Row(
-                children: <Widget>[
-                  Icon(Icons.search),
-                ],
+        new Column(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.all(30.0),
+              child: OutlineButton(
+                shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
+                highlightColor: MainSearchWhite,
+                highlightedBorderColor: MainSearchWhite,
+                disabledBorderColor: MainDarkColor1,
+                onPressed: (){
+                },
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.search),
+                  ],
+                ),
               ),
             ),
-          ),
 
-          Center(
-            child:
-            OrientationBuilder(
-              builder: (context, orientation){
-                switch(_lastSelected){
-                  case 1:
-                    Navigator
-                        .of(context)
-                        .push(MaterialPageRoute(
-                        builder: (BuildContext context)=>AddProductPage(
-                          user: user, group: group,
-                        )))
-                        .catchError((e)=>print(e));
-                    break;
-                  case 2:
-                    Navigator
-                        .of(context)
-                        .push(MaterialPageRoute(
-                        builder: (BuildContext context)=>AddProductPage(
-                          user: user, group: group,
-                        )))
-                        .catchError((e)=>print(e));
-                    break;
-                  case 3:
-                    Navigator
-                        .of(context)
-                        .push(MaterialPageRoute(
-                        builder: (BuildContext context)=>AddProductPage(
-                          user: user, group: group,
-                        )))
-                        .catchError((e)=>print(e));
-                    break;
-                  case 0:
-                    return _buildBody(context, orientation);
-                    break;
-                }
-              },
+            Center(
+              child:
+              OrientationBuilder(
+                builder: (context, orientation){
+                  switch(_lastSelected){
+                    case 1:
+                      Navigator
+                          .of(context)
+                          .push(MaterialPageRoute(
+                          builder: (BuildContext context)=>AddProductPage(
+                            user: user, group: group,
+                          )))
+                          .catchError((e)=>print(e));
+                      break;
+                    case 2:
+                      Navigator
+                          .of(context)
+                          .push(MaterialPageRoute(
+                          builder: (BuildContext context)=>AddProductPage(
+                            user: user, group: group,
+                          )))
+                          .catchError((e)=>print(e));
+                      break;
+                    case 3:
+                      Navigator
+                          .of(context)
+                          .push(MaterialPageRoute(
+                          builder: (BuildContext context)=>AddProductPage(
+                            user: user, group: group,
+                          )))
+                          .catchError((e)=>print(e));
+                      break;
+                    case 0:
+                      return _buildBody(context, orientation);
+                      break;
+                  }
+                },
+              ),
             ),
-          ),
 
-        ],
-      ),
+          ],
+        ),
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
