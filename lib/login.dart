@@ -9,7 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'colors.dart';
 import 'start.dart';
 import 'intro.dart';
-import 'home2.dart';
+import 'home.dart';
 import 'user.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -92,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
     //유저 정보 저장
     if (user != null) {
       final QuerySnapshot result =
-          await Firestore.instance.collection('User').where('uid', isEqualTo: user.uid).getDocuments();
+      await Firestore.instance.collection('User').where('uid', isEqualTo: user.uid).getDocuments();
       final List<DocumentSnapshot> documents = result.documents;
       if(documents.length==0){
         Firestore.instance.collection('User').document(user.uid).setData({
@@ -146,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
               Column(
                 children: <Widget>[
                   Image.network('https://firebasestorage.googleapis.com/v0/b/mobile-app-project-6d4ab.appspot.com/o/app%2Flogo.png?alt=media&token=f217ff19-7b44-40c3-90a5-bf077ccacc2a',
-                  width: 200.0, height: 200.0,),
+                    width: 200.0, height: 200.0,),
                   Text('EveryDeal',
                     style: TextStyle(color: WhiteText,fontSize: 50.0, fontWeight: FontWeight.w900),),
                 ],
@@ -172,8 +172,8 @@ class _LoginPageState extends State<LoginPage> {
                                 builder: (BuildContext context)=>
 //                                    user.group != null
 //                                    ? HomePage(user: user)
-                                    StartPage(user: user)
-                                ))
+                                StartPage(user: user)
+                            ))
                                 .catchError((e)=>print(e));
                           });
                         },
@@ -258,4 +258,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-

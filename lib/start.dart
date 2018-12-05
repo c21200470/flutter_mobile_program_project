@@ -2,10 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'colors.dart';
 import 'home.dart';
-import 'home2.dart';
 
 class StartPage extends StatefulWidget{
   final FirebaseUser user;
@@ -27,6 +25,7 @@ class _StartPageState extends State<StartPage>{
   List<String> drop = [
     '한동대학교', '포항공과대학교', '선린대학교'
   ];
+
   String selected = null;
 
   void loadData(){
@@ -51,20 +50,21 @@ class _StartPageState extends State<StartPage>{
                 height: 40.0,
                 padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(10.0)
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10.0)
                 ),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton(
-                    elevation: 1,
-                    items: listDrop,
-                    value: selected,
-                    hint: Text('학교를 선택하세요'),
-                    onChanged: (value) {
-                      selected = value;
-                      setState(() {
-                      });
-                    }),
+                      elevation: 1,
+                      items: listDrop,
+                      value: selected,
+                      hint: Text('학교를 선택하세요'),
+                      onChanged: (value) {
+                        selected = value;
+                        print(selected);
+                        setState(() {
+                        });
+                      }),
                 ),
               ),
               SizedBox(height: 30.0),
@@ -72,25 +72,25 @@ class _StartPageState extends State<StartPage>{
                 minWidth: 250.0,
                 height: 40.0,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0)
+                    borderRadius: BorderRadius.circular(20.0)
                 ),
                 child: RaisedButton(
-                  color: MainOrangeColor,
-                  textColor: WhiteText,
-                  child: Text('우리학교 설정하고 시작하기'),
-                  onPressed: (){
-                    Navigator
-                      .of(context)
-                      .push(MaterialPageRoute(
-                      builder: (BuildContext context)=>HomePage(
-                        user: user,
-                        group: selected,
-                      )))
-                      .catchError((e)=>print(e));
-                    Firestore.instance.collection('User').document(user.uid).updateData({
-                      'group': selected,
-                    });
-                  }
+                    color: MainOrangeColor,
+                    textColor: WhiteText,
+                    child: Text('우리학교 설정하고 시작하기'),
+                    onPressed: (){
+                      Navigator
+                          .of(context)
+                          .push(MaterialPageRoute(
+                          builder: (BuildContext context)=>HomePage(
+                            user: user,
+                            group: selected,
+                          )))
+                          .catchError((e)=>print(e));
+                      Firestore.instance.collection('User').document(user.uid).updateData({
+                        'group': selected,
+                      });
+                    }
                 ),
               )
             ],

@@ -20,6 +20,7 @@ dependencies:
   cloud_firestore:
   firebase_core:
   firebase_storage:
+  shared_preferences: ^0.4.2
   uuid:
 
 

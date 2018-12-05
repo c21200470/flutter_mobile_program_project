@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'login.dart';
-import 'home2.dart';
+import 'home.dart';
 import 'search.dart';
 
 import 'colors.dart';
@@ -27,8 +27,8 @@ class App extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Gulim',
         textTheme:TextTheme(
-          title: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-          body1: TextStyle(fontSize: 14.0, fontWeight: FontWeight.normal)
+            title: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            body1: TextStyle(fontSize: 14.0, fontWeight: FontWeight.normal)
         ),
       ),
     );

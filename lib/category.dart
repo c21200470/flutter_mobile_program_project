@@ -9,7 +9,8 @@ import 'package:flutter_mobile_program_project/detail.dart';
 import 'package:flutter_mobile_program_project/addproduct.dart';
 import 'package:flutter_mobile_program_project/search.dart';
 import 'package:flutter_mobile_program_project/myPage.dart';
-import 'home2.dart';
+import 'home.dart';
+import 'groupinENG.dart';
 
 class CategoryPage extends StatefulWidget{
   final FirebaseUser user;
@@ -29,24 +30,28 @@ class _CategoryPageState extends State<CategoryPage>{
   final FirebaseUser user;
   final String group;
   String ProductCategory;
+  static String groupENG;
 
   _CategoryPageState(this.user, this.group, this.ProductCategory);
 
   //////////////////////////////////////////////
   Widget _buildBody(BuildContext context Orientation orientation){
-    return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance.collection('Post').where('category', isEqualTo: ProductCategory).snapshots(),
-      builder: (context, snapshot){
-        if (!snapshot.hasData) return LinearProgressIndicator();
 
-        return GridView.count(
-          crossAxisCount: orientation == Orientation.portrait ? 3 : 4,
-          padding: EdgeInsets.all(10.0),
-          childAspectRatio: 6.0 / 9.0,
-          children: _buildGrid(context, snapshot.data.documents),
-        );
-      }
-    );
+  groupENG = groupinEng(group);
+
+  return StreamBuilder<QuerySnapshot>(
+  stream: Firestore.instance.collection('Post/'+groupENG+'/'+groupENG).where('category', isEqualTo: ProductCategory).snapshots(),
+  builder: (context, snapshot){
+  if (!snapshot.hasData) return LinearProgressIndicator();
+
+  return GridView.count(
+  crossAxisCount: orientation == Orientation.portrait ? 3 : 4,
+  padding: EdgeInsets.all(10.0),
+  childAspectRatio: 6.0 / 9.0,
+  children: _buildGrid(context, snapshot.data.documents),
+  );
+  }
+  );
   }
   ///////////////////////////////////////////////
 
