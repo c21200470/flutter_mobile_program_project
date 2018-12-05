@@ -14,3 +14,4 @@ const LoginGoogleBack = const Color(0xFFDD4B39);
 const AddProductText = const Color(0xFFEAEAEA);
 const AddProductBackground = const Color(0xFFFFFFFF);
 const AddIcon = const Color(0xFF000000);
+const AddAppbarIcon = const Color(0xFFFFFFFF);

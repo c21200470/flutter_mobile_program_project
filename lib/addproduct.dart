@@ -7,8 +7,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
-
 import 'colors.dart';
+import 'groupinENG.dart';
 
 class AddProductPage extends StatefulWidget{
   final FirebaseUser user;
@@ -23,14 +23,43 @@ class _AddProductState extends State<AddProductPage>{
 
   final ProductNamecontroller = TextEditingController();
   final ProductPricecontroller = TextEditingController();
-  final ProductCategorycontroller = TextEditingController();
-  final ProductTagcontroller = TextEditingController();
   final ProductDescriptioncontroller = TextEditingController();
+  String ProductCategory;
+
+  int radioGroup = 0;
+  void radioEventHandler(int value){
+    setState(() {
+      radioGroup = value;
+      switch(radioGroup){
+        case 0:
+          ProductCategory="book";
+          break;
+        case 1:
+          ProductCategory="utility";
+          break;
+        case 2:
+          ProductCategory="clothes";
+          break;
+        case 3:
+          ProductCategory="furniture";
+          break;
+        case 4:
+          ProductCategory="other";
+          break;
+        case 5:
+          ProductCategory="house";
+          break;
+      }
+    });
+  }
+
+  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>(); // 글자 채워졌는지
 
   File _image;
 
   final FirebaseUser user;
   final String group;
+  String groupENG;
 
   _AddProductState(this.user, this.group);
 
@@ -43,33 +72,38 @@ class _AddProductState extends State<AddProductPage>{
 
   Future<Null> uploadFile() async{
 
+    String groupENG=groupinEng(group);
+
     final StorageReference firebaseStorageRef=
-    FirebaseStorage.instance.ref().child("/app"+ProductNamecontroller.text+".jpg"); //일단 app에 저장하게 끔 //start에서 스쿨마다 번호 주고 start파일 받아오는 방법.
+    FirebaseStorage.instance.ref().child('post/'+ProductNamecontroller.text+".jpg"); //일단 app에 저장하게 끔 //start에서 스쿨마다 번호 주고 start파일 받아오는 방법.
     final StorageUploadTask task = firebaseStorageRef.putFile(_image);
 
     StorageTaskSnapshot taskSnapshot = await task.onComplete;
     String downloadUrl = await taskSnapshot.ref.getDownloadURL();
     StorageMetadata created = await taskSnapshot.ref.getMetadata();
 
-    final docRef = await Firestore.instance.collection('Post') //post id 자동 생성
+    final docRef = await Firestore.instance.collection('Post/'+groupENG+'/'+groupENG) //post id 자동 생성
         .add({
       'title': ProductNamecontroller.text,
       'price': int.tryParse(ProductPricecontroller.text),
       'content': ProductDescriptioncontroller.text,
-      'creator_name': widget.user.uid, // name으로 바꾸기
-      'creator_pic': widget.user.photoUrl, // 바꾸기
-      'creator_uid': widget.user.uid, //바꾸기
-      'group': widget.user.uid, // 그룹으로 바꾸기
-      'category': ProductCategorycontroller,
+      'creator_name': widget.user.displayName, //
+      'creator_pic': widget.user.photoUrl, //
+      'creator_uid': widget.user.uid, //
+      'group': group, // 그룹으로 바꾸기
+      'category': ProductCategory,
       'created': DateTime.fromMillisecondsSinceEpoch(created.creationTimeMillis, isUtc: true),
       'modified': DateTime.fromMillisecondsSinceEpoch(created.updatedTimeMillis, isUtc: true),
-      'imgurl': downloadUrl});
+      'imgurl': [downloadUrl],
+      'postid': Map.identity().toString(),
+      });
 
-    //자동생성 된 post id 를 저장
+    //post id가 다른 곳에 저장되어 있다.
     String postId = docRef.documentID;
-    Firestore.instance.collection('product').document(postId)
+    Firestore.instance.collection('post').document(postId)
         .setData({
       'postid': postId});
+
   }
 
 
@@ -80,19 +114,20 @@ class _AddProductState extends State<AddProductPage>{
       title: 'Add Product',
       home: new Scaffold(
 
-        backgroundColor: AddProductBackground,
+        backgroundColor: AddAppbarIcon,
 
         appBar:AppBar(
-          backgroundColor: AddProductBackground,
-          leading: IconButton(
-            color: AddIcon,
+          backgroundColor: AddAppbarIcon,
+          leading:
+          IconButton(
+            color: MainOrangeColor,
             icon: Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.pop(context);
               //Navigate detail
             },
           ),
-          title: Text('판매하기',style: TextStyle(color: AddIcon),),
+          title: Text('판매하기',style: TextStyle(color: MainOrangeColor),),
           centerTitle: true,
           actions: <Widget>[
             FlatButton(
@@ -100,11 +135,14 @@ class _AddProductState extends State<AddProductPage>{
                 '저장',
                 style: TextStyle(
                   fontSize: 15.0,
-                  color: AddIcon,
+                  color: MainOrangeColor,
                 ),
               ),
               onPressed: () {
-                uploadFile();
+                if(_formKey.currentState.validate()){
+                  uploadFile();
+                  Navigator.pop(context);
+                }
               },
             ),
           ],
@@ -112,7 +150,10 @@ class _AddProductState extends State<AddProductPage>{
 
         body: new Container(
           height: 20000.0,
-          child: ListView(
+          child: new Form(
+            key: _formKey,
+            autovalidate: true,
+          child : ListView(
             scrollDirection: Axis.vertical,
             children: <Widget>[
               Padding(
@@ -131,7 +172,7 @@ class _AddProductState extends State<AddProductPage>{
                     )
                         : enableUpload(),
 
-                    Text("사진을 선택해주세요",style: TextStyle(fontSize: 7.0,fontWeight: FontWeight.bold),),
+                    Text("사진을 선택해주세요",style: TextStyle(fontSize: 7.0,fontWeight: FontWeight.bold, color: MainOrangeColor),),
                   ],
                 ),
               ),
@@ -140,14 +181,16 @@ class _AddProductState extends State<AddProductPage>{
                 padding: EdgeInsets.fromLTRB(10.0, 7.0, 300.0, 7.0),
                 child:
                 Text("상품 기본정보",
-                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 11.0,),
+                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 11.0, color: MainOrangeColor,),
                 ),
               ),
 
               Padding(
                 padding: EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
                 child:
-                TextField(
+                TextFormField(
+                  validator: (value)
+                  => value.isEmpty ? '상품명을 입력하세요':null,
                   style: TextStyle(
                     color: AddIcon,
                     fontSize: 9.0,
@@ -157,13 +200,16 @@ class _AddProductState extends State<AddProductPage>{
                       border: OutlineInputBorder(),
                       hintText: '상품명 입력'),
                   controller: ProductNamecontroller,
+                  obscureText: true,
                 ),
               ),
 
               Padding(
                 padding: EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
                 child:
-                TextField(
+                TextFormField(
+                  validator: (value)
+                  => value.isEmpty ? '가격을 입력하세요':null,
                   style: TextStyle(
                     color: AddIcon,
                     fontSize: 9.0,
@@ -173,55 +219,79 @@ class _AddProductState extends State<AddProductPage>{
                       border: OutlineInputBorder(),
                       hintText: '가격 입력'),
                   controller: ProductPricecontroller,
-                ),
-              ),
-
-              Padding(
-                padding: EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
-                child:
-                TextField(
-                  style: TextStyle(
-                    color: AddIcon,
-                    fontSize: 9.0,
-                    height: 0.1,
-                  ),
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: '카테고리/세부 카테고리 선택'),
-                  controller: ProductCategorycontroller,
-                ),
-              ),
-
-              Padding(
-                padding: EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
-                child:
-                TextField(
-                  style: TextStyle(
-                    color: AddIcon,
-                    fontSize: 9.0,
-                    height: 0.1,
-                  ),
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: '#태그 입력'),
-                  controller: ProductTagcontroller,
+                  obscureText: true,
                 ),
               ),
 
               Padding(
                 padding: EdgeInsets.fromLTRB(10.0, 7.0, 300.0, 7.0),
                 child:
-                Text("상품 상세정보",
-                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 11.0,),
+                Text("상품 카테고리",
+                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 11.0, color: MainOrangeColor,),
                 ),
               ),
 
+              new Column(
+                children: <Widget>[
+                  new RadioListTile<int>(
+                    value: 0,
+                    groupValue: radioGroup,
+                    onChanged: radioEventHandler ,
+                    title: new Text('책'),
+                    activeColor: MainOrangeColor,
+                  ),
+                  new RadioListTile<int>(
+                    value: 1,
+                    groupValue: radioGroup,
+                    onChanged: radioEventHandler ,
+                    title: new Text('생활 용품'),
+                    activeColor: MainOrangeColor,
+                  ),
+                  new RadioListTile<int>(
+                    value: 2,
+                    groupValue: radioGroup,
+                    onChanged: radioEventHandler ,
+                    title: new Text('의류 및 잡화'),
+                    activeColor: MainOrangeColor,
+                  ),
+                  new RadioListTile<int>(
+                    value: 3,
+                    groupValue: radioGroup,
+                    onChanged: radioEventHandler ,
+                    title: new Text('가전 및 가구'),
+                    activeColor: MainOrangeColor,
+                  ),
+                  new RadioListTile<int>(
+                    value: 4,
+                    groupValue: radioGroup,
+                    onChanged: radioEventHandler ,
+                    title: new Text('기타'),
+                    activeColor: MainOrangeColor,
+                  ),
+                  new RadioListTile<int>(
+                    value: 5,
+                    groupValue: radioGroup,
+                    onChanged: radioEventHandler ,
+                    title: new Text('부동산'),
+                    activeColor: MainOrangeColor,
+                  ),
+                ],
+              ),
 
+              Padding(
+                padding: EdgeInsets.fromLTRB(10.0, 7.0, 300.0, 7.0),
+                child:
+                Text("상품 상세정보",
+                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 11.0,color: MainOrangeColor,),
+                ),
+              ),
 
               Padding(
                 padding: EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
                 child:
-                TextField(
+                TextFormField(
+                  validator: (value)
+                  => value.isEmpty ? '상세 정보를 입력하세요':null,
                   style: TextStyle(
                     color: AddIcon,
                     fontSize: 9.0,
@@ -231,12 +301,14 @@ class _AddProductState extends State<AddProductPage>{
                       border: OutlineInputBorder(),
                       hintText: '상세 정보 입력'),
                   controller: ProductDescriptioncontroller,
+                  obscureText: true,
                 ),
               ),
 
 
             ],
           ),
+        ),
         ),
       ),
     );
