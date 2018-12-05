@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:flutter_mobile_program_project/post.dart';
-import 'package:flutter_mobile_program_project/colors.dart';
+import 'post.dart';
+import 'colors.dart';
 
-import 'package:flutter_mobile_program_project/detail.dart';
-import 'package:flutter_mobile_program_project/addproduct.dart';
-import 'package:flutter_mobile_program_project/search.dart';
-import 'package:flutter_mobile_program_project/myPage.dart';
+import 'detail.dart';
+import 'addproduct.dart';
+import 'search.dart';
+import 'myPage.dart';
 import 'home.dart';
 import 'groupinENG.dart';
 
