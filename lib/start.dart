@@ -2,10 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'colors.dart';
 import 'home.dart';
-import 'home2.dart';
 
 class StartPage extends StatefulWidget{
   final FirebaseUser user;
@@ -27,6 +25,7 @@ class _StartPageState extends State<StartPage>{
   List<String> drop = [
     '한동대학교', '포항공과대학교', '선린대학교'
   ];
+
   String selected = null;
 
   void loadData(){
@@ -62,6 +61,7 @@ class _StartPageState extends State<StartPage>{
                     hint: Text('학교를 선택하세요'),
                     onChanged: (value) {
                       selected = value;
+                      print(selected);
                       setState(() {
                       });
                     }),

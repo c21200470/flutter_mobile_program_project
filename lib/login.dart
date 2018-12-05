@@ -9,7 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'colors.dart';
 import 'start.dart';
 import 'intro.dart';
-import 'home2.dart';
+import 'home.dart';
 import 'user.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;

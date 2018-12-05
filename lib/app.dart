@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'login.dart';
-import 'home2.dart';
+import 'home.dart';
 import 'search.dart';
 
 import 'colors.dart';
