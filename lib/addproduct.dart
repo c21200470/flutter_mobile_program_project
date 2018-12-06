@@ -24,7 +24,7 @@ class _AddProductState extends State<AddProductPage>{
   final ProductNamecontroller = TextEditingController();
   final ProductPricecontroller = TextEditingController();
   final ProductDescriptioncontroller = TextEditingController();
-  String ProductCategory;
+  String ProductCategory="book";
 
   int radioGroup = 0;
   void radioEventHandler(int value){
@@ -75,7 +75,7 @@ class _AddProductState extends State<AddProductPage>{
     String groupENG=groupinEng(group);
 
     final StorageReference firebaseStorageRef=
-    FirebaseStorage.instance.ref().child('post/'+ProductNamecontroller.text+".jpg"); //일단 app에 저장하게 끔 //start에서 스쿨마다 번호 주고 start파일 받아오는 방법.
+    FirebaseStorage.instance.ref().child('post/'+widget.user.uid+ProductNamecontroller.text+DateTime.now().toString()+".jpg"); //일단 app에 저장하게 끔 //start에서 스쿨마다 번호 주고 start파일 받아오는 방법.
     final StorageUploadTask task = firebaseStorageRef.putFile(_image);
 
     StorageTaskSnapshot taskSnapshot = await task.onComplete;
