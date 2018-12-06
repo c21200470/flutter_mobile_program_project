@@ -79,7 +79,7 @@ class _ProfilePageState extends State<ProfilePage>{
         backgroundColor: Colors.white,
         elevation: 2.0,
         iconTheme: IconThemeData(color: MainDarkColor2),
-        title: Text('내 프로필', style: Theme.of(context).textTheme.title,),
+        title: Text('내 프로필', style: Theme.of(context).textTheme.headline,),
         actions: <Widget>[
           IconButton(
             icon: Icon(
@@ -113,8 +113,8 @@ class _ProfilePageState extends State<ProfilePage>{
                           shape: BoxShape.circle
                       ),
                       child: Image.network(user.photoUrl, width: 40.0, height: 40.0,)),
-                    title: Text(user.displayName),
-                    subtitle: Text(user.email),
+                    title: Text(user.displayName, style: Theme.of(context).textTheme.title,),
+                    subtitle: Text(user.email, style: Theme.of(context).textTheme.body1,),
                   )
                 ],
               ),
@@ -127,7 +127,7 @@ class _ProfilePageState extends State<ProfilePage>{
                 children: <Widget>[
                   ListTile(
                     leading: Icon(Icons.store),
-                    title: Text('내 상품'),
+                    title: Text('내 상품', style: Theme.of(context).textTheme.body1,),
                   ),
                   _buildMyProduct(context),
                 ],
@@ -141,7 +141,7 @@ class _ProfilePageState extends State<ProfilePage>{
                 children: <Widget>[
                   ListTile(
                     leading: Icon(Icons.favorite_border),
-                    title: Text('내가 찜한 상품'),
+                    title: Text('내가 찜한 상품', style: Theme.of(context).textTheme.body1,),
                   )
                 ],
               ),

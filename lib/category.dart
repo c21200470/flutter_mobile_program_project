@@ -93,13 +93,13 @@ class _CategoryPageState extends State<CategoryPage>{
                     SizedBox(height: 10.0),
                     Text(
                       post.title,
-                      style: theme.textTheme.title,
+                      style: theme.textTheme.display1,
                       maxLines: 1,
                     ),
                     SizedBox(height: 10.0),
                     Text(
                       post.price.toString() + ' 원',
-                      style: theme.textTheme.body1,
+                      style: theme.textTheme.display2,
                     ),
                   ],
                 ),
@@ -186,7 +186,7 @@ class _CategoryPageState extends State<CategoryPage>{
             ),
             ListTile(
               leading: Icon(Icons.import_contacts),
-              title: Text('책'),
+              title: Text('책', style: Theme.of(context).textTheme.body1,),
               onTap: (){
                 Navigator
                     .of(context)
@@ -198,7 +198,7 @@ class _CategoryPageState extends State<CategoryPage>{
             ),
             ListTile(
               leading: Icon(Icons.format_paint),
-              title: Text('생활용품'),
+              title: Text('생활용품', style: Theme.of(context).textTheme.body1,),
               onTap: (){
                 Navigator
                     .of(context)
@@ -210,7 +210,7 @@ class _CategoryPageState extends State<CategoryPage>{
             ),
             ListTile(
               leading: Icon(Icons.loyalty),
-              title: Text('의류 및 잡화'),
+              title: Text('의류 및 잡화', style: Theme.of(context).textTheme.body1,),
               onTap: (){
                 Navigator
                     .of(context)
@@ -222,7 +222,7 @@ class _CategoryPageState extends State<CategoryPage>{
             ),
             ListTile(
               leading: Icon(Icons.weekend),
-              title: Text('가전 및 가구'),
+              title: Text('가전 및 가구', style: Theme.of(context).textTheme.body1,),
               onTap: (){
                 Navigator
                     .of(context)
@@ -234,7 +234,7 @@ class _CategoryPageState extends State<CategoryPage>{
             ),
             ListTile(
               leading: Icon(Icons.shopping_basket),
-              title: Text('기타'),
+              title: Text('기타', style: Theme.of(context).textTheme.body1,),
               onTap: (){
                 Navigator
                     .of(context)
@@ -246,7 +246,7 @@ class _CategoryPageState extends State<CategoryPage>{
             ),
             ListTile(
               leading: Icon(Icons.store),
-              title: Text('부동산'),
+              title: Text('부동산', style: Theme.of(context).textTheme.body1,),
               onTap: (){
                 Navigator
                     .of(context)

@@ -42,7 +42,7 @@ class _MySearchPageState extends State<MySearchPage> {
     } else {
       tempSearchStore = [];
       queryResultSet.forEach((element) {
-        if (element['businessName'].startsWith(capitalizedValue)) {
+        if (element['title'].startsWith(capitalizedValue)) {
           setState(() {
             tempSearchStore.add(element);
           });
@@ -102,7 +102,7 @@ Widget buildResultCard(data) {
       elevation: 2.0,
       child: Container(
           child: Center(
-              child: Text(data['businessName'],
+              child: Text(data['title'],
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.black,

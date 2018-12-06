@@ -109,203 +109,181 @@ class _AddProductState extends State<AddProductPage>{
   @override
   Widget build(BuildContext context) {
 
-    return MaterialApp(
-      title: 'Add Product',
-      home: new Scaffold(
-
+    return Scaffold(
+      backgroundColor: AddAppbarIcon,
+      appBar:AppBar(
+        elevation: 2.0,
         backgroundColor: AddAppbarIcon,
-
-        appBar:AppBar(
-          backgroundColor: AddAppbarIcon,
-          leading:
-          IconButton(
-            color: MainOrangeColor,
-            icon: Icon(Icons.arrow_back),
+        leading:
+        IconButton(
+          color: MainDarkColor2,
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+            //Navigate detail
+          },
+        ),
+        title: Text('판매하기',style: Theme.of(context).textTheme.headline,),
+        centerTitle: true,
+        actions: <Widget>[
+          FlatButton(
+            child: Text(
+              '저장',
+              style: Theme.of(context).textTheme.headline,
+            ),
             onPressed: () {
-              Navigator.pop(context);
-              //Navigate detail
+              if(_formKey.currentState.validate()){
+                uploadFile();
+                Navigator.pop(context);
+              }
             },
           ),
-          title: Text('판매하기',style: TextStyle(color: MainOrangeColor),),
-          centerTitle: true,
-          actions: <Widget>[
-            FlatButton(
-              child: Text(
-                '저장',
-                style: TextStyle(
-                  fontSize: 15.0,
-                  color: MainOrangeColor,
-                ),
-              ),
-              onPressed: () {
-                if(_formKey.currentState.validate()){
-                  uploadFile();
-                  Navigator.pop(context);
-                }
-              },
+        ],
+      ),
+
+      body: new Container(
+        height: 20000.0,
+        child: new Form(
+          key: _formKey,
+          autovalidate: true,
+        child : ListView(
+          scrollDirection: Axis.vertical,
+          children: <Widget>[
+
+                  _image == null
+                  ? Padding(
+                    padding: EdgeInsets.fromLTRB(8.0, 80.0, 8.0, 100.0),
+                    child: Column(
+                      children: <Widget>[
+                        IconButton(
+                          padding: EdgeInsets.all(2.0),
+                          onPressed: getImage,
+                          icon: Icon(Icons.camera_alt),
+                          iconSize: 40.0,
+                        ),
+                        Text("사진을 선택해주세요",style: Theme.of(context).textTheme.body2,),
+                      ],
+                    ),
+                  )
+                  : enableUpload(),
+
+            Padding(
+              padding: EdgeInsets.fromLTRB(20.0, 7.0, 10.0, 7.0),
+              child:
+              Text("상품 기본정보", style: Theme.of(context).textTheme.title),
             ),
+
+            Padding(
+              padding: EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
+              child:
+              TextFormField(
+                validator: (value)
+                => value.isEmpty ? '상품명을 입력하세요':null,
+                decoration: InputDecoration(
+//                    border: OutlineInputBorder(),
+                    hintText: '상품명 입력', hintStyle: Theme.of(context).textTheme.body2),
+                controller: ProductNamecontroller,
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
+              child:
+              TextFormField(
+                keyboardType: TextInputType.number,///////////////////////////////////
+                validator: (value)
+                => value.isEmpty ? '가격을 입력하세요':null,
+                decoration: InputDecoration(
+//                    border: OutlineInputBorder(),
+                    hintText: '가격 입력', hintStyle: Theme.of(context).textTheme.body2),
+                controller: ProductPricecontroller,
+              ),
+            ),
+            SizedBox(height: 40.0),
+
+            Padding(
+              padding: EdgeInsets.fromLTRB(20.0, 7.0, 10.0, 7.0),
+              child:
+              Text("상품 카테고리", style: Theme.of(context).textTheme.title),
+            ),
+
+            new Column(
+              children: <Widget>[
+                new RadioListTile<int>(
+                  value: 0,
+                  groupValue: radioGroup,
+                  onChanged: radioEventHandler ,
+                  title: new Text('책', style: Theme.of(context).textTheme.body1),
+                  activeColor: MainOrangeColor,
+                ),
+                new RadioListTile<int>(
+                  value: 1,
+                  groupValue: radioGroup,
+                  onChanged: radioEventHandler ,
+                  title: new Text('생활 용품', style: Theme.of(context).textTheme.body1),
+                  activeColor: MainOrangeColor,
+                ),
+                new RadioListTile<int>(
+                  value: 2,
+                  groupValue: radioGroup,
+                  onChanged: radioEventHandler ,
+                  title: new Text('의류 및 잡화', style: Theme.of(context).textTheme.body1),
+                  activeColor: MainOrangeColor,
+                ),
+                new RadioListTile<int>(
+                  value: 3,
+                  groupValue: radioGroup,
+                  onChanged: radioEventHandler ,
+                  title: new Text('가전 및 가구', style: Theme.of(context).textTheme.body1),
+                  activeColor: MainOrangeColor,
+                ),
+                new RadioListTile<int>(
+                  value: 4,
+                  groupValue: radioGroup,
+                  onChanged: radioEventHandler ,
+                  title: new Text('기타', style: Theme.of(context).textTheme.body1),
+                  activeColor: MainOrangeColor,
+                ),
+                new RadioListTile<int>(
+                  value: 5,
+                  groupValue: radioGroup,
+                  onChanged: radioEventHandler ,
+                  title: new Text('부동산', style: Theme.of(context).textTheme.body1),
+                  activeColor: MainOrangeColor,
+                ),
+              ],
+            ),
+            SizedBox(height: 40.0),
+
+            Padding(
+              padding: EdgeInsets.fromLTRB(20.0, 7.0, 10.0, 7.0),
+              child:
+              Text("상품 상세정보", style: Theme.of(context).textTheme.title),
+            ),
+
+            Padding(
+              padding: EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
+              child:
+              TextFormField(
+                validator: (value)
+                => value.isEmpty ? '상세 정보를 입력하세요':null,
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+
+                  hintText: '상세 정보 입력',
+                  hintStyle: Theme.of(context).textTheme.body2
+                ),
+                controller: ProductDescriptioncontroller,
+              ),
+            ),
+            SizedBox(height: 50.0),
+
+
           ],
         ),
-
-        body: new Container(
-          height: 20000.0,
-          child: new Form(
-            key: _formKey,
-            autovalidate: true,
-          child : ListView(
-            scrollDirection: Axis.vertical,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
-                child: Column(
-                  children: <Widget>[
-                    _image == null
-                        ? FlatButton(
-                      padding: EdgeInsets.all(2.0),
-                      onPressed: getImage,
-                      child: new Image.network("https://firebasestorage.googleapis.com/v0/b/mobile-app-project-6d4ab.appspot.com/o/app%2Fdefault.png?alt=media&token=f6037981-101d-4518-a98d-9f75aa185f0b",
-                        width: 350.0,
-                        height: 200.0,
-                        fit: BoxFit.cover,
-                      ),
-                    )
-                        : enableUpload(),
-
-                    Text("사진을 선택해주세요",style: TextStyle(fontSize: 7.0,fontWeight: FontWeight.bold, color: MainOrangeColor),),
-                  ],
-                ),
-              ),
-
-              Padding(
-                padding: EdgeInsets.fromLTRB(10.0, 7.0, 300.0, 7.0),
-                child:
-                Text("상품 기본정보",
-                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 11.0, color: MainOrangeColor,),
-                ),
-              ),
-
-              Padding(
-                padding: EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
-                child:
-                TextFormField(
-                  validator: (value)
-                  => value.isEmpty ? '상품명을 입력하세요':null,
-                  style: TextStyle(
-                    color: AddIcon,
-                    fontSize: 9.0,
-                    height: 0.1,
-                  ),
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: '상품명 입력'),
-                  controller: ProductNamecontroller,
-                ),
-              ),
-
-              Padding(
-                padding: EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
-                child:
-                TextFormField(
-                  validator: (value)
-                  => value.isEmpty ? '가격을 입력하세요':null,
-                  style: TextStyle(
-                    color: AddIcon,
-                    fontSize: 9.0,
-                    height: 0.1,
-                  ),
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: '가격 입력'),
-                  controller: ProductPricecontroller,
-                ),
-              ),
-
-              Padding(
-                padding: EdgeInsets.fromLTRB(10.0, 7.0, 300.0, 7.0),
-                child:
-                Text("상품 카테고리",
-                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 11.0, color: MainOrangeColor,),
-                ),
-              ),
-
-              new Column(
-                children: <Widget>[
-                  new RadioListTile<int>(
-                    value: 0,
-                    groupValue: radioGroup,
-                    onChanged: radioEventHandler ,
-                    title: new Text('책'),
-                    activeColor: MainOrangeColor,
-                  ),
-                  new RadioListTile<int>(
-                    value: 1,
-                    groupValue: radioGroup,
-                    onChanged: radioEventHandler ,
-                    title: new Text('생활 용품'),
-                    activeColor: MainOrangeColor,
-                  ),
-                  new RadioListTile<int>(
-                    value: 2,
-                    groupValue: radioGroup,
-                    onChanged: radioEventHandler ,
-                    title: new Text('의류 및 잡화'),
-                    activeColor: MainOrangeColor,
-                  ),
-                  new RadioListTile<int>(
-                    value: 3,
-                    groupValue: radioGroup,
-                    onChanged: radioEventHandler ,
-                    title: new Text('가전 및 가구'),
-                    activeColor: MainOrangeColor,
-                  ),
-                  new RadioListTile<int>(
-                    value: 4,
-                    groupValue: radioGroup,
-                    onChanged: radioEventHandler ,
-                    title: new Text('기타'),
-                    activeColor: MainOrangeColor,
-                  ),
-                  new RadioListTile<int>(
-                    value: 5,
-                    groupValue: radioGroup,
-                    onChanged: radioEventHandler ,
-                    title: new Text('부동산'),
-                    activeColor: MainOrangeColor,
-                  ),
-                ],
-              ),
-
-              Padding(
-                padding: EdgeInsets.fromLTRB(10.0, 7.0, 300.0, 7.0),
-                child:
-                Text("상품 상세정보",
-                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 11.0,color: MainOrangeColor,),
-                ),
-              ),
-
-              Padding(
-                padding: EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
-                child:
-                TextFormField(
-                  validator: (value)
-                  => value.isEmpty ? '상세 정보를 입력하세요':null,
-                  style: TextStyle(
-                    color: AddIcon,
-                    fontSize: 9.0,
-                    height: 3.0,
-                  ),
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: '상세 정보 입력'),
-                  controller: ProductDescriptioncontroller,
-                ),
-              ),
-
-
-            ],
-          ),
-        ),
-        ),
+      ),
       ),
     );
   }

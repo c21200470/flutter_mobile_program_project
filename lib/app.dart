@@ -27,8 +27,13 @@ class App extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Gulim',
         textTheme:TextTheme(
-            title: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-            body1: TextStyle(fontSize: 14.0, fontWeight: FontWeight.normal)
+          headline: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w900), // 앱바
+          display1: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w900, color: LoginBackground), // 카드 타이틀
+          display2: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w500, color: LoginBackground), // 카드 내용
+          title: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w900), // 포스트 타이틀
+          body1: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500), // 포스트 내용
+          body2: TextStyle(fontSize: 13.0, fontWeight: FontWeight.w500), // 작은 글씨 내용
+
         ),
       ),
     );

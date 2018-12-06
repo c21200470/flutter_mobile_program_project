@@ -11,7 +11,8 @@ class Post {
   final DocumentReference reference;
 
   Post.fromMap(Map<String, dynamic> map, {this.reference})
-      : assert(map['title'] != null),
+      :
+        assert(map['title'] != null),
         assert(map['content'] != null),
         assert(map['imgurl'] != null),
         assert(map['creator_name'] != null),

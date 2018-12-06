@@ -4,11 +4,41 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:share/share.dart';
+import 'package:flutter/scheduler.dart' show timeDilation;
 
 import 'post.dart';
 import 'colors.dart';
 import 'search.dart';
 
+class PhotoHero extends StatelessWidget {
+  const PhotoHero({ Key key, this.photo, this.onTap, this.width, this.height }) : super(key: key);
+
+  final String photo;
+  final VoidCallback onTap;
+  final double width;
+  final double height;
+
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: width,
+      height: height,
+      child: Hero(
+        tag: photo,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: onTap,
+            child: Image.network(
+              photo,
+              fit: BoxFit.contain,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 
 class DetailPage extends StatefulWidget {
@@ -39,10 +69,35 @@ class _DetailPageState extends State<DetailPage> {
   _DetailPageState(this.user, this.post);
 
   Widget _imageSlider(){
+    timeDilation = 2.0; // 1.0 means normal animation speed.
+
     return post.imgurl.length == 1
-    ? Image.network(post.imgurl[0],
-    fit: BoxFit.fitHeight,
-    height: 200.0,)
+    ?
+    PhotoHero(
+      photo: post.imgurl[0],
+      height: 250.0,
+      onTap: (){
+        Navigator.of(context).push(MaterialPageRoute<void>(
+            builder: (BuildContext context) {
+              return Scaffold(
+                body: Container(
+                  // Set background to blue to emphasize that it's a new route.
+                  padding: const EdgeInsets.all(16.0),
+                  alignment: Alignment.center,
+                  child: PhotoHero(
+                    photo: post.imgurl[0],
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ),
+              );
+            }
+        ));
+      },
+    )
+
+
     : CarouselSlider(
       items: map<Widget>(post.imgurl, (index, i) {
         return new Container(
@@ -52,8 +107,9 @@ class _DetailPageState extends State<DetailPage> {
                 child: new Stack(
                   children: <Widget>[
                     new Image.network(i,
-                      fit: BoxFit.fitHeight,
+                      fit: BoxFit.cover,
                       height: 500.0,
+                      width: 1000.0,
                     ),
                   ],
                 )
@@ -75,9 +131,19 @@ class _DetailPageState extends State<DetailPage> {
         children: <Widget>[
           ListTile(
             contentPadding: EdgeInsets.all(20.0),
-            title: Text(post.title),
-            subtitle: Text(post.price.toString()+' 원'),
+            title: Container(
+                margin: EdgeInsets.only(bottom: 15.0),
+                child: Text(post.title, style: Theme.of(context).textTheme.title)),
+            subtitle: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(post.price.toString()+' 원', style: Theme.of(context).textTheme.body1),
+              ],
+            ),
+
           ),
+
 //          Container(
 //            margin: EdgeInsets.only(bottom: 10.0),
 //            padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 10.0),
@@ -127,7 +193,7 @@ class _DetailPageState extends State<DetailPage> {
             contentPadding: EdgeInsets.all(20.0),
             leading: Image.network(post.creator_pic,
             width: 50.0, height: 50.0,),
-            title: Container(child: Text(post.creator_name), margin: EdgeInsets.only(bottom: 20.0),),
+            title: Container(child: Text(post.creator_name, style: Theme.of(context).textTheme.title), margin: EdgeInsets.only(bottom: 20.0),),
             subtitle: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -144,10 +210,10 @@ class _DetailPageState extends State<DetailPage> {
   Card _buildContent(){
     return Card(
       child: ListTile(
-        contentPadding: EdgeInsets.all(25.0),
+        contentPadding: EdgeInsets.all(20.0),
             title: Container(
               margin: EdgeInsets.only(bottom: 20.0),
-                child: Text('상품 상세설명')),
+                child: Text('상품 상세설명', style: Theme.of(context).textTheme.title)),
             subtitle: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -163,13 +229,14 @@ class _DetailPageState extends State<DetailPage> {
 
   @override
   Widget build(BuildContext context) {
-
+    final RenderBox box = context.findRenderObject();
     return new Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: MainDarkColor2),
         elevation: 2.0,
         backgroundColor: Colors.white,
-        title: Text('상품 상세보기', style: TextStyle(color: Colors.black87),),
+        centerTitle: true,
+        title: Text(post.title, style: Theme.of(context).textTheme.headline,),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search),
@@ -227,7 +294,10 @@ class _DetailPageState extends State<DetailPage> {
             child: Icon(Icons.share),
             backgroundColor: Colors.white,
             foregroundColor: Colors.grey,
-            onTap: () => print('THIRD CHILD'),
+            onTap: () {
+              Share.share('에브리딜에서 ['+post.title+'] 를 확인하세요!',
+                  sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+            }
           ),
         ],
       ),
