@@ -45,11 +45,12 @@ class DetailPage extends StatefulWidget {
 
   final FirebaseUser user;
   final Post post;
+  final String group;
 
-  DetailPage({Key key, this.user, this.post}) : super(key: key);
+  DetailPage({Key key, this.user, this.post, this.group}) : super(key: key);
 
   @override
-  _DetailPageState createState() => new _DetailPageState(user, post);
+  _DetailPageState createState() => new _DetailPageState(user, post, group);
 }
 
 List<T> map<T>(List list, Function handler) {
@@ -63,10 +64,11 @@ List<T> map<T>(List list, Function handler) {
 
 class _DetailPageState extends State<DetailPage> {
 
-  FirebaseUser user;
-  Post post;
+  final FirebaseUser user;
+  final Post post;
+  final String group;
 
-  _DetailPageState(this.user, this.post);
+  _DetailPageState(this.user, this.post, this.group);
 
   Widget _imageSlider(){
     timeDilation = 2.0; // 1.0 means normal animation speed.
@@ -237,19 +239,6 @@ class _DetailPageState extends State<DetailPage> {
         backgroundColor: Colors.white,
         centerTitle: true,
         title: Text(post.title, style: Theme.of(context).textTheme.headline,),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: (){
-              Navigator
-                  .of(context)
-                  .push(MaterialPageRoute(
-                  builder: (BuildContext context)=>SearchPage(
-                  )))
-                  .catchError((e)=>print(e));
-            },
-          )
-        ],
       ),
       body: SafeArea(
         child: ListView(
@@ -278,17 +267,38 @@ class _DetailPageState extends State<DetailPage> {
         elevation: 8.0,
         shape: CircleBorder(),
         children: [
+          user.uid == post.creator_uid
+          ?
+          SpeedDialChild(
+            child: Icon(Icons.delete),
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.grey,
+            onTap: () {
+              Firestore.instance.collection('Post/'+group+'/'+group).document(post.postid)
+                .delete();
+            }
+          )
+          :
           SpeedDialChild(
               child: Icon(Icons.favorite),
               backgroundColor: Colors.white,
               foregroundColor: Colors.grey,
               onTap: () => print('FIRST CHILD')
           ),
+          user.uid == post.creator_uid
+              ?
           SpeedDialChild(
-            child: Icon(Icons.mail),
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.grey,
-            onTap: () => print('SECOND CHILD'),
+              child: Icon(Icons.edit),
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.grey,
+              onTap: () => print('FIRST CHILD')
+          )
+              :
+          SpeedDialChild(
+              child: Icon(Icons.message),
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.grey,
+              onTap: () => print('FIRST CHILD')
           ),
           SpeedDialChild(
             child: Icon(Icons.share),
