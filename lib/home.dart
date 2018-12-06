@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage>{
           context,
           MaterialPageRoute(
             builder: (context) =>
-                DetailPage(user: user, post: post),
+                DetailPage(user: user, post: post, group: groupENG,),
           ),
         );
       },

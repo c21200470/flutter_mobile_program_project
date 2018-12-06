@@ -69,7 +69,7 @@ class _CategoryPageState extends State<CategoryPage>{
           context,
           MaterialPageRoute(
             builder: (context) =>
-                DetailPage(user: user, post: post),
+                DetailPage(user: user, post: post, group: groupENG,),
           ),
         );
       },
