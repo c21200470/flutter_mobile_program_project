@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:material_search/material_search.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'post.dart';
@@ -66,17 +65,6 @@ class _SearchPageState extends State<SearchPage>
 
   void init() {
     _list = List();
-    _list.add("Google");
-    _list.add("IOS");
-    _list.add("Andorid");
-    _list.add("Dart");
-    _list.add("Flutter");
-    _list.add("Python");
-    _list.add("React");
-    _list.add("Xamarin");
-    _list.add("Kotlin");
-    _list.add("Java");
-    _list.add("RxAndroid");
   }
 
   @override

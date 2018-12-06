@@ -95,7 +95,6 @@ class _AddProductState extends State<AddProductPage>{
       'created': DateTime.fromMillisecondsSinceEpoch(created.creationTimeMillis, isUtc: true),
       'modified': DateTime.fromMillisecondsSinceEpoch(created.updatedTimeMillis, isUtc: true),
       'imgurl': [downloadUrl],
-      'postid': Map.identity().toString(),
       });
 
     //post id가 다른 곳에 저장되어 있다.
