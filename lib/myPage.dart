@@ -5,6 +5,7 @@ import 'colors.dart';
 import 'login.dart';
 import 'groupinENG.dart';
 import 'post.dart';
+import 'detail.dart';
 
 class ProfilePage extends StatefulWidget{
 
@@ -31,9 +32,14 @@ class _ProfilePageState extends State<ProfilePage>{
       stream: Firestore.instance.collection('Post/'+groupENG+'/'+groupENG).where('creator_uid', isEqualTo: user.uid).snapshots(),
       builder: (context, snapshot){
         if (!snapshot.hasData) return LinearProgressIndicator();
-        return ListView(
-          scrollDirection: Axis.horizontal,
-          children: _buildMyProductGrid(context, snapshot.data.documents),
+        return Expanded(
+          child: SizedBox(
+            width: 1000.0,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: _buildMyProductGrid(context, snapshot.data.documents),
+            ),
+          ),
         );
       },
     );
@@ -45,9 +51,24 @@ class _ProfilePageState extends State<ProfilePage>{
 
   Widget _buildMyProductCards(BuildContext context, DocumentSnapshot data){
     final post = Post.fromSnapshot(data);
+    final ThemeData theme = Theme.of(context);
+
     return MaterialButton(
-      child: Image.network(post.imgurl[0]),
-      onPressed: null,
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                DetailPage(user: user, post: post),
+          ),
+        );
+      },
+      child: Container(
+        width: 130.0,
+        height: 130.0,
+        margin: EdgeInsets.all(5.0),
+        child: Image.network(post.imgurl[0], fit: BoxFit.fitWidth,)
+      ),
     );
   }
 
