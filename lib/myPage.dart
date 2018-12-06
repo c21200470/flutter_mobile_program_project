@@ -1,23 +1,55 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'colors.dart';
 import 'login.dart';
+import 'groupinENG.dart';
+import 'post.dart';
 
 class ProfilePage extends StatefulWidget{
 
   final FirebaseUser user;
-  const ProfilePage({Key key, this.user}) : super(key: key);
+  final String group;
+  const ProfilePage({Key key, this.user, this.group}) : super(key: key);
 
   @override
-  _ProfilePageState createState() => new _ProfilePageState(user);
+  _ProfilePageState createState() => new _ProfilePageState(user, group);
 }
 
 class _ProfilePageState extends State<ProfilePage>{
-
   LogoutPage L = new LogoutPage();
   final FirebaseUser user;
+  final String group;
+  static String groupENG;
 
-  _ProfilePageState(this.user);
+  _ProfilePageState(this.user, this.group);
+
+  Widget _buildMyProduct(BuildContext context){
+    groupENG = groupinEng(group);
+
+    return StreamBuilder<QuerySnapshot>(
+      stream: Firestore.instance.collection('Post/'+groupENG+'/'+groupENG).where('creator_uid', isEqualTo: user.uid).snapshots(),
+      builder: (context, snapshot){
+        if (!snapshot.hasData) return LinearProgressIndicator();
+        return ListView(
+          scrollDirection: Axis.horizontal,
+          children: _buildMyProductGrid(context, snapshot.data.documents),
+        );
+      },
+    );
+  }
+
+  List<Widget> _buildMyProductGrid(BuildContext context, List<DocumentSnapshot> snapshot){
+    return snapshot.map((data) => _buildMyProductCards(context, data)).toList();
+  }
+
+  Widget _buildMyProductCards(BuildContext context, DocumentSnapshot data){
+    final post = Post.fromSnapshot(data);
+    return MaterialButton(
+      child: Image.network(post.imgurl[0]),
+      onPressed: null,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +107,8 @@ class _ProfilePageState extends State<ProfilePage>{
                   ListTile(
                     leading: Icon(Icons.store),
                     title: Text('내 상품'),
-                  )
+                  ),
+                  _buildMyProduct(context),
                 ],
               ),
             ),
