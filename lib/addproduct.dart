@@ -100,8 +100,8 @@ class _AddProductState extends State<AddProductPage>{
 
     //post id가 다른 곳에 저장되어 있다.
     String postId = docRef.documentID;
-    Firestore.instance.collection('post').document(postId)
-        .setData({
+    Firestore.instance.collection('Post/'+groupENG+'/'+groupENG).document(postId)
+        .updateData({
       'postid': postId});
 
   }
@@ -200,7 +200,6 @@ class _AddProductState extends State<AddProductPage>{
                       border: OutlineInputBorder(),
                       hintText: '상품명 입력'),
                   controller: ProductNamecontroller,
-                  obscureText: true,
                 ),
               ),
 
@@ -219,7 +218,6 @@ class _AddProductState extends State<AddProductPage>{
                       border: OutlineInputBorder(),
                       hintText: '가격 입력'),
                   controller: ProductPricecontroller,
-                  obscureText: true,
                 ),
               ),
 
@@ -301,7 +299,6 @@ class _AddProductState extends State<AddProductPage>{
                       border: OutlineInputBorder(),
                       hintText: '상세 정보 입력'),
                   controller: ProductDescriptioncontroller,
-                  obscureText: true,
                 ),
               ),
 
