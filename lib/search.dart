@@ -2,13 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_program_project/addproduct.dart';
 import 'package:flutter_mobile_program_project/colors.dart';
 import 'package:flutter_mobile_program_project/detail.dart';
 import 'package:flutter_mobile_program_project/post.dart';
 
 class MySearchPage extends StatefulWidget {
-  //static final String route = "search";
+  static final String route = "search";
   final FirebaseUser user;
   final String groupENG;
   MySearchPage({ Key key , this.groupENG, this.user}) : super(key: key);
@@ -58,7 +57,7 @@ class _MySearchPageState extends State<MySearchPage> {
           context,
           MaterialPageRoute(
             builder: (context) =>
-                DetailPage(user: user, post: post, group: groupENG,),
+                DetailPage(user: user, post: post, groupENG: groupENG,),
           ),
         );
       },

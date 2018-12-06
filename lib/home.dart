@@ -6,14 +6,12 @@ import 'package:outline_material_icons/outline_material_icons.dart';
 
 import 'post.dart';
 import 'colors.dart';
-
 import 'detail.dart';
 import 'addproduct.dart';
 import 'search.dart';
 import 'myPage.dart';
 
 import 'groupinENG.dart';
-import 'search2.dart';
 
 class HomePage extends StatefulWidget{
   final FirebaseUser user;
@@ -137,7 +135,7 @@ class _HomePageState extends State<HomePage>{
                     .of(context)
                     .push(MaterialPageRoute(
                     builder: (BuildContext context)=>MySearchPage(
-                      user: user, group: groupENG,
+                      user: user, groupENG: groupENG,
                     )))
                     .catchError((e)=>print(e));
               },

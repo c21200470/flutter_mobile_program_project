@@ -10,7 +10,7 @@ class App extends StatelessWidget {
   final routes = <String, WidgetBuilder>{
     LoginPage.route: (BuildContext context) => LoginPage(),
     HomePage.route: (BuildContext context) => HomePage(),
-    SearchPage.route: (BuildContext context) => SearchPage(),
+    MySearchPage.route: (BuildContext context) => MySearchPage(),
   };
 
   @override
