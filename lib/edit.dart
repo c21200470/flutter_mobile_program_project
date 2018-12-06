@@ -9,22 +9,35 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'colors.dart';
 import 'groupinENG.dart';
+import 'post.dart';
 
 class EditPage extends StatefulWidget{
   final FirebaseUser user;
-  final String group;
+  final Post post;
+  final String groupENG;
 
-  EditPage({Key key, this.user, this.group}) : super(key: key);
+  EditPage({Key key, this.user, this.post, this.groupENG}) : super(key: key);
   @override
-  _EditPageState createState() => _EditPageState(user, group);
+  _EditPageState createState() => _EditPageState(user, post, groupENG);
 }
 
 class _EditPageState extends State<EditPage>{
 
+  final FirebaseUser user;
+  final Post post;
+  final String groupENG;
+
   final ProductNamecontroller = TextEditingController();
   final ProductPricecontroller = TextEditingController();
   final ProductDescriptioncontroller = TextEditingController();
+  StreamSubscription<DocumentSnapshot> subscription;
+
+  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>(); // 글자 채워졌는지
+
   String ProductCategory;
+  File _image;
+
+  _EditPageState(this.user, this.post, this.groupENG);
 
   int radioGroup = 0;
   void radioEventHandler(int value){
@@ -53,16 +66,6 @@ class _EditPageState extends State<EditPage>{
     });
   }
 
-  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>(); // 글자 채워졌는지
-
-  File _image;
-
-  final FirebaseUser user;
-  final String group;
-  String groupENG;
-
-  _EditPageState(this.user, this.group);
-
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
@@ -72,42 +75,82 @@ class _EditPageState extends State<EditPage>{
 
   Future<Null> uploadFile() async{
 
-    String groupENG=groupinEng(group);
+
 
     final StorageReference firebaseStorageRef=
     FirebaseStorage.instance.ref().child('post/'+ProductNamecontroller.text+".jpg"); //일단 app에 저장하게 끔 //start에서 스쿨마다 번호 주고 start파일 받아오는 방법.
     final StorageUploadTask task = firebaseStorageRef.putFile(_image);
+    String downloadUrl = (await firebaseStorageRef.getDownloadURL()).toString();
 
-    StorageTaskSnapshot taskSnapshot = await task.onComplete;
-    String downloadUrl = await taskSnapshot.ref.getDownloadURL();
-    StorageMetadata created = await taskSnapshot.ref.getMetadata();
+    print(ProductNamecontroller.text);
+    print(ProductDescriptioncontroller.text);
+    print(ProductPricecontroller.text);
+    print(downloadUrl);
 
-    final docRef = await Firestore.instance.collection('Post/'+groupENG+'/'+groupENG) //post id 자동 생성
-        .add({
-      'title': ProductNamecontroller.text,
-      'price': int.tryParse(ProductPricecontroller.text),
-      'content': ProductDescriptioncontroller.text,
+
+    final docRef = await Firestore.instance.collection('Post/'+groupENG+'/'+groupENG).document(post.postid)
+        .updateData({
+//      'title': ProductNamecontroller.text,
+//      'price': int.tryParse(ProductPricecontroller.text),
+//      'content': ProductDescriptioncontroller.text,
       'creator_name': widget.user.displayName, //
       'creator_pic': widget.user.photoUrl, //
-      'creator_uid': widget.user.uid, //
-      'group': group, // 그룹으로 바꾸기
       'category': ProductCategory,
-      'created': DateTime.fromMillisecondsSinceEpoch(created.creationTimeMillis, isUtc: true),
-      'modified': DateTime.fromMillisecondsSinceEpoch(created.updatedTimeMillis, isUtc: true),
+      'modified': DateTime.now(),
       'imgurl': [downloadUrl],
     });
 
-    //post id가 다른 곳에 저장되어 있다.
-    String postId = docRef.documentID;
-    Firestore.instance.collection('Post/'+groupENG+'/'+groupENG).document(postId)
-        .updateData({
-      'postid': postId});
+    ProductNamecontroller.addListener(() => _updateTitle(ProductNamecontroller.text));
+    ProductDescriptioncontroller.addListener(() => _updateContent(ProductDescriptioncontroller.text));
+    ProductPricecontroller.addListener(() => _updatePrice(ProductPricecontroller.text));
 
+
+  }
+
+  Future<void> _updateTitle(String text) {
+    Firestore().runTransaction((Transaction transaction) {
+      Firestore.instance.document('Post/'+groupENG+'/'+groupENG+'/'+post.postid).updateData({"title": text});
+    });
+  }
+  Future<void> _updateContent(String text) {
+    Firestore().runTransaction((Transaction transaction) {
+      Firestore.instance.document('Post/'+groupENG+'/'+groupENG+'/'+post.postid).updateData({"content": text});
+    });
+  }
+  Future<void> _updatePrice(String text) {
+    Firestore().runTransaction((Transaction transaction) {
+      Firestore.instance.document('Post/'+groupENG+'/'+groupENG+'/'+post.postid).updateData({"price": int.parse(text)});
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    subscription = Firestore.instance.document('Post/'+groupENG+'/'+groupENG+'/'+post.postid).snapshots().listen(
+            (DocumentSnapshot snapshot) => this._onDatabaseUpdate(snapshot));
+  }
+
+  @override
+  void dispose() {
+    ProductNamecontroller.dispose();
+    ProductDescriptioncontroller.dispose();
+    ProductPricecontroller.dispose();
+    if (subscription != null) subscription.cancel();
+    super.dispose();
+  }
+
+  void _onDatabaseUpdate(DocumentSnapshot snapshot) {
+    setState(() {
+      ProductNamecontroller.text = snapshot.data["title"];
+      ProductDescriptioncontroller.text = snapshot.data["content"];
+      ProductPricecontroller.text = snapshot.data["price"].toString();
+    });
   }
 
 
   @override
   Widget build(BuildContext context) {
+    ProductCategory = post.category;
 
     return Scaffold(
       backgroundColor: AddAppbarIcon,
@@ -123,7 +166,7 @@ class _EditPageState extends State<EditPage>{
             //Navigate detail
           },
         ),
-        title: Text('판매하기',style: Theme.of(context).textTheme.headline,),
+        title: Text('수정',style: Theme.of(context).textTheme.headline,),
         centerTitle: true,
         actions: <Widget>[
           FlatButton(
@@ -151,24 +194,24 @@ class _EditPageState extends State<EditPage>{
             children: <Widget>[
 
               _image == null
-                  ? Padding(
-                padding: EdgeInsets.fromLTRB(8.0, 80.0, 8.0, 100.0),
-                child: Column(
-                  children: <Widget>[
-                    IconButton(
-                      padding: EdgeInsets.all(2.0),
-                      onPressed: getImage,
-                      icon: Icon(Icons.camera_alt),
-                      iconSize: 40.0,
-                    ),
-                    Text("사진을 선택해주세요",style: Theme.of(context).textTheme.body2,),
-                  ],
-                ),
-              )
-                  : enableUpload(),
+                ?
+                Padding(
+                  padding: EdgeInsets.fromLTRB(8.0, 20.0, 8.0, 20.0),
+                  child: Column(
+                    children: <Widget>[
+                      MaterialButton(
+                        child: Image.network(post.imgurl[0], height: 300.0, fit: BoxFit.fitHeight,),
+                        onPressed: getImage,
+                      ),
+                      SizedBox(height: 20.0),
+                      Text("사진을 변경하려면 클릭하세요",style: Theme.of(context).textTheme.body2,),
+                    ],
+                  )
+                )
+                : enableUpload(),
 
               Padding(
-                padding: EdgeInsets.fromLTRB(20.0, 7.0, 10.0, 7.0),
+                padding: EdgeInsets.fromLTRB(20.0, 15.0, 10.0, 7.0),
                 child:
                 Text("상품 기본정보", style: Theme.of(context).textTheme.title),
               ),

@@ -10,6 +10,7 @@ import 'package:flutter/scheduler.dart' show timeDilation;
 import 'post.dart';
 import 'colors.dart';
 import 'search.dart';
+import 'edit.dart';
 
 class PhotoHero extends StatelessWidget {
   const PhotoHero({ Key key, this.photo, this.onTap, this.width, this.height }) : super(key: key);
@@ -45,12 +46,12 @@ class DetailPage extends StatefulWidget {
 
   final FirebaseUser user;
   final Post post;
-  final String group;
+  final String groupENG;
 
-  DetailPage({Key key, this.user, this.post, this.group}) : super(key: key);
+  DetailPage({Key key, this.user, this.post, this.groupENG}) : super(key: key);
 
   @override
-  _DetailPageState createState() => new _DetailPageState(user, post, group);
+  _DetailPageState createState() => new _DetailPageState(user, post, groupENG);
 }
 
 List<T> map<T>(List list, Function handler) {
@@ -66,9 +67,9 @@ class _DetailPageState extends State<DetailPage> {
 
   final FirebaseUser user;
   final Post post;
-  final String group;
+  final String groupENG;
 
-  _DetailPageState(this.user, this.post, this.group);
+  _DetailPageState(this.user, this.post, this.groupENG);
 
   Widget _imageSlider(){
     timeDilation = 2.0; // 1.0 means normal animation speed.
@@ -274,8 +275,9 @@ class _DetailPageState extends State<DetailPage> {
             backgroundColor: Colors.white,
             foregroundColor: Colors.grey,
             onTap: () {
-              Firestore.instance.collection('Post/'+group+'/'+group).document(post.postid)
+              Firestore.instance.collection('Post/'+groupENG+'/'+groupENG).document(post.postid)
                 .delete();
+              Navigator.pop(context);
             }
           )
           :
@@ -291,7 +293,15 @@ class _DetailPageState extends State<DetailPage> {
               child: Icon(Icons.edit),
               backgroundColor: Colors.white,
               foregroundColor: Colors.grey,
-              onTap: () => print('FIRST CHILD')
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        EditPage(user: user, post: post, groupENG: groupENG,),
+                  ),
+                );
+              }
           )
               :
           SpeedDialChild(

@@ -63,6 +63,7 @@ class _HomePageState extends State<HomePage>{
 
   Widget _buildCards(BuildContext context, DocumentSnapshot data){
     final post = Post.fromSnapshot(data);
+    final postSnapshot = data;
     final ThemeData theme = Theme.of(context);
 
     return GestureDetector(
@@ -71,7 +72,7 @@ class _HomePageState extends State<HomePage>{
           context,
           MaterialPageRoute(
             builder: (context) =>
-                DetailPage(user: user, post: post, group: groupENG,),
+                DetailPage(user: user, post: post, groupENG: groupENG,),
           ),
         );
       },
