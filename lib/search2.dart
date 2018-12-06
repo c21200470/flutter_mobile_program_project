@@ -38,6 +38,7 @@ class _MySearchPageState extends State<MySearchPage> {
         for (int i = 0; i < docs.documents.length; ++i) {
           queryResultSet.add(docs.documents[i].data);
         }
+        print(value);
       });
     } else {
       tempSearchStore = [];
@@ -54,11 +55,10 @@ class _MySearchPageState extends State<MySearchPage> {
   @override
   Widget build(BuildContext context) {
 
-
     return new Scaffold(
-        appBar: new AppBar(
+        /*appBar: new AppBar(
           title: Text('Firestore search'),
-        ),
+        ),*/
         body: ListView(children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(10.0),
@@ -116,7 +116,7 @@ Widget buildResultCard(data) {
 
 class SearchService {
 
-  searchByName(String searchField, group) {
+  searchByName(String searchField, String group) {
     final groupENG = groupinEng(group);
     return Firestore.instance.collection('Post/'+groupENG+'/'+groupENG)
         .where('title',
