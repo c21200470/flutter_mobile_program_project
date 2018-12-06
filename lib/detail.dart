@@ -315,7 +315,7 @@ class _DetailPageState extends State<DetailPage> {
             backgroundColor: Colors.white,
             foregroundColor: Colors.grey,
             onTap: () {
-              Share.share('에브리딜에서 ['+post.title+'] 를 확인하세요!',
+              Share.share(post.imgurl[0]+'\n에브리딜에서 ['+post.title+'] ['+post.price+'원 ]을 확인하세요!',
                   sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
             }
           ),

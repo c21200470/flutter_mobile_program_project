@@ -92,8 +92,8 @@ class _AddProductState extends State<AddProductPage>{
       'creator_uid': widget.user.uid, //
       'group': group, // 그룹으로 바꾸기
       'category': ProductCategory,
-      'created': DateTime.fromMillisecondsSinceEpoch(created.creationTimeMillis, isUtc: true),
-      'modified': DateTime.fromMillisecondsSinceEpoch(created.updatedTimeMillis, isUtc: true),
+      'created': DateTime.now(),
+      'modified': DateTime.now(),
       'imgurl': [downloadUrl],
       });
 

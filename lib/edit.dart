@@ -77,9 +77,10 @@ class _EditPageState extends State<EditPage>{
 
 
     final StorageReference firebaseStorageRef=
-    FirebaseStorage.instance.ref().child('post/'+ProductNamecontroller.text+".jpg"); //일단 app에 저장하게 끔 //start에서 스쿨마다 번호 주고 start파일 받아오는 방법.
+    FirebaseStorage.instance.ref().child('post/'+widget.user.uid+ProductNamecontroller.text+DateTime.now().toString()+".jpg"); //일단 app에 저장하게 끔 //start에서 스쿨마다 번호 주고 start파일 받아오는 방법.
     final StorageUploadTask task = firebaseStorageRef.putFile(_image);
-    String downloadUrl = (await firebaseStorageRef.getDownloadURL()).toString();
+    StorageTaskSnapshot taskSnapshot = await task.onComplete;
+    String downloadUrl = await taskSnapshot.ref.getDownloadURL();
 
     print(ProductNamecontroller.text);
     print(ProductDescriptioncontroller.text);
@@ -89,36 +90,14 @@ class _EditPageState extends State<EditPage>{
 
     final docRef = await Firestore.instance.collection('Post/'+groupENG+'/'+groupENG).document(post.postid)
         .updateData({
-//      'title': ProductNamecontroller.text,
-//      'price': int.tryParse(ProductPricecontroller.text),
-//      'content': ProductDescriptioncontroller.text,
+      'title': ProductNamecontroller.text,
+      'price': int.tryParse(ProductPricecontroller.text),
+      'content': ProductDescriptioncontroller.text,
       'creator_name': widget.user.displayName, //
       'creator_pic': widget.user.photoUrl, //
       'category': ProductCategory,
       'modified': DateTime.now(),
       'imgurl': [downloadUrl],
-    });
-
-    ProductNamecontroller.addListener(() => _updateTitle(ProductNamecontroller.text));
-    ProductDescriptioncontroller.addListener(() => _updateContent(ProductDescriptioncontroller.text));
-    ProductPricecontroller.addListener(() => _updatePrice(ProductPricecontroller.text));
-
-
-  }
-
-  Future<void> _updateTitle(String text) {
-    Firestore().runTransaction((Transaction transaction) {
-      Firestore.instance.document('Post/'+groupENG+'/'+groupENG+'/'+post.postid).updateData({"title": text});
-    });
-  }
-  Future<void> _updateContent(String text) {
-    Firestore().runTransaction((Transaction transaction) {
-      Firestore.instance.document('Post/'+groupENG+'/'+groupENG+'/'+post.postid).updateData({"content": text});
-    });
-  }
-  Future<void> _updatePrice(String text) {
-    Firestore().runTransaction((Transaction transaction) {
-      Firestore.instance.document('Post/'+groupENG+'/'+groupENG+'/'+post.postid).updateData({"price": int.parse(text)});
     });
   }
 
