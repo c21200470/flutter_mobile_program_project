@@ -1,23 +1,76 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'colors.dart';
 import 'login.dart';
+import 'groupinENG.dart';
+import 'post.dart';
+import 'detail.dart';
 
 class ProfilePage extends StatefulWidget{
 
   final FirebaseUser user;
-  const ProfilePage({Key key, this.user}) : super(key: key);
+  final String group;
+  const ProfilePage({Key key, this.user, this.group}) : super(key: key);
 
   @override
-  _ProfilePageState createState() => new _ProfilePageState(user);
+  _ProfilePageState createState() => new _ProfilePageState(user, group);
 }
 
 class _ProfilePageState extends State<ProfilePage>{
-
   LogoutPage L = new LogoutPage();
   final FirebaseUser user;
+  final String group;
+  static String groupENG;
 
-  _ProfilePageState(this.user);
+  _ProfilePageState(this.user, this.group);
+
+  Widget _buildMyProduct(BuildContext context){
+    groupENG = groupinEng(group);
+
+    return StreamBuilder<QuerySnapshot>(
+      stream: Firestore.instance.collection('Post/'+groupENG+'/'+groupENG).where('creator_uid', isEqualTo: user.uid).snapshots(),
+      builder: (context, snapshot){
+        if (!snapshot.hasData) return LinearProgressIndicator();
+        return Expanded(
+          child: SizedBox(
+            width: 1000.0,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: _buildMyProductGrid(context, snapshot.data.documents),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  List<Widget> _buildMyProductGrid(BuildContext context, List<DocumentSnapshot> snapshot){
+    return snapshot.map((data) => _buildMyProductCards(context, data)).toList();
+  }
+
+  Widget _buildMyProductCards(BuildContext context, DocumentSnapshot data){
+    final post = Post.fromSnapshot(data);
+    final ThemeData theme = Theme.of(context);
+
+    return MaterialButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                DetailPage(user: user, post: post),
+          ),
+        );
+      },
+      child: Container(
+        width: 130.0,
+        height: 130.0,
+        margin: EdgeInsets.all(5.0),
+        child: Image.network(post.imgurl[0], fit: BoxFit.fitWidth,)
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +128,8 @@ class _ProfilePageState extends State<ProfilePage>{
                   ListTile(
                     leading: Icon(Icons.store),
                     title: Text('내 상품'),
-                  )
+                  ),
+                  _buildMyProduct(context),
                 ],
               ),
             ),
