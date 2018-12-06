@@ -12,9 +12,7 @@ class MySearchPage extends StatefulWidget {
   @override
   _MySearchPageState createState() => new _MySearchPageState(user, group);
 }
-
 class _MySearchPageState extends State<MySearchPage> {
-
 
   final String group;
   final FirebaseUser user;
@@ -36,7 +34,7 @@ class _MySearchPageState extends State<MySearchPage> {
         value.substring(0, 1).toUpperCase() + value.substring(1);
 
     if (queryResultSet.length == 0 && value.length == 1) {
-      SearchService().searchByName(value).then((QuerySnapshot docs) {
+      SearchService().searchByName(value, group).then((QuerySnapshot docs) {
         for (int i = 0; i < docs.documents.length; ++i) {
           queryResultSet.add(docs.documents[i].data);
         }
@@ -55,6 +53,8 @@ class _MySearchPageState extends State<MySearchPage> {
 
   @override
   Widget build(BuildContext context) {
+
+
     return new Scaffold(
         appBar: new AppBar(
           title: Text('Firestore search'),
@@ -115,10 +115,11 @@ Widget buildResultCard(data) {
 }
 
 class SearchService {
-  searchByName(String searchField) {
-    return Firestore.instance
-        .collection('clients')
-        .where('searchKey',
+
+  searchByName(String searchField, group) {
+    final groupENG = groupinEng(group);
+    return Firestore.instance.collection('Post/'+groupENG+'/'+groupENG)
+        .where('title',
         isEqualTo: searchField.substring(0, 1).toUpperCase())
         .getDocuments();
   }
