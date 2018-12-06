@@ -7,7 +7,7 @@ import 'colors.dart';
 
 import 'detail.dart';
 import 'addproduct.dart';
-import 'search.dart';
+import 'search2.dart';
 import 'myPage.dart';
 import 'home.dart';
 import 'groupinENG.dart';
@@ -130,7 +130,8 @@ class _CategoryPageState extends State<CategoryPage>{
                 Navigator
                     .of(context)
                     .push(MaterialPageRoute(
-                    builder: (BuildContext context)=>SearchPage(
+                    builder: (BuildContext context)=>MySearchPage(
+                      user: user, group: groupENG,
                     )))
                     .catchError((e)=>print(e));
               },

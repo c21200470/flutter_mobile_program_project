@@ -136,7 +136,7 @@ class _HomePageState extends State<HomePage>{
                     .of(context)
                     .push(MaterialPageRoute(
                     builder: (BuildContext context)=>MySearchPage(
-                      user: user, group: group,
+                      user: user, group: groupENG,
                     )))
                     .catchError((e)=>print(e));
               },
