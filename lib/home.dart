@@ -13,6 +13,7 @@ import 'search.dart';
 import 'myPage.dart';
 
 import 'groupinENG.dart';
+import 'search2.dart';
 
 class HomePage extends StatefulWidget{
   final FirebaseUser user;
@@ -41,19 +42,19 @@ class _HomePageState extends State<HomePage>{
 
   groupENG = groupinEng(group);
 
-  return StreamBuilder<QuerySnapshot>(
-  stream: Firestore.instance.collection('Post/'+groupENG+'/'+groupENG).snapshots(),
-  builder: (context, snapshot){
-  if (!snapshot.hasData) return LinearProgressIndicator();
+    return StreamBuilder<QuerySnapshot>(
+      stream: Firestore.instance.collection('Post/'+groupENG+'/'+groupENG).snapshots(),
+      builder: (context, snapshot){
+      if (!snapshot.hasData) return LinearProgressIndicator();
 
-  return GridView.count(
-  crossAxisCount: orientation == Orientation.portrait ? 3 : 4,
-  padding: EdgeInsets.all(10.0),
-  childAspectRatio: 6.0 / 9.0,
-  children: _buildGrid(context, snapshot.data.documents),
-  );
-  }
-  );
+      return GridView.count(
+          crossAxisCount: orientation == Orientation.portrait ? 3 : 4,
+          padding: EdgeInsets.all(10.0),
+          childAspectRatio: 6.0 / 9.0,
+          children: _buildGrid(context, snapshot.data.documents),
+        );
+      }
+    );
   }
 
   List<Widget> _buildGrid(BuildContext context, List<DocumentSnapshot> snapshot) { //카드리스트
@@ -116,10 +117,12 @@ class _HomePageState extends State<HomePage>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         iconTheme: IconThemeData(color: MainDarkColor2),
         elevation: 2.0,
         backgroundColor: AddProductBackground,
-        title: Container(
+        title:
+        Container(
           child: ButtonTheme(
             height: 30.0,
             child: OutlineButton(
@@ -131,7 +134,8 @@ class _HomePageState extends State<HomePage>{
                 Navigator
                     .of(context)
                     .push(MaterialPageRoute(
-                    builder: (BuildContext context)=>SearchPage(
+                    builder: (BuildContext context)=>MySearchPage(
+                      user: user, group: group,
                     )))
                     .catchError((e)=>print(e));
               },
@@ -152,7 +156,7 @@ class _HomePageState extends State<HomePage>{
               Navigator
                   .of(context)
                   .push(MaterialPageRoute(
-                  builder: (BuildContext context)=>ProfilePage(user: user,
+                  builder: (BuildContext context)=>ProfilePage(user: user, group: group,
                   )))
                   .catchError((e)=>print(e));
             },
