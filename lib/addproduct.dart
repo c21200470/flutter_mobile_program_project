@@ -190,7 +190,7 @@ class _AddProductState extends State<AddProductPage>{
               padding: EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child:
               TextFormField(
-                keyboardType: TextInputType.number,///////////////////////////////////
+                keyboardType: TextInputType.number,//숫자 타자기
                 validator: (value)
                 => value.isEmpty ? '가격을 입력하세요':null,
                 decoration: InputDecoration(
@@ -267,8 +267,8 @@ class _AddProductState extends State<AddProductPage>{
               TextFormField(
                 validator: (value)
                 => value.isEmpty ? '상세 정보를 입력하세요':null,
-                maxLines: null,
-                keyboardType: TextInputType.multiline,
+                maxLines: null, //텍스트 파일 계속 길게 만들 수 있음.
+                keyboardType: TextInputType.multiline, //타자기에 엔터키 만듬. 여러줄 쓸 수 있음
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
 
