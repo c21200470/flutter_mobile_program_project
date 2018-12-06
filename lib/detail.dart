@@ -132,7 +132,7 @@ class _DetailPageState extends State<DetailPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text('판매자의 다른 물건 더보기'),
+                Text(post.group),
               ],
             )
           )
