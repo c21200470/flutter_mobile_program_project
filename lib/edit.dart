@@ -99,7 +99,31 @@ class _EditPageState extends State<EditPage>{
       'modified': DateTime.now(),
       'imgurl': [downloadUrl],
     });
+
+
+//
+//    ProductNamecontroller.addListener(() => _updateTitle(ProductNamecontroller.text));
+//    ProductDescriptioncontroller.addListener(() => _updateContent(ProductDescriptioncontroller.text));
+//    ProductPricecontroller.addListener(() => _updatePrice(ProductPricecontroller.text));
+
+
   }
+
+//  Future<void> _updateTitle(String text) {
+//    Firestore().runTransaction((Transaction transaction) {
+//      Firestore.instance.document('Post/'+groupENG+'/'+groupENG+'/'+post.postid).updateData({"title": text});
+//    });
+//  }
+//  Future<void> _updateContent(String text) {
+//    Firestore().runTransaction((Transaction transaction) {
+//      Firestore.instance.document('Post/'+groupENG+'/'+groupENG+'/'+post.postid).updateData({"content": text});
+//    });
+//  }
+//  Future<void> _updatePrice(String text) {
+//    Firestore().runTransaction((Transaction transaction) {
+//      Firestore.instance.document('Post/'+groupENG+'/'+groupENG+'/'+post.postid).updateData({"price": int.parse(text)});
+//    });
+//  }
 
   @override
   void initState() {

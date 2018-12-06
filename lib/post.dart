@@ -12,18 +12,18 @@ class Post {
 
   Post.fromMap(Map<String, dynamic> map, {this.reference})
       :
-        assert(map['title'] != null),
-        assert(map['content'] != null),
-        assert(map['imgurl'] != null),
-        assert(map['creator_name'] != null),
-        assert(map['creator_pic'] != null),
-        assert(map['creator_uid'] != null),
-        assert(map['group'] != null),
-        assert(map['category'] != null),
-        assert(map['created'] != null),
-        assert(map['modified'] != null),
-        assert(map['price'] != null),
-        assert(map['postid'] != null),
+//        assert(map['title'] != null),
+//        assert(map['content'] != null),
+//        assert(map['imgurl'] != null),
+//        assert(map['creator_name'] != null),
+//        assert(map['creator_pic'] != null),
+//        assert(map['creator_uid'] != null),
+//        assert(map['group'] != null),
+//        assert(map['category'] != null),
+//        assert(map['created'] != null),
+//        assert(map['modified'] != null),
+//        assert(map['price'] != null),
+//        assert(map['postid'] != null),
 
 
         title = map['title'],
