@@ -177,7 +177,7 @@ class _CategoryPageState extends State<CategoryPage>{
             ),
             ListTile(
               leading: Icon(Icons.home),
-              title: Text('전체'),
+              title: Text('전체', style: Theme.of(context).textTheme.body1,),
               onTap: (){
                 Navigator
                     .of(context)
