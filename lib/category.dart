@@ -121,7 +121,7 @@ class _CategoryPageState extends State<CategoryPage>{
         elevation: 2.0,
         backgroundColor: AddProductBackground,
         centerTitle: true,
-        title: Text(ProductCategory, style: Theme.of(context).textTheme.headline,),
+        title: Text(categoryKOR(ProductCategory), style: Theme.of(context).textTheme.headline,),
 //        title: Container(
 //          child: ButtonTheme(
 //            height: 30.0,
@@ -150,6 +150,18 @@ class _CategoryPageState extends State<CategoryPage>{
 //        ),
         actions: <Widget>[
           IconButton(
+            icon: Icon(Icons.search), color: MainDarkColor2,
+            onPressed: (){
+              Navigator
+                  .of(context)
+                  .push(MaterialPageRoute(
+                  builder: (BuildContext context)=>MySearchPage(
+                    user: user, groupENG: groupENG,
+                  )))
+                  .catchError((e)=>print(e));
+            },
+          ),
+          IconButton(
             icon: Icon(Icons.person, color: MainDarkColor2,),
             onPressed: (){
               Navigator
@@ -162,7 +174,7 @@ class _CategoryPageState extends State<CategoryPage>{
           )
         ],
       ),
-      drawer: Drawer(
+      /*drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
@@ -262,7 +274,7 @@ class _CategoryPageState extends State<CategoryPage>{
             ),
           ],
         ),
-      ),
+      ),*/
       body: OrientationBuilder(
         builder: (context, orientation){
           return _buildBody(context, orientation);

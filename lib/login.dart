@@ -220,9 +220,7 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator
                                 .of(context)
                                 .push(MaterialPageRoute(
-                                builder: (BuildContext context)=>HomePage(
-                                  user: user,
-                                )))
+                                builder: (BuildContext context)=>StartPage(user: user)))
                                 .catchError((e)=>print(e));
                           });
                         },

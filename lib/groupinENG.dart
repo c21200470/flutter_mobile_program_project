@@ -13,3 +13,28 @@ String groupinEng(String group){
       break;
   }
 }
+
+String categoryKOR(String category){
+
+  switch(category){
+    case 'book':
+      return '책';
+      break;
+    case 'utility' :
+      return '생활용품';
+      break;
+    case 'clothes' :
+      return '의류 및 잡화';
+      break;
+    case 'furniture' :
+      return '가전 및 가구';
+      break;
+    case 'other' :
+      return '기타';
+      break;
+    case 'house' :
+      return '부동산';
+      break;
+  }
+
+}
