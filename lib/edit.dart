@@ -74,20 +74,21 @@ class _EditPageState extends State<EditPage>{
 
   Future<Null> uploadFile() async{
 
+    //사진 변경
+    if (_image != null) {
+      final StorageReference firebaseStorageRef=
+      FirebaseStorage.instance.ref().child('post/'+widget.user.uid+ProductNamecontroller.text+DateTime.now().toString()+".jpg"); //일단 app에 저장하게 끔 //start에서 스쿨마다 번호 주고 start파일 받아오는 방법.
+      final StorageUploadTask task = firebaseStorageRef.putFile(_image);
+      StorageTaskSnapshot taskSnapshot = await task.onComplete;
+      String downloadUrl = await taskSnapshot.ref.getDownloadURL();
 
+      final docRef = await Firestore.instance.collection('Post/'+groupENG+'/'+groupENG).document(post.postid)
+          .updateData({
+        'imgurl': [downloadUrl],
+      });
+    }
 
-    final StorageReference firebaseStorageRef=
-    FirebaseStorage.instance.ref().child('post/'+widget.user.uid+ProductNamecontroller.text+DateTime.now().toString()+".jpg"); //일단 app에 저장하게 끔 //start에서 스쿨마다 번호 주고 start파일 받아오는 방법.
-    final StorageUploadTask task = firebaseStorageRef.putFile(_image);
-    StorageTaskSnapshot taskSnapshot = await task.onComplete;
-    String downloadUrl = await taskSnapshot.ref.getDownloadURL();
-
-    print(ProductNamecontroller.text);
-    print(ProductDescriptioncontroller.text);
-    print(ProductPricecontroller.text);
-    print(downloadUrl);
-
-
+    //데이터 변경
     final docRef = await Firestore.instance.collection('Post/'+groupENG+'/'+groupENG).document(post.postid)
         .updateData({
       'title': ProductNamecontroller.text,
@@ -97,33 +98,8 @@ class _EditPageState extends State<EditPage>{
       'creator_pic': widget.user.photoUrl, //
       'category': ProductCategory,
       'modified': DateTime.now(),
-      'imgurl': [downloadUrl],
     });
-
-
-//
-//    ProductNamecontroller.addListener(() => _updateTitle(ProductNamecontroller.text));
-//    ProductDescriptioncontroller.addListener(() => _updateContent(ProductDescriptioncontroller.text));
-//    ProductPricecontroller.addListener(() => _updatePrice(ProductPricecontroller.text));
-
-
   }
-
-//  Future<void> _updateTitle(String text) {
-//    Firestore().runTransaction((Transaction transaction) {
-//      Firestore.instance.document('Post/'+groupENG+'/'+groupENG+'/'+post.postid).updateData({"title": text});
-//    });
-//  }
-//  Future<void> _updateContent(String text) {
-//    Firestore().runTransaction((Transaction transaction) {
-//      Firestore.instance.document('Post/'+groupENG+'/'+groupENG+'/'+post.postid).updateData({"content": text});
-//    });
-//  }
-//  Future<void> _updatePrice(String text) {
-//    Firestore().runTransaction((Transaction transaction) {
-//      Firestore.instance.document('Post/'+groupENG+'/'+groupENG+'/'+post.postid).updateData({"price": int.parse(text)});
-//    });
-//  }
 
   @override
   void initState() {
@@ -180,6 +156,7 @@ class _EditPageState extends State<EditPage>{
               if(_formKey.currentState.validate()){
                 uploadFile();
                 Navigator.pop(context);
+                Navigator.pop(context);
               }
             },
           ),
@@ -194,7 +171,7 @@ class _EditPageState extends State<EditPage>{
           child : ListView(
             scrollDirection: Axis.vertical,
             children: <Widget>[
-
+              //원래 사진 띄움. 변경되면 사진 교체
               _image == null
                 ?
                 Padding(
@@ -225,8 +202,7 @@ class _EditPageState extends State<EditPage>{
                   validator: (value)
                   => value.isEmpty ? '상품명을 입력하세요':null,
                   decoration: InputDecoration(
-//                    border: OutlineInputBorder(),
-                      hintText: '상품명 입력', hintStyle: Theme.of(context).textTheme.body2),
+                    hintText: '상품명 입력', hintStyle: Theme.of(context).textTheme.body2),
                   controller: ProductNamecontroller,
                 ),
               ),
@@ -239,8 +215,7 @@ class _EditPageState extends State<EditPage>{
                   validator: (value)
                   => value.isEmpty ? '가격을 입력하세요':null,
                   decoration: InputDecoration(
-//                    border: OutlineInputBorder(),
-                      hintText: '가격 입력', hintStyle: Theme.of(context).textTheme.body2),
+                    hintText: '가격 입력', hintStyle: Theme.of(context).textTheme.body2),
                   controller: ProductPricecontroller,
                 ),
               ),
@@ -316,7 +291,6 @@ class _EditPageState extends State<EditPage>{
                   keyboardType: TextInputType.multiline,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
-
                       hintText: '상세 정보 입력',
                       hintStyle: Theme.of(context).textTheme.body2
                   ),
@@ -324,8 +298,6 @@ class _EditPageState extends State<EditPage>{
                 ),
               ),
               SizedBox(height: 50.0),
-
-
             ],
           ),
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 
 import 'post.dart';
 import 'colors.dart';
@@ -31,6 +32,7 @@ class _CategoryPageState extends State<CategoryPage>{
   final String group;
   String ProductCategory;
   static String groupENG;
+  final formatter = new NumberFormat("#,###");
 
   _CategoryPageState(this.user, this.group, this.ProductCategory);
 
@@ -98,7 +100,7 @@ class _CategoryPageState extends State<CategoryPage>{
                     ),
                     SizedBox(height: 10.0),
                     Text(
-                      post.price.toString() + ' 원',
+                      formatter.format(post.price) + ' 원',
                       style: theme.textTheme.display2,
                     ),
                   ],

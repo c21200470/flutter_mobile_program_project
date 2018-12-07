@@ -2,9 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_program_project/colors.dart';
-import 'package:flutter_mobile_program_project/detail.dart';
-import 'package:flutter_mobile_program_project/post.dart';
+import 'package:intl/intl.dart';
+
+import 'colors.dart';
+import 'detail.dart';
+import 'post.dart';
 
 class MySearchPage extends StatefulWidget {
   static final String route = "search";
@@ -21,6 +23,7 @@ class _MySearchPageState extends State<MySearchPage> {
   final FirebaseUser user;
   static String Searchword = '';
   final SearchController = TextEditingController();
+  final formatter = new NumberFormat("#,###");
 
   _MySearchPageState(this.user, this.groupENG);
 
@@ -87,7 +90,7 @@ class _MySearchPageState extends State<MySearchPage> {
                     ),
                     SizedBox(height: 10.0),
                     Text(
-                      post.price.toString() + ' 원',
+                      formatter.format(post.price) + ' 원',
                       style: theme.textTheme.display2,
                     ),
                   ],

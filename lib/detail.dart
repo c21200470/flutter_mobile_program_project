@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:share/share.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 
 import 'post.dart';
@@ -68,6 +69,7 @@ class _DetailPageState extends State<DetailPage> {
   final FirebaseUser user;
   final Post post;
   final String groupENG;
+  final formatter = new NumberFormat("#,###");
 
   _DetailPageState(this.user, this.post, this.groupENG);
 
@@ -141,7 +143,7 @@ class _DetailPageState extends State<DetailPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(post.price.toString()+' 원', style: Theme.of(context).textTheme.body1),
+                Text(formatter.format(post.price)+' 원', style: Theme.of(context).textTheme.body1),
               ],
             ),
 
@@ -230,6 +232,46 @@ class _DetailPageState extends State<DetailPage> {
 
   }
 
+  List<SpeedDialChild> _myPost(){
+    return [
+      SpeedDialChild(
+          child: Icon(Icons.delete),
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.grey,
+          onTap: () {
+            Firestore.instance.collection('Post/'+groupENG+'/'+groupENG).document(post.postid)
+                .delete();
+            Navigator.pop(context);
+          }
+      ),
+      SpeedDialChild(
+          child: Icon(Icons.edit),
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.grey,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    EditPage(user: user, post: post, groupENG: groupENG,),
+              ),
+            );
+          }
+      ),
+      SpeedDialChild(
+          child: Icon(Icons.share),
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.grey,
+          onTap: () {
+            Share.share('에브리딜에서 ['+post.title+'] 를 확인하세요!',
+              //                  sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size
+            );
+          }
+      ),
+    ];
+  }
+
+
   @override
   Widget build(BuildContext context) {
     final RenderBox box = context.findRenderObject();
@@ -267,59 +309,19 @@ class _DetailPageState extends State<DetailPage> {
         foregroundColor: Colors.black87,
         elevation: 8.0,
         shape: CircleBorder(),
-        children: [
+        children:
           user.uid == post.creator_uid
-          ?
-          SpeedDialChild(
-            child: Icon(Icons.delete),
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.grey,
-            onTap: () {
-              Firestore.instance.collection('Post/'+groupENG+'/'+groupENG).document(post.postid)
-                .delete();
-              Navigator.pop(context);
-            }
-          )
-          :
-          SpeedDialChild(
-              child: Icon(Icons.favorite),
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.grey,
-              onTap: () => print('FIRST CHILD')
-          ),
-          user.uid == post.creator_uid
-              ?
-          SpeedDialChild(
-              child: Icon(Icons.edit),
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.grey,
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        EditPage(user: user, post: post, groupENG: groupENG,),
-                  ),
-                );
-              }
-          )
-              :
-          SpeedDialChild(
-              child: Icon(Icons.message),
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.grey,
-              onTap: () => print('FIRST CHILD')
-          ),
-          SpeedDialChild(
+          ? _myPost()
+          :[
+            SpeedDialChild(
             child: Icon(Icons.share),
             backgroundColor: Colors.white,
             foregroundColor: Colors.grey,
             onTap: () {
-              Share.share('에브리딜에서 ['+post.title+'] 를 확인하세요!',
-                  sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
-            }
-          ),
-        ],
+              Share.share(post.imgurl[0]+'\n에브리딜에서 ['+post.title+'] 를 확인하세요!',
+                //sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size
+              );
+            }),]
       ),
     );
   }

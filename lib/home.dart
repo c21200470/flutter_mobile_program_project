@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 import 'category.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
@@ -28,17 +29,17 @@ class HomePage extends StatefulWidget{
 
 class _HomePageState extends State<HomePage>{
 
-
-  _HomePageState(this.user, this.group);
-
+  final formatter = new NumberFormat("#,###");
   static String groupENG;
   static String ProductCategory;
   final FirebaseUser user;
   final String group;
 
+  _HomePageState(this.user, this.group);
+
   Widget _buildBody(BuildContext context Orientation orientation){
 
-  groupENG = groupinEng(group);
+    groupENG = groupinEng(group);
 
     return StreamBuilder<QuerySnapshot>(
       stream: Firestore.instance.collection('Post/'+groupENG+'/'+groupENG).snapshots(),
@@ -100,7 +101,7 @@ class _HomePageState extends State<HomePage>{
                     ),
                     SizedBox(height: 10.0),
                     Text(
-                      post.price.toString() + ' 원',
+                      formatter.format(post.price) + ' 원',
                       style: theme.textTheme.display2,
                     ),
                   ],

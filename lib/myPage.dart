@@ -6,6 +6,7 @@ import 'login.dart';
 import 'groupinENG.dart';
 import 'post.dart';
 import 'detail.dart';
+import 'myPost.dart';
 
 class ProfilePage extends StatefulWidget{
 
@@ -67,7 +68,7 @@ class _ProfilePageState extends State<ProfilePage>{
         width: 130.0,
         height: 130.0,
         margin: EdgeInsets.all(5.0),
-        child: Image.network(post.imgurl[0], fit: BoxFit.fitWidth,)
+        child: Image.network(post.imgurl[0], fit: BoxFit.cover,)
       ),
     );
   }
@@ -76,6 +77,7 @@ class _ProfilePageState extends State<ProfilePage>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 2.0,
         iconTheme: IconThemeData(color: MainDarkColor2),
@@ -104,15 +106,16 @@ class _ProfilePageState extends State<ProfilePage>{
           Container(
             height: 100.0,
             child: Card (
-              margin: EdgeInsets.all(0.0),
+              margin: EdgeInsets.all(5.0),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   ListTile(
                     leading: Container(
                       decoration: BoxDecoration(
                           shape: BoxShape.circle
                       ),
-                      child: Image.network(user.photoUrl, width: 40.0, height: 40.0,)),
+                      child: Image.network(user.photoUrl, width: 50.0, height: 50.0)),
                     title: Text(user.displayName, style: Theme.of(context).textTheme.title,),
                     subtitle: Text(user.email, style: Theme.of(context).textTheme.body1,),
                   )
@@ -128,6 +131,15 @@ class _ProfilePageState extends State<ProfilePage>{
                   ListTile(
                     leading: Icon(Icons.store),
                     title: Text('내 상품', style: Theme.of(context).textTheme.body1,),
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              MyPostPage(user: user, group: group,),
+                        ),
+                      );
+                    },
                   ),
                   _buildMyProduct(context),
                 ],
