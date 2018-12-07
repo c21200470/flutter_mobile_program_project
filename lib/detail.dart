@@ -12,6 +12,7 @@ import 'post.dart';
 import 'colors.dart';
 import 'search.dart';
 import 'edit.dart';
+import 'otherPost.dart';
 
 class PhotoHero extends StatelessWidget {
   const PhotoHero({ Key key, this.photo, this.onTap, this.width, this.height }) : super(key: key);
@@ -80,7 +81,7 @@ class _DetailPageState extends State<DetailPage> {
     ?
     PhotoHero(
       photo: post.imgurl[0],
-      height: 250.0,
+      height: 300.0,
       onTap: (){
         Navigator.of(context).push(MaterialPageRoute<void>(
             builder: (BuildContext context) {
@@ -189,25 +190,36 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  Card _buildUser(){
-    return Card(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          ListTile(
-            contentPadding: EdgeInsets.all(20.0),
-            leading: Image.network(post.creator_pic,
-            width: 50.0, height: 50.0,),
-            title: Container(child: Text(post.creator_name, style: Theme.of(context).textTheme.title), margin: EdgeInsets.only(bottom: 20.0),),
-            subtitle: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(post.group),
-              ],
+  Widget _buildUser(){
+    return GestureDetector(
+      onTap: (){
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                OtherPostPage(creator: post.creator_uid, creator_name: post.creator_name, groupENG: groupENG,),
+          ),
+        );
+      },
+      child: Card(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            ListTile(
+              contentPadding: EdgeInsets.all(20.0),
+              leading: Image.network(post.creator_pic,
+              width: 60.0, height: 60.0,),
+              title: Container(child: Text(post.creator_name, style: Theme.of(context).textTheme.title), margin: EdgeInsets.only(bottom: 20.0),),
+              subtitle: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(post.group),
+                ],
+              )
             )
-          )
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -114,10 +114,13 @@ class _MySearchPageState extends State<MySearchPage> {
         centerTitle: true,
         title:
           TextField(
+            autofocus: true,
             style: new TextStyle(
               color: Colors.white,
             ),
             decoration: new InputDecoration(
+              focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white)),
               hintText: "검색어를 입력해주세요.",
               hintStyle: new TextStyle(color: Colors.white)
             ),

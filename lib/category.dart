@@ -147,14 +147,13 @@ class _CategoryPageState extends State<CategoryPage>{
           ),
         ),
         actions: <Widget>[
-
           IconButton(
             icon: Icon(Icons.person, color: MainDarkColor2,),
             onPressed: (){
               Navigator
                   .of(context)
                   .push(MaterialPageRoute(
-                  builder: (BuildContext context)=>ProfilePage(user: user,
+                  builder: (BuildContext context)=>ProfilePage(user: user, group: group,
                   )))
                   .catchError((e)=>print(e));
             },
@@ -280,7 +279,7 @@ class _CategoryPageState extends State<CategoryPage>{
         },
         tooltip: '상품 추가',
         child: Icon(
-          Icons.create,
+          Icons.add,
           color: IconBlack,
         ),
         backgroundColor: MainOrangeColor,

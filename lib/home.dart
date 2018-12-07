@@ -121,36 +121,48 @@ class _HomePageState extends State<HomePage>{
         centerTitle: true,
         iconTheme: IconThemeData(color: MainDarkColor2),
         elevation: 2.0,
-        backgroundColor: AddProductBackground,
-        title:
-        Container(
-          child: ButtonTheme(
-            height: 30.0,
-            child: OutlineButton(
-              shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(7.0)),
-              highlightColor: MainSearchWhite,
-              highlightedBorderColor: MainSearchWhite,
-              disabledBorderColor: MainDarkColor1,
-              onPressed: (){
-                Navigator
-                    .of(context)
-                    .push(MaterialPageRoute(
-                    builder: (BuildContext context)=>MySearchPage(
-                      user: user, groupENG: groupENG,
-                    )))
-                    .catchError((e)=>print(e));
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Icon(Icons.search),
-                ],
-              ),
-            ),
-          ),
-        ),
+        backgroundColor: MainSearchWhite,
+//        title:
+//        Container(
+//          child: ButtonTheme(
+//            height: 30.0,
+//            child: OutlineButton(
+//              shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(7.0)),
+//              highlightColor: MainSearchWhite,
+//              highlightedBorderColor: MainSearchWhite,
+//              disabledBorderColor: MainDarkColor1,
+//              onPressed: (){
+//                Navigator
+//                    .of(context)
+//                    .push(MaterialPageRoute(
+//                    builder: (BuildContext context)=>MySearchPage(
+//                      user: user, groupENG: groupENG,
+//                    )))
+//                    .catchError((e)=>print(e));
+//              },
+//              child: Row(
+//                mainAxisAlignment: MainAxisAlignment.end,
+//                children: <Widget>[
+//                  Icon(Icons.search),
+//                ],
+//              ),
+//            ),
+//          ),
+//        ),
+        title: Text('에브리딜', style: Theme.of(context).textTheme.title,),
         actions: <Widget>[
-
+          IconButton(
+            icon: Icon(Icons.search), color: MainDarkColor2,
+            onPressed: (){
+              Navigator
+                .of(context)
+                .push(MaterialPageRoute(
+                builder: (BuildContext context)=>MySearchPage(
+                  user: user, groupENG: groupENG,
+                )))
+                .catchError((e)=>print(e));
+            },
+          ),
           IconButton(
             icon: Icon(Icons.person, color: MainDarkColor2,),
             onPressed: (){
@@ -165,104 +177,106 @@ class _HomePageState extends State<HomePage>{
         ],
       ),
       drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            Container(
-              height: 100.0,
-              child: DrawerHeader(
-                child: Center(
-                    child: Text(
-                      '카테고리',
-                      style: Theme.of(context).textTheme.title,
-                      textAlign: TextAlign.center,)),
+        child: Container(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              Container(
+                height: 100.0,
+                child: DrawerHeader(
+                  child: Center(
+                      child: Text(
+                        '카테고리',
+                        style: Theme.of(context).textTheme.title,
+                        textAlign: TextAlign.center,)),
+                ),
               ),
-            ),
-            ListTile(
-              leading: Icon(Icons.home),
-              title: Text('전체', style: Theme.of(context).textTheme.body1,),
-              onTap: (){
-                Navigator
-                    .of(context)
-                    .push(MaterialPageRoute(
-                    builder: (BuildContext context)=>HomePage(user: user, group: group
-                    )))
-                    .catchError((e)=>print(e));
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.import_contacts),
-              title: Text('책', style: Theme.of(context).textTheme.body1,),
-              onTap: (){
-                Navigator
-                    .of(context)
-                    .push(MaterialPageRoute(
-                    builder: (BuildContext context)=>CategoryPage(user: user, group: group, ProductCategory : ProductCategory="book",
-                    )))
-                    .catchError((e)=>print(e));
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.format_paint),
-              title: Text('생활용품', style: Theme.of(context).textTheme.body1,),
-              onTap: (){
-                Navigator
-                    .of(context)
-                    .push(MaterialPageRoute(
-                    builder: (BuildContext context)=>CategoryPage(user: user, group: group, ProductCategory : ProductCategory="utility",
-                    )))
-                    .catchError((e)=>print(e));
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.loyalty),
-              title: Text('의류 및 잡화', style: Theme.of(context).textTheme.body1,),
-              onTap: (){
-                Navigator
-                    .of(context)
-                    .push(MaterialPageRoute(
-                    builder: (BuildContext context)=>CategoryPage(user: user, group: group, ProductCategory : ProductCategory="clothes",
-                    )))
-                    .catchError((e)=>print(e));
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.weekend),
-              title: Text('가전 및 가구', style: Theme.of(context).textTheme.body1,),
-              onTap: (){
-                Navigator
-                    .of(context)
-                    .push(MaterialPageRoute(
-                    builder: (BuildContext context)=>CategoryPage(user: user, group: group, ProductCategory : ProductCategory="furniture",
-                    )))
-                    .catchError((e)=>print(e));
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.shopping_basket),
-              title: Text('기타', style: Theme.of(context).textTheme.body1,),
-              onTap: (){
-                Navigator
-                    .of(context)
-                    .push(MaterialPageRoute(
-                    builder: (BuildContext context)=>CategoryPage(user: user, group: group, ProductCategory : ProductCategory="other",
-                    )))
-                    .catchError((e)=>print(e));
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.store),
-              title: Text('부동산', style: Theme.of(context).textTheme.body1,),
-              onTap: (){
-                Navigator
-                    .of(context)
-                    .push(MaterialPageRoute(
-                    builder: (BuildContext context)=>CategoryPage(user: user, group: group, ProductCategory : ProductCategory="house",
-                    )))
-                    .catchError((e)=>print(e));
-              },
-            ),
-          ],
+              ListTile(
+                leading: Icon(Icons.home),
+                title: Text('전체', style: Theme.of(context).textTheme.body1,),
+                onTap: (){
+                  Navigator
+                      .of(context)
+                      .push(MaterialPageRoute(
+                      builder: (BuildContext context)=>HomePage(user: user, group: group
+                      )))
+                      .catchError((e)=>print(e));
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.import_contacts),
+                title: Text('책', style: Theme.of(context).textTheme.body1,),
+                onTap: (){
+                  Navigator
+                      .of(context)
+                      .push(MaterialPageRoute(
+                      builder: (BuildContext context)=>CategoryPage(user: user, group: group, ProductCategory : ProductCategory="book",
+                      )))
+                      .catchError((e)=>print(e));
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.format_paint),
+                title: Text('생활용품', style: Theme.of(context).textTheme.body1,),
+                onTap: (){
+                  Navigator
+                      .of(context)
+                      .push(MaterialPageRoute(
+                      builder: (BuildContext context)=>CategoryPage(user: user, group: group, ProductCategory : ProductCategory="utility",
+                      )))
+                      .catchError((e)=>print(e));
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.loyalty),
+                title: Text('의류 및 잡화', style: Theme.of(context).textTheme.body1,),
+                onTap: (){
+                  Navigator
+                      .of(context)
+                      .push(MaterialPageRoute(
+                      builder: (BuildContext context)=>CategoryPage(user: user, group: group, ProductCategory : ProductCategory="clothes",
+                      )))
+                      .catchError((e)=>print(e));
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.weekend),
+                title: Text('가전 및 가구', style: Theme.of(context).textTheme.body1,),
+                onTap: (){
+                  Navigator
+                      .of(context)
+                      .push(MaterialPageRoute(
+                      builder: (BuildContext context)=>CategoryPage(user: user, group: group, ProductCategory : ProductCategory="furniture",
+                      )))
+                      .catchError((e)=>print(e));
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.shopping_basket),
+                title: Text('기타', style: Theme.of(context).textTheme.body1,),
+                onTap: (){
+                  Navigator
+                      .of(context)
+                      .push(MaterialPageRoute(
+                      builder: (BuildContext context)=>CategoryPage(user: user, group: group, ProductCategory : ProductCategory="other",
+                      )))
+                      .catchError((e)=>print(e));
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.store),
+                title: Text('부동산', style: Theme.of(context).textTheme.body1,),
+                onTap: (){
+                  Navigator
+                      .of(context)
+                      .push(MaterialPageRoute(
+                      builder: (BuildContext context)=>CategoryPage(user: user, group: group, ProductCategory : ProductCategory="house",
+                      )))
+                      .catchError((e)=>print(e));
+                },
+              ),
+            ],
+          ),
         ),
       ),
       body: OrientationBuilder(
@@ -283,8 +297,8 @@ class _HomePageState extends State<HomePage>{
         },
         tooltip: '상품 추가',
         child: Icon(
-          Icons.create,
-          color: IconBlack,
+          Icons.add,
+          color: MainDarkColor2,
         ),
         backgroundColor: MainOrangeColor,
         elevation: 5.0,
