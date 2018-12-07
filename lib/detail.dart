@@ -265,6 +265,7 @@ class _DetailPageState extends State<DetailPage> {
                         Firestore.instance.collection('Post/'+groupENG+'/'+groupENG).document(post.postid)
                             .delete();
                         Navigator.pop(context);
+                        Navigator.pop(context);
                       },
                     ),
                     new FlatButton(
