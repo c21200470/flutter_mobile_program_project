@@ -5,7 +5,7 @@ import 'search.dart';
 
 import 'colors.dart';
 
-class App extends StatelessWidget {
+class MyApp extends StatelessWidget {
 
   final routes = <String, WidgetBuilder>{
     LoginPage.route: (BuildContext context) => LoginPage(),

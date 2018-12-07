@@ -7,6 +7,7 @@ import 'groupinENG.dart';
 import 'post.dart';
 import 'detail.dart';
 import 'myPost.dart';
+import 'app.dart';
 
 class ProfilePage extends StatefulWidget{
 
@@ -93,7 +94,7 @@ class _ProfilePageState extends State<ProfilePage>{
               Navigator
                   .of(context)
                   .push(MaterialPageRoute(
-                  builder: (BuildContext context)=>App(
+                  builder: (BuildContext context)=>MyApp(
                   )))
                   .catchError((e)=>print(e));
               print('Logout');
