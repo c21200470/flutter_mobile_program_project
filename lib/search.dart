@@ -116,9 +116,6 @@ class _MySearchPageState extends State<MySearchPage> {
         title:
           TextField(
             autofocus: true,
-            style: new TextStyle(
-              color: SearchIcon,
-            ),
             decoration: new InputDecoration(
               focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: MainDarkColor2)),
@@ -129,6 +126,12 @@ class _MySearchPageState extends State<MySearchPage> {
             //keyboardType: TextInputType.multiline,
           ),
         actions: <Widget>[
+          new IconButton(
+            icon: Icon(Icons.clear, size: 20.0,),
+            onPressed: (){
+              SearchController.clear();
+            },
+          ),
           new IconButton(
               icon: actionIcon,
               onPressed: (){

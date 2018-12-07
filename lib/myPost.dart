@@ -98,8 +98,31 @@ class _MyPostPageState extends State<MyPostPage>{
                           IconButton(
                             icon: Icon(Icons.delete, size: 20.0, color: MainDarkColor1,),
                             onPressed: (){
-                              Firestore.instance.collection('Post/'+groupENG+'/'+groupENG).document(post.postid)
-                                  .delete();
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    // return object of type Dialog
+                                    return AlertDialog(
+                                      title: new Text("삭제 하시겠습니까?", style: Theme.of(context).textTheme.body1, textAlign: TextAlign.center,),
+                                      actions: <Widget>[
+                                        // usually buttons at the bottom of the dialog
+                                        new FlatButton(
+                                          child: new Text("삭제", style: TextStyle(color: MainOrangeColor),),
+                                          onPressed: () {
+                                            Firestore.instance.collection('Post/'+groupENG+'/'+groupENG).document(post.postid)
+                                                .delete();
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                        new FlatButton(
+                                          child: new Text("취소", style: TextStyle(color: GreyText1),),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  });
                             },
                           )
                         ],

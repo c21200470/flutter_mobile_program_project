@@ -177,7 +177,7 @@ class _HomePageState extends State<HomePage>{
                     actions: <Widget>[
                       // usually buttons at the bottom of the dialog
                       new FlatButton(
-                        child: new Text("닫기"),
+                        child: new Text("닫기", style: TextStyle(color: MainOrangeColor),),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
@@ -316,7 +316,7 @@ class _HomePageState extends State<HomePage>{
               actions: <Widget>[
                 // usually buttons at the bottom of the dialog
                 new FlatButton(
-                  child: new Text("닫기"),
+                  child: new Text("닫기", style: TextStyle(color: MainOrangeColor)),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },

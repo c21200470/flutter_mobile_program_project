@@ -174,7 +174,7 @@ class _CategoryPageState extends State<CategoryPage>{
                       actions: <Widget>[
                         // usually buttons at the bottom of the dialog
                         new FlatButton(
-                          child: new Text("닫기"),
+                          child: new Text("닫기", style: TextStyle(color: MainOrangeColor)),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
@@ -311,7 +311,7 @@ class _CategoryPageState extends State<CategoryPage>{
                   actions: <Widget>[
                     // usually buttons at the bottom of the dialog
                     new FlatButton(
-                      child: new Text("닫기"),
+                      child: new Text("닫기", style: TextStyle(color: MainOrangeColor)),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
