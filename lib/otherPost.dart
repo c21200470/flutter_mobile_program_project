@@ -14,19 +14,21 @@ class OtherPostPage extends StatefulWidget{
   final String creator;
   final String groupENG;
   final String creator_name;
-  const OtherPostPage({Key key, this.creator, this.groupENG, this.creator_name}) : super(key: key);
+  final FirebaseUser user;
+  const OtherPostPage({Key key, this.creator, this.groupENG, this.creator_name, this.user}) : super(key: key);
 
   @override
-  _OtherPostPageState createState() => new _OtherPostPageState(creator, groupENG, creator_name);
+  _OtherPostPageState createState() => new _OtherPostPageState(creator, groupENG, creator_name, user);
 }
 
 class _OtherPostPageState extends State<OtherPostPage>{
   final String creator;
   final String groupENG;
+  final FirebaseUser user;
   final formatter = new NumberFormat("#,###");
   final String creator_name;
 
-  _OtherPostPageState(this.creator, this.groupENG, this.creator_name);
+  _OtherPostPageState(this.creator, this.groupENG, this.creator_name, this.user);
 
   Widget _buildMyProduct(BuildContext context){
     print(creator);
@@ -56,7 +58,7 @@ class _OtherPostPageState extends State<OtherPostPage>{
           context,
           MaterialPageRoute(
             builder: (context) =>
-                DetailPage(post: post, groupENG: groupENG,),
+                DetailPage(post: post, groupENG: groupENG, user: user,),
           ),
         );
       },

@@ -197,7 +197,7 @@ class _DetailPageState extends State<DetailPage> {
           context,
           MaterialPageRoute(
             builder: (context) =>
-                OtherPostPage(creator: post.creator_uid, creator_name: post.creator_name, groupENG: groupENG,),
+                OtherPostPage(creator: post.creator_uid, creator_name: post.creator_name, groupENG: groupENG, user: user,),
           ),
         );
       },
@@ -209,12 +209,12 @@ class _DetailPageState extends State<DetailPage> {
               contentPadding: EdgeInsets.all(20.0),
               leading: Image.network(post.creator_pic,
               width: 60.0, height: 60.0,),
-              title: Container(child: Text(post.creator_name, style: Theme.of(context).textTheme.title), margin: EdgeInsets.only(bottom: 20.0),),
+              title: Container(child: Text(post.creator_name, style: Theme.of(context).textTheme.title), margin: EdgeInsets.only(bottom: 10.0),),
               subtitle: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(post.group),
+                  Text('판매자의 다른 상품 더보기', style: Theme.of(context).textTheme.body1),
                 ],
               )
             )
