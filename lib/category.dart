@@ -164,6 +164,25 @@ class _CategoryPageState extends State<CategoryPage>{
           IconButton(
             icon: Icon(Icons.person, color: MainDarkColor2,),
             onPressed: (){
+              user.isAnonymous == true
+                  ? showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    // return object of type Dialog
+                    return AlertDialog(
+                      title: new Text("로그인이 필요합니다", style: Theme.of(context).textTheme.body1, textAlign: TextAlign.center,),
+                      actions: <Widget>[
+                        // usually buttons at the bottom of the dialog
+                        new FlatButton(
+                          child: new Text("닫기"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  })
+                  :
               Navigator
                   .of(context)
                   .push(MaterialPageRoute(
@@ -282,6 +301,25 @@ class _CategoryPageState extends State<CategoryPage>{
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
+          user.isAnonymous == true
+              ? showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                // return object of type Dialog
+                return AlertDialog(
+                  title: new Text("로그인이 필요합니다", style: Theme.of(context).textTheme.body1, textAlign: TextAlign.center,),
+                  actions: <Widget>[
+                    // usually buttons at the bottom of the dialog
+                    new FlatButton(
+                      child: new Text("닫기"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              })
+              :
           Navigator
               .of(context)
               .push(MaterialPageRoute(

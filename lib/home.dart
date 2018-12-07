@@ -163,15 +163,35 @@ class _HomePageState extends State<HomePage>{
                 .catchError((e)=>print(e));
             },
           ),
+
           IconButton(
             icon: Icon(Icons.person, color: MainDarkColor2,),
             onPressed: (){
+              user.isAnonymous == true
+                ? showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  // return object of type Dialog
+                  return AlertDialog(
+                    title: new Text("로그인이 필요합니다", style: Theme.of(context).textTheme.body1, textAlign: TextAlign.center,),
+                    actions: <Widget>[
+                      // usually buttons at the bottom of the dialog
+                      new FlatButton(
+                        child: new Text("닫기"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                })
+                :
               Navigator
-                  .of(context)
-                  .push(MaterialPageRoute(
-                  builder: (BuildContext context)=>ProfilePage(user: user, group: group,
-                  )))
-                  .catchError((e)=>print(e));
+                .of(context)
+                .push(MaterialPageRoute(
+                builder: (BuildContext context)=>ProfilePage(user: user, group: group,
+                )))
+                .catchError((e)=>print(e));
             },
           )
         ],
@@ -285,7 +305,26 @@ class _HomePageState extends State<HomePage>{
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
+        onPressed:(){
+        user.isAnonymous == true
+        ? showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            // return object of type Dialog
+            return AlertDialog(
+              title: new Text("로그인이 필요합니다", style: Theme.of(context).textTheme.body1, textAlign: TextAlign.center,),
+              actions: <Widget>[
+                // usually buttons at the bottom of the dialog
+                new FlatButton(
+                  child: new Text("닫기"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          })
+          :
           Navigator
               .of(context)
               .push(MaterialPageRoute(
