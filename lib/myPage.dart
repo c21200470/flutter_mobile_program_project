@@ -146,7 +146,7 @@ class _ProfilePageState extends State<ProfilePage>{
               ),
             ),
           ),
-          Container(
+          /*Container(
             height: 250.0,
             child: Card(
               child: Column(
@@ -158,7 +158,7 @@ class _ProfilePageState extends State<ProfilePage>{
                 ],
               ),
             ),
-          ),
+          ),*/
         ],
       ),
     );

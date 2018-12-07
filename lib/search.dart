@@ -104,25 +104,26 @@ class _MySearchPageState extends State<MySearchPage> {
   }
 
   Widget appBarTitle = new Text("");
-  Icon actionIcon = new Icon(Icons.search);
+  Icon actionIcon = new Icon(Icons.search, color: SearchIcon,);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
 
       appBar: new AppBar(
-        backgroundColor: MainOrangeColor,
+        backgroundColor: SearchAppbar,
         centerTitle: true,
+        iconTheme: IconThemeData(color: MainDarkColor2),
         title:
           TextField(
             autofocus: true,
             style: new TextStyle(
-              color: Colors.white,
+              color: SearchIcon,
             ),
             decoration: new InputDecoration(
               focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white)),
+                  borderSide: BorderSide(color: MainDarkColor2)),
               hintText: "검색어를 입력해주세요.",
-              hintStyle: new TextStyle(color: Colors.white)
+              hintStyle: new TextStyle(color: SearchIcon)
             ),
             controller: SearchController,
             //keyboardType: TextInputType.multiline,

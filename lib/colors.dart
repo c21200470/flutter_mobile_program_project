@@ -15,3 +15,6 @@ const AddProductText = const Color(0xFFEAEAEA);
 const AddProductBackground = const Color(0xFFFFFFFF);
 const AddIcon = const Color(0xFF000000);
 const AddAppbarIcon = const Color(0xFFFFFFFF);
+
+const SearchIcon = const Color(0xFF000000);
+const SearchAppbar = const Color(0xFFFFFFFF);

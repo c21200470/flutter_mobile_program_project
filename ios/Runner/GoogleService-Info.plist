@@ -7,9 +7,9 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>926728445485-62jcv42h4d9dk5u2fo7pj91ihelraaui.apps.googleusercontent.com</string>
+	<string>926728445485-99nblitlkm9a55p93h1ililumge3f7po.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.926728445485-62jcv42h4d9dk5u2fo7pj91ihelraaui</string>
+	<string>com.googleusercontent.apps.926728445485-99nblitlkm9a55p93h1ililumge3f7po</string>
 	<key>API_KEY</key>
 	<string>AIzaSyAgK1Od6FcKZ1mwVEfENvlcknaG3f5Ebew</string>
 	<key>GCM_SENDER_ID</key>
@@ -17,7 +17,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>edu.a12handong.fluttermobileprogramproject</string>
+	<string>edu.a12handong.flutterMobileProgramProject</string>
 	<key>PROJECT_ID</key>
 	<string>mobile-app-project-6d4ab</string>
 	<key>STORAGE_BUCKET</key>
@@ -33,7 +33,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:926728445485:ios:f5d0a79278c823cf</string>
+	<string>1:926728445485:ios:98d21222c25a5ac7</string>
 	<key>DATABASE_URL</key>
 	<string>https://mobile-app-project-6d4ab.firebaseio.com</string>
 </dict>
