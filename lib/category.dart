@@ -42,7 +42,7 @@ class _CategoryPageState extends State<CategoryPage>{
     groupENG = groupinEng(group);
 
     return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance.collection('Post/'+groupENG+'/'+groupENG).where('category', isEqualTo: ProductCategory).snapshots(),
+      stream: Firestore.instance.collection('Post/'+groupENG+'/'+groupENG).where('category', isEqualTo: ProductCategory).orderBy('modified', descending: true).snapshots(),
       builder: (context, snapshot){
         if (!snapshot.hasData) return LinearProgressIndicator();
 
@@ -120,32 +120,34 @@ class _CategoryPageState extends State<CategoryPage>{
         iconTheme: IconThemeData(color: MainDarkColor2),
         elevation: 2.0,
         backgroundColor: AddProductBackground,
-        title: Container(
-          child: ButtonTheme(
-            height: 30.0,
-            child: OutlineButton(
-              shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(7.0)),
-              highlightColor: MainSearchWhite,
-              highlightedBorderColor: MainSearchWhite,
-              disabledBorderColor: MainDarkColor1,
-              onPressed: (){
-                Navigator
-                    .of(context)
-                    .push(MaterialPageRoute(
-                    builder: (BuildContext context)=>MySearchPage(
-                      user: user, groupENG: groupENG,
-                    )))
-                    .catchError((e)=>print(e));
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Icon(Icons.search),
-                ],
-              ),
-            ),
-          ),
-        ),
+        centerTitle: true,
+        title: Text(ProductCategory, style: Theme.of(context).textTheme.headline,),
+//        title: Container(
+//          child: ButtonTheme(
+//            height: 30.0,
+//            child: OutlineButton(
+//              shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(7.0)),
+//              highlightColor: MainSearchWhite,
+//              highlightedBorderColor: MainSearchWhite,
+//              disabledBorderColor: MainDarkColor1,
+//              onPressed: (){
+//                Navigator
+//                    .of(context)
+//                    .push(MaterialPageRoute(
+//                    builder: (BuildContext context)=>MySearchPage(
+//                      user: user, groupENG: groupENG,
+//                    )))
+//                    .catchError((e)=>print(e));
+//              },
+//              child: Row(
+//                mainAxisAlignment: MainAxisAlignment.end,
+//                children: <Widget>[
+//                  Icon(Icons.search),
+//                ],
+//              ),
+//            ),
+//          ),
+//        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.person, color: MainDarkColor2,),

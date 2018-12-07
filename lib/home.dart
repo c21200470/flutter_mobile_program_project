@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage>{
     groupENG = groupinEng(group);
 
     return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance.collection('Post/'+groupENG+'/'+groupENG).snapshots(),
+      stream: Firestore.instance.collection('Post/'+groupENG+'/'+groupENG).orderBy('modified', descending: true).snapshots(),
       builder: (context, snapshot){
       if (!snapshot.hasData) return LinearProgressIndicator();
 

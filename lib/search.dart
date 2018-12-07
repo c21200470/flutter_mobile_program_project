@@ -30,7 +30,7 @@ class _MySearchPageState extends State<MySearchPage> {
 
   Widget _buildBody(BuildContext context Orientation orientation){
   return StreamBuilder<QuerySnapshot>(
-  stream: Firestore.instance.collection('Post/'+groupENG+'/'+groupENG).where('title', isEqualTo: Searchword).snapshots(),
+  stream: Firestore.instance.collection('Post/'+groupENG+'/'+groupENG).where('title', isEqualTo: Searchword).orderBy('modified', descending: true).snapshots(),
   builder: (context, snapshot){
   if (!snapshot.hasData) return LinearProgressIndicator();
 
